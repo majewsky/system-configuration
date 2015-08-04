@@ -1,0 +1,29 @@
+pkgname='hologram-openssh'
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='hologram: hardened OpenSSH server'
+arch=('any')
+url=''
+license=('AGPL3')
+depends=(
+    'holo-tools'
+    'openssh'
+)
+source=(
+    'ssh-moduli.holoscript'
+    'sshd_config.holoscript'
+)
+
+install='hologram-openssh.install'
+
+package() {
+    install -D -m 0755 ssh-moduli.holoscript  "${pkgdir}/holo/repo/etc/ssh/moduli.holoscript"
+    install -D -m 0755 sshd_config.holoscript "${pkgdir}/holo/repo/etc/ssh/sshd_config.holoscript"
+
+    # disable weak SSH host keys by placing invalid symlinks at their location
+    mkdir -p "${pkgdir}/etc/ssh/"
+    for KEYFILE in ssh_host_key ssh_host_dsa_key ssh_host_ecdsa_key; do
+        ln -sf "${KEYFILE}"     "${pkgdir}/etc/ssh/${KEYFILE}"
+        ln -sf "${KEYFILE}.pub" "${pkgdir}/etc/ssh/${KEYFILE}.pub"
+    done
+}
