@@ -1,0 +1,16 @@
+#!/bin/sh
+
+sed '
+    # enable additional options
+    s/^#\(Color\|VerbosePkgLists\)$/\1/
+
+    # enable multilib repo
+    /^#\[multilib]/,/^$/s/^#//
+'
+
+# add holo repo
+echo
+echo '[holo]'
+echo 'SigLevel = Optional TrustAll'
+echo 'Server = file:///home/repo'
+

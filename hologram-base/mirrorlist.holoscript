@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d' > /tmp/pacmanmirrorlist
+rankmirrors -n 10 /tmp/pacmanmirrorlist
