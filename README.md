@@ -9,7 +9,7 @@ Linux packages using my minimal configuration management tool
 All the stuff that I wrote myself is licensed under AGPLv3, cf. the
 [LICENSE](LICENSE) file. The following files are from other sources:
 
-* `holodeck-damogran/gandi_dyndns.py` is a script maintained at
+* [`hologram-damogran-dyndns/gandi_dyndns.py`](hologram-damogran-dyndns/gandi_dyndns.py) is a script maintained at
 [lembregtse/gandi-dyndns](https://github.com/lembregtse/gandi-dyndns), which unfortunately
 [lacks a proper license](https://github.com/lembregtse/gandi-dyndns/issues/9) at the time of this writing.
 
@@ -30,7 +30,7 @@ My naming convention draws on Holo's name and includes:
   my systems (tools, daemons, etc.). It also includes...
 
 * [hologram-openssh](hologram-openssh) is a subhologram of base that configures
-  a [https://stribika.github.io/2015/01/04/secure-secure-shell.html](hardened OpenSSH server).
+  a [hardened OpenSSH server](https://stribika.github.io/2015/01/04/secure-secure-shell.html).
 
 # How to build
 
@@ -41,3 +41,8 @@ following targets:
     make all                # default: build all packages
     make hologram-base      # build just that package, identical to `make -C hologram-base`
 
+Some holograms include sensible information that has been left out of this
+public repo. This information is in my private clones of this repo only, in the
+top-level directory of the repo in a `.env` file. The
+[`env.example`](env.example) file shows which environment variables are
+expected to be defined by `.env`.

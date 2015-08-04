@@ -1,0 +1,5 @@
+{
+  "api_key": "${GANDI_APIKEY}",
+  "domain": "${GANDI_DOMAIN}",
+  "names": ${GANDI_SUBDOMAINS}
+}

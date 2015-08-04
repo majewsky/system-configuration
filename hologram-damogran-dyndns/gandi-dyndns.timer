@@ -1,0 +1,11 @@
+[Unit]
+Description=Check and update DNS entries every five minutes
+After=network-online.target
+Wants=network-online.target
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
