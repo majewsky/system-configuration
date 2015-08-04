@@ -31,3 +31,13 @@ My naming convention draws on Holo's name and includes:
 
 * [hologram-openssh](hologram-openssh) is a subhologram of base that configures
   a [https://stribika.github.io/2015/01/04/secure-secure-shell.html](hardened OpenSSH server).
+
+# How to build
+
+Every subfolder (i.e. each hologram and holodeck) has a simple Makefile so
+that `make` builds the package. The top-level directory has a Makefile with the
+following targets:
+
+    make all                # default: build all packages
+    make hologram-base      # build just that package, identical to `make -C hologram-base`
+
