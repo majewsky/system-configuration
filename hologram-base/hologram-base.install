@@ -6,6 +6,15 @@ post_install() {
 	if getent group sudo >/dev/null 2>&1; then true; else
 		groupadd --system sudo
 	fi
+
+	# add login user if it does not exist yet
+	# "-M" means: do not create home directory from /etc/skel
+	if getent passwd stefan >/dev/null 2>&1; then true; else
+		useradd --comment "Stefan Majewsky" --uid 1001 --gid users --groups sudo --shell /bin/zsh -M stefan
+	fi
+	mkdir -p /home/stefan
+	chmod 0700 /home/stefan /home/stefan.devenv
+	chown stefan:users /home/stefan /home/stefan.devenv /home/stefan.devenv/*
 }
 post_upgrade() {
 	post_install
