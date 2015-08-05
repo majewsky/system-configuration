@@ -22,6 +22,12 @@ My naming convention draws on Holo's name and includes:
   course, filesystems etc. still need to be set up manually; a package manager
   cannot and should not do that.)
 
+## Tools
+
+The [holo](holo) subdirectory contains the PKGBUILD for
+[Holo](https://github.com/majewsky/holo) itself. It is identical to the version
+found in the AUR, but development happens here first usually.
+
 ## Shared pieces
 
 * [hologram-base](hologram-base) contains everything that is shared across all
