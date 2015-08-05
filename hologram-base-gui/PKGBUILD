@@ -1,0 +1,47 @@
+pkgname='hologram-base-gui'
+pkgver=20150805
+pkgrel=5
+pkgdesc='hologram: base installation'
+arch=('any')
+url=''
+license=('AGPL3')
+depends=() # runtime dependencies are listed below
+source=()
+
+package() {
+    depends=(
+        'hologram-base'
+        'hologram-multimedia-base'
+        # assorted GUI apps
+        $(pacman -Sqg xorg-apps)
+        'firefox'
+        'graphviz'
+        'gnuplot'
+        'inkscape'
+        'mumble'
+        'mupdf'
+        'qgit'
+        'paprefs'
+        'pavucontrol'
+        'pidgin-otr' # includes pidgin
+        'sxiv'
+        'thunderbird'
+        'tk'         # for gitk and git-gui
+        'vlc'
+        'xsel'
+        # helper packages (icons, codecs, etc.)
+        'gstreamer0.10-ffmpeg'
+        'human-icon-theme'
+        # font packages
+        'adobe-source-sans-pro-fonts'
+        'cantarell-fonts'
+        'ttf-bitstream-vera'
+        'ttf-dejavu'
+        'ttf-droid'
+        'ttf-freefont'
+        'ttf-liberation'
+        'ttf-linux-libertine'
+        'ttf-oxygen'
+        'ttf-ubuntu-font-family'
+    )
+}

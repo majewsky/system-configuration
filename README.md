@@ -42,6 +42,10 @@ found in the AUR, but development happens here first usually.
 * [hologram-multimedia-base](hologram-multimedia-base) contains a selection of
   multimedia packages for the CLI.
 
+* [hologram-base-gui](hologram-base-gui) is a base hologram for systems with
+  GUI, including [hologram-base](hologram-base),
+  [hologram-multimedia-base](hologram-multimedia-base) and my basic GUI apps.
+
 ## Holograms for Damogran
 
 Damogran is my home server. Its [holodeck](holodeck-damogran) contains, among
