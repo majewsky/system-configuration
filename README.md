@@ -30,6 +30,19 @@ My naming convention draws on Holo's name and includes:
 * [hologram-openssh](hologram-openssh) is a subhologram of base that configures
   a [hardened OpenSSH server](https://stribika.github.io/2015/01/04/secure-secure-shell.html).
 
+* [hologram-user-dbus](hologram-user-dbus) enables the DBus session bus in
+  systemd user sessions.
+
+* [hologram-multimedia-base](hologram-multimedia-base) contains a selection of
+  multimedia packages for the CLI.
+
+## Holograms for Damogran
+
+Damogran is my home server.
+
+* [hologram-damogran-dyndns](hologram-damogran-dyndns) contains the DynDNS
+  setup for Damogran.
+
 # How to build
 
 Every subfolder (i.e. each hologram and holodeck) has a simple Makefile so
