@@ -1,6 +1,6 @@
 pkgname='hologram-base'
 pkgver=20150805
-pkgrel=4
+pkgrel=5
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -49,16 +49,21 @@ package() {
         'dosfstools'     # mkfs.vfat
         'git'
         'gptfdisk'
+        'hdparm'
         'htop'
         'inotify-tools'
+        'irssi'
+        'iw'
         'lsof'
         'net-tools'      # netstat
         'nmap'           # ncat
+        'pacgraph'
         'pwgen'
         'smartmontools'
         'rsync'
         'screen'
         'strace'
+        'sshfs'
         'sudo'
         'tcpdump'
         'traceroute'

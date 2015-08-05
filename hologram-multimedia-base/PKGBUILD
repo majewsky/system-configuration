@@ -1,5 +1,5 @@
 pkgname='hologram-multimedia-base'
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc='hologram: basic multimedia software collection (no GUI required)'
 arch=('any')
@@ -25,6 +25,7 @@ package() {
         'vorbis-tools'
         'vorbisgain'
         'youtube-dl'
+        'rtmpdump' # optional for youtube-dl
     )
 
     # NOTE: PulseAudio is usually activated on demand by the user session;

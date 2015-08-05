@@ -1,6 +1,6 @@
 pkgname='holodeck-damogran'
 pkgver=20150805
-pkgrel=4
+pkgrel=5
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
@@ -65,10 +65,6 @@ package() {
         'nginx'
         # intranet services
         'jre7-openjdk-headless' # for Minecraft
-        # additional userspace apps
-        'irssi'
-        # additional CLI tools
-        'iw'
     )
 
     # TODO: Should sshd.service be enabled in the base holodeck? I'd rather put
