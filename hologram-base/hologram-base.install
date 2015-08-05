@@ -12,9 +12,15 @@ post_install() {
 	if getent passwd stefan >/dev/null 2>&1; then true; else
 		useradd --comment "Stefan Majewsky" --uid 1001 --gid users --groups sudo --shell /bin/zsh -M stefan
 	fi
-	mkdir -p /home/stefan
-	chmod 0700 /home/stefan /home/stefan.devenv
-	chown stefan:users /home/stefan /home/stefan.devenv /home/stefan.devenv/*
+
+	# fix permissions on the stuff below /home/stefan that is contained in this package
+	chmod 0700 /home/stefan /home/stefan/.ssh
+	chmod 0600 /home/stefan/.ssh/authorized_keys
+	chown stefan:users /home/stefan /home/stefan/.ssh /home/stefan/.ssh/authorized_keys
+
+	# the /home/stefan.devenv directory also needs proper permissions
+	chmod 0700 /home/stefan.devenv
+	chown stefan:users /home/stefan.devenv /home/stefan.devenv/*
 }
 post_upgrade() {
 	post_install

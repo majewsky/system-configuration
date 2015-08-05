@@ -1,6 +1,6 @@
 pkgname='holodeck-damogran'
 pkgver=20150805
-pkgrel=2
+pkgrel=3
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
@@ -28,7 +28,6 @@ install='holodeck-damogran.install'
 build() {
     cd "${srcdir}"
     echo damogran > hostname
-    echo "$AUTHORIZED_KEYS" > authorized_keys
 
     # check that all configuration is present
     source "${srcdir}/.env"
@@ -36,7 +35,7 @@ build() {
       -o -z "$DAMOGRAN_NET_LAN"   -o -z "$DAMOGRAN_NET_WLAN" \
       -o -z "$DAMOGRAN_WLAN_SSID" -o -z "$DAMOGRAN_WLAN_PSK" \
       -o -z "$DAMOGRAN_HTTP_STATIC_DOMAIN" -o -z "$DAMOGRAN_HTTP_STATIC_PATH" \
-      -o -z "$DAMOGRAN_ROOT_PARTUUID" -o -z "$AUTHORIZED_KEYS" ]; then
+      -o -z "$DAMOGRAN_ROOT_PARTUUID" ]; then
         echo "Some variables are not defined by .env; stopping." >&2
         return 1
     fi
@@ -82,7 +81,6 @@ package() {
     ln -sf /usr/lib/systemd/system/sshd.service              "${pkgdir}/etc/systemd/system/multi-user.target.wants/sshd.service"
     ln -sf /usr/lib/systemd/system/systemd-resolved.service  "${pkgdir}/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 
-    install -D -m 0600 authorized_keys             "${pkgdir}/etc/holodeck/authorized_keys"
     install -D -m 0644 dnsmasq.conf                "${pkgdir}/holo/repo/etc/dnsmasq.conf"
     install -D -m 0644 gummiboot-entry.conf        "${pkgdir}/boot/loader/entries/arch.conf"
     install -D -m 0644 gummiboot-loader.conf       "${pkgdir}/boot/loader/loader.conf"
