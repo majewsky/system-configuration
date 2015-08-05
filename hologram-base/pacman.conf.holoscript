@@ -12,5 +12,5 @@ sed '
 echo
 echo '[holo]'
 echo 'SigLevel = Optional TrustAll'
-echo 'Server = file:///home/repo'
+echo 'Server = file:///raid/repo'
 
