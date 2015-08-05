@@ -1,6 +1,6 @@
 pkgname='hologram-base'
 pkgver=20150805
-pkgrel=2
+pkgrel=4
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -34,7 +34,7 @@ build() {
 
 package() {
     depends=(
-        'holo-tools' # obviously :)
+        'holo' # obviously :)
         # base system
         $(pacman -Sqg base | grep -v netctl)
         $(pacman -Sqg base-devel)
