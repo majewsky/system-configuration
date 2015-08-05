@@ -1,0 +1,24 @@
+pkgname='hologram-user-dbus'
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='hologram: setup DBus session bus in user sessions'
+arch=('any')
+url=''
+license=('FDL1.3')
+depends=(
+    'dbus'
+    'systemd'
+)
+source=(
+    'systemd-user-dbus.socket'
+    'systemd-user-dbus.service'
+    'systemd-user-dbus.conf'
+)
+
+package() {
+    install -D -m 0644 systemd-user-dbus.conf      "${pkgdir}/etc/systemd/system/user@.service.d/dbus.conf"
+    install -D -m 0644 systemd-user-dbus.socket    "${pkgdir}/etc/systemd/user/dbus.socket"
+    install -D -m 0644 systemd-user-dbus.service   "${pkgdir}/etc/systemd/user/dbus.service"
+    mkdir -p "${pkgdir}/etc/systemd/user/sockets.target.wants/"
+    ln -sf /etc/systemd/user/dbus.socket "${pkgdir}/etc/systemd/user/sockets.target.wants/dbus.socket"
+}
