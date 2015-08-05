@@ -46,6 +46,9 @@ found in the AUR, but development happens here first usually.
   GUI, including [hologram-base](hologram-base),
   [hologram-multimedia-base](hologram-multimedia-base) and my basic GUI apps.
 
+* [hologram-kde-desktop](hologram-kde-desktop) expands
+  [hologram-base-gui](hologram-base-gui) with a Plasma desktop and KDE apps.
+
 ## Holograms for Damogran
 
 Damogran is my home server. Its [holodeck](holodeck-damogran) contains, among
