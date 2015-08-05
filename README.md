@@ -38,7 +38,8 @@ My naming convention draws on Holo's name and includes:
 
 ## Holograms for Damogran
 
-Damogran is my home server.
+Damogran is my home server. Its [holodeck](holodeck-damogran) contains, among
+other things, the following holograms:
 
 * [hologram-damogran-audio](hologram-damogran-audio) contains the audio
   setup for Damogran (intranet-widely accessible PulseAudio and MPD).

@@ -1,0 +1,33 @@
+# specify the wireless interface to operate on
+interface=${DAMOGRAN_IFACE_WLAN}
+driver=nl80211
+# enable 802.11g base functionality (n comes on top of g)
+hw_mode=g
+channel=8
+# enable 802.11n
+ieee80211n=1
+wmm_enabled=1
+# HT capabilities as detected by `iw list` and translated by the reference hostapd.conf
+ht_capab=[HT40][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
+# enable 802.11d (advertisement of allowed channels and transmit power levels in
+# this regulatory domain)
+ieee80211d=1
+country_code=DE
+
+# broadcast the network ID
+ssid2="${DAMOGRAN_WLAN_SSID}"
+ignore_broadcast_ssid=0
+# enable WPA2 encryption
+auth_algs=3
+wpa=2
+wpa_passphrase=${DAMOGRAN_WLAN_PSK}
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+rsn_pairwise=CCMP
+
+# limit number of "stations" (connected clients) for good measure
+max_num_sta=20
+
+# log to stdout (all modules, above level 2 = informational messages)
+logger_stdout=-1
+logger_stdout_level=2
