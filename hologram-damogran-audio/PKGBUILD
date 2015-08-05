@@ -1,0 +1,48 @@
+pkgname='hologram-damogran-audio'
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='hologram: PulseAudio and MPD service for Damogran'
+arch=('any')
+url=''
+license=('AGPL3')
+depends=() # runtime dependencies are listed below
+source=(
+    'mpd.conf'
+    'pulseaudio-default.pa.holoscript'
+    'pulseaudio-reactivation.timer'
+)
+
+install='hologram-damogran-audio.install'
+
+package() {
+    depends=(
+        'holo-tools' # obviously :)
+        'hologram-user-dbus' # for systemd user sessions to work
+        'mpd'
+        'pulseaudio'
+        'pulseaudio-zeroconf'
+    )
+
+    # audio setup involves a systemd user session for the "pulse" user where
+    # PulseAudio and MPD are managed
+    install -D -m 0755 pulseaudio-default.pa.holoscript "${pkgdir}/holo/repo/etc/pulse/default.pa.holoscript"
+    mkdir -p "${pkgdir}/home/pulse/.config/systemd/user/sockets.target.wants/"
+    ln -sf /usr/lib/systemd/user/pulseaudio.socket "${pkgdir}/home/pulse/.config/systemd/user/sockets.target.wants/pulseaudio.socket"
+
+    # enable lingering (i.e. persistent auto-spawned) user session for audio user
+    mkdir -p "${pkgdir}/var/lib/systemd/linger/"
+    touch "${pkgdir}/var/lib/systemd/linger/pulse"
+
+    # PulseAudio sometimes inexplicably terminates when no clients are
+    # connected for some time, so restart it when it has become inactive
+    install -D -m 0644 pulseaudio-reactivation.timer "${pkgdir}/etc/systemd/user/pulseaudio-reactivation.timer"
+    mkdir -p "${pkgdir}/home/pulse/.config/systemd/user/timers.target.wants/"
+    ln -sf /etc/systemd/user/pulseaudio-reactivation.timer "${pkgdir}/home/pulse/.config/systemd/user/timers.target.wants/pulseaudio-reactivation.timer"
+
+    # MPD is started as a user service
+    mkdir -p "${pkgdir}/home/pulse/.mpd/"
+    mkdir -p "${pkgdir}/home/pulse/.config/systemd/user/default.target.wants/"
+
+    install -D -m 0644 mpd.conf              "${pkgdir}/home/pulse/.mpdconf"
+    ln -sf /usr/lib/systemd/user/mpd.service "${pkgdir}/home/pulse/.config/systemd/user/default.target.wants/mpd.service"
+}

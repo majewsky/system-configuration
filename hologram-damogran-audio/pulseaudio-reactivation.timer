@@ -1,0 +1,10 @@
+[Unit]
+Description=Make sure that PulseAudio is running
+
+[Timer]
+Unit=pulseaudio.service
+OnBootSec=1 min
+OnUnitInactiveSec=1 min
+
+[Install]
+WantedBy=timers.target

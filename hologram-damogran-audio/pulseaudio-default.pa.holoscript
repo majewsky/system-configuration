@@ -1,0 +1,4 @@
+#!/bin/sh
+cat
+echo 'load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1;10.0.0.0/24;10.0.1.0/24 auth-anonymous=1'
+echo 'load-module module-zeroconf-publish'

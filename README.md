@@ -40,6 +40,9 @@ My naming convention draws on Holo's name and includes:
 
 Damogran is my home server.
 
+* [hologram-damogran-audio](hologram-damogran-audio) contains the audio
+  setup for Damogran (intranet-widely accessible PulseAudio and MPD).
+
 * [hologram-damogran-dyndns](hologram-damogran-dyndns) contains the DynDNS
   setup for Damogran.
 
