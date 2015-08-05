@@ -1,6 +1,6 @@
 pkgname='hologram-openssh'
-pkgver=1.0.0
-pkgrel=2
+pkgver=1.1.0
+pkgrel=1
 pkgdesc='hologram: hardened OpenSSH server'
 arch=('any')
 url=''
@@ -21,6 +21,10 @@ package() {
 
     install -D -m 0755 ssh-moduli.holoscript  "${pkgdir}/holo/repo/etc/ssh/moduli.holoscript"
     install -D -m 0755 sshd_config.holoscript "${pkgdir}/holo/repo/etc/ssh/sshd_config.holoscript"
+
+    # enable SSH daemon
+    mkdir -p "${pkgdir}/etc/systemd/system/multi-user.target.wants/"
+    ln -sf /usr/lib/systemd/system/sshd.service "${pkgdir}/etc/systemd/system/multi-user.target.wants/sshd.service"
 
     # disable weak SSH host keys by placing invalid symlinks at their location
     mkdir -p "${pkgdir}/etc/ssh/"

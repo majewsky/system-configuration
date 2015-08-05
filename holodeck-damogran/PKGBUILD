@@ -1,6 +1,6 @@
 pkgname='holodeck-damogran'
 pkgver=20150805
-pkgrel=5
+pkgrel=6
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
@@ -67,14 +67,11 @@ package() {
         'jre7-openjdk-headless' # for Minecraft
     )
 
-    # TODO: Should sshd.service be enabled in the base holodeck? I'd rather put
-    # it in a server holodeck, if such a thing ever comes to exist.
     mkdir -p "${pkgdir}/etc/systemd/system/multi-user.target.wants/"
     ln -sf /usr/lib/systemd/system/dnsmasq.service           "${pkgdir}/etc/systemd/system/multi-user.target.wants/dnsmasq.service"
     ln -sf /usr/lib/systemd/system/hostapd.service           "${pkgdir}/etc/systemd/system/multi-user.target.wants/hostapd.service"
     ln -sf /usr/lib/systemd/system/iptables.service          "${pkgdir}/etc/systemd/system/multi-user.target.wants/iptables.service"
     ln -sf /usr/lib/systemd/system/nginx.service             "${pkgdir}/etc/systemd/system/multi-user.target.wants/nginx.service"
-    ln -sf /usr/lib/systemd/system/sshd.service              "${pkgdir}/etc/systemd/system/multi-user.target.wants/sshd.service"
     ln -sf /usr/lib/systemd/system/systemd-resolved.service  "${pkgdir}/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 
     install -D -m 0644 dnsmasq.conf                "${pkgdir}/holo/repo/etc/dnsmasq.conf"

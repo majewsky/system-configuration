@@ -1,7 +1,7 @@
 pkgname='hologram-base-gui'
 pkgver=20150805
 pkgrel=5
-pkgdesc='hologram: base installation'
+pkgdesc='hologram: base GUI installation'
 arch=('any')
 url=''
 license=('AGPL3')
