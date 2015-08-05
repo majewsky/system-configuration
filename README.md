@@ -36,11 +36,11 @@ found in the AUR, but development happens here first usually.
 * [hologram-openssh](hologram-openssh) is a subhologram of base that configures
   a [hardened OpenSSH server](https://stribika.github.io/2015/01/04/secure-secure-shell.html).
 
-* [hologram-user-dbus](hologram-user-dbus) enables the DBus session bus in
-  systemd user sessions.
-
 * [hologram-multimedia-base](hologram-multimedia-base) contains a selection of
   multimedia packages for the CLI.
+
+* [hologram-dev-tools](hologram-dev-tools) contains a selection of compilers
+  and development tools.
 
 * [hologram-base-gui](hologram-base-gui) is a base hologram for systems with
   GUI, including [hologram-base](hologram-base),
@@ -53,6 +53,9 @@ found in the AUR, but development happens here first usually.
 
 Damogran is my home server. Its [holodeck](holodeck-damogran) contains, among
 other things, the following holograms:
+
+* [hologram-user-dbus](hologram-user-dbus) enables the DBus session bus in
+  systemd user sessions.
 
 * [hologram-damogran-audio](hologram-damogran-audio) contains the audio
   setup for Damogran (intranet-widely accessible PulseAudio and MPD).

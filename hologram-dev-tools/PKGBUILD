@@ -1,0 +1,26 @@
+pkgname='hologram-dev-tools'
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='hologram: compilers and development tools'
+arch=('any')
+url=''
+license=('AGPL3')
+depends=() # runtime dependencies are listed below
+source=()
+
+package() {
+    depends=(
+        'arch-install-scripts'
+        'automoc4'
+        'cmake'
+        'cloc'
+        'cpanminus'
+        'doxygen'
+        'gdb'
+        'go'
+        'pkgbuild-introspection'
+        'rust'
+        'sloccount'
+        'valgrind'
+    )
+}
