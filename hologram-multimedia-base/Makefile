@@ -1,2 +1,2 @@
 all:
-	makepkg -s -f --skipchecksums
+	makepkg -s --skipchecksums

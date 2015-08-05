@@ -62,6 +62,11 @@ following targets:
     make all                # default: build all packages
     make hologram-base      # build just that package, identical to `make -C hologram-base`
 
+There is an extra make target that builds a pacman repo with all packages in
+the `repo` subdirectory:
+
+    make repo
+
 Some holograms include sensible information that has been left out of this
 public repo. This information is in my private clones of this repo only, in the
 top-level directory of the repo in a `.env` file. The
