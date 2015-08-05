@@ -7,11 +7,9 @@ Linux packages using my minimal configuration management tool
 ## License information
 
 All the stuff that I wrote myself is licensed under AGPLv3, cf. the
-[LICENSE](LICENSE) file. The following files are from other sources:
-
-* [`hologram-damogran-dyndns/gandi_dyndns.py`](hologram-damogran-dyndns/gandi_dyndns.py) is a script maintained at
-[lembregtse/gandi-dyndns](https://github.com/lembregtse/gandi-dyndns), which unfortunately
-[lacks a proper license](https://github.com/lembregtse/gandi-dyndns/issues/9) at the time of this writing.
+[LICENSE](LICENSE) file. If parts of a package or all of a package is licensed
+differently, the README for the individual package (found in the package's
+subdirectory) will say so.
 
 # Contents
 
