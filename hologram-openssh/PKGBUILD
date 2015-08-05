@@ -5,10 +5,7 @@ pkgdesc='hologram: hardened OpenSSH server'
 arch=('any')
 url=''
 license=('AGPL3')
-depends=(
-    'holo'
-    'openssh'
-)
+depends=() # run-time dependencies only
 source=(
     'ssh-moduli.holoscript'
     'sshd_config.holoscript'
@@ -17,6 +14,11 @@ source=(
 install='hologram-openssh.install'
 
 package() {
+    depends=(
+        'holo'
+        'openssh'
+    )
+
     install -D -m 0755 ssh-moduli.holoscript  "${pkgdir}/holo/repo/etc/ssh/moduli.holoscript"
     install -D -m 0755 sshd_config.holoscript "${pkgdir}/holo/repo/etc/ssh/sshd_config.holoscript"
 
