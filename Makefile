@@ -1,15 +1,12 @@
 THIS_DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-# The build process has three steps:
-# 1. clean the repo/ subdirectory
-# 2. build all holograms and packages and copy them into there
-# 3. make a pacman repo in the repo/ subdirectory
-all: clean-repo build-holograms build-packages create-repo
-
-clean-repo:
-	@rm -f -- repo/holo.db* repo/*.pkg.tar.xz
+# The build process has two steps:
+# 1. build all holograms and packages and copy them into there
+# 2. make a pacman repo in the repo/ subdirectory
+all: build-holograms build-packages create-repo
 
 create-repo: build-packages
+	@rm -f -- repo/holo.db*
 	@repo-add repo/holo.db.tar.gz repo/*.pkg.tar.xz
 
 ################################################################################
@@ -32,5 +29,5 @@ build-packages: package-yaourt
 package-yaourt: package-package-query
 
 # the build rule for all packages
-package-%: clean-repo
+package-%:
 	@cd $* && perl ../build_package.pl $* $^
