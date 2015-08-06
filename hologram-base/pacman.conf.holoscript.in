@@ -12,5 +12,5 @@ sed '
 echo
 echo '[holo]'
 echo 'SigLevel = Optional TrustAll'
-echo 'Server = file:///raid/repo'
+echo 'Server = http://${DAMOGRAN_HTTP_STATIC_DOMAIN}/repo'
 

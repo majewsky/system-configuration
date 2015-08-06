@@ -1,6 +1,6 @@
 pkgname='hologram-base'
 pkgver=20150806
-pkgrel=1
+pkgrel=2
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -14,7 +14,7 @@ source=(
     'locale.conf'
     'locale.gen'
     'mirrorlist.holoscript'
-    'pacman.conf.holoscript'
+    'pacman.conf.holoscript.in'
     'sudoers'
     'timesyncd.conf'
     'vconsole.conf'
@@ -24,12 +24,17 @@ install='hologram-base.install'
 build() {
     # check that all configuration is present
     source "${srcdir}/.env"
-    if [ -z "$AUTHORIZED_KEYS" ]; then
+    if [ -z "$AUTHORIZED_KEYS" -o -z "$DAMOGRAN_HTTP_STATIC_DOMAIN" ]; then
         echo "Some variables are not defined by .env; stopping." >&2
         return 1
     fi
 
     echo "$AUTHORIZED_KEYS" > "${srcdir}/authorized_keys"
+
+    # replace configuration variables in source files
+    for file in pacman.conf.holoscript; do
+        perl -pe 's{\$\{(\w+?)\}}{$ENV{$1}//$&}eg' < "${file}.in" > $file
+    done
 }
 
 package() {
