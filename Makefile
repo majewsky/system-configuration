@@ -21,8 +21,7 @@ SUBDIRS = $(wildcard holo*)
 build-holograms: $(SUBDIRS)
 
 $(SUBDIRS):
-	@echo "Building $@..."
-	@env PKGDEST="$(THIS_DIRECTORY)/repo" $(MAKE) -C $@ $(MFLAGS)
+	@cd $@ && perl ../build_package.pl $@
 
 ################################################################################
 # compile AUR packages
@@ -35,4 +34,4 @@ package-yaourt: package-package-query
 
 # the build rule for all packages
 package-%: clean-repo
-	@cd $* && perl ../build_package.pl $@ $^
+	@cd $* && perl ../build_package.pl $* $^

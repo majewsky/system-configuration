@@ -6,29 +6,34 @@ use v5.20;
 use autodie qw(:all);
 use Cwd;
 
-# packages and dependencies are given in @ARGV as Makefile targets,
-# e.g. "package-yaourt" for the package "yaourt", so strip these "package-"
-# prefixes
-my ($package, @deps) = map { /^package-(.+)$/ ? $1 : () } @ARGV;
+# the first argument is the package name
+my $package = shift @ARGV;
+# dependencies are given in @ARGV as Makefile targets, e.g. "package-yaourt"
+# for the package "yaourt", so strip these "package-" prefixes
+my @deps = map { /^package-(.+)$/ ? $1 : () } @ARGV;
 
 ################################################################################
 # install missing dependencies
 
 sub version_of_aurpackage {
    my ($package) = @_;
-
-   # read the .SRCINFO file of the $package
-   open my $fh, '<', "../$package/.SRCINFO";
    my ($pkgver, $pkgrel);
+
+   # read the .SRCINFO (for AUR packages) or the PKGBUILD (for holograms) of the $package
+   my $filename = (-f "../$package/.SRCINFO") ? "../$package/.SRCINFO" : "../$package/PKGBUILD";
+   open my $fh, '<', $filename;
    while (<$fh>) {
-      if (/^\s*pkgver\s*=\s*(.+)$/) {
+      if (/^\s*pkgver\s*=\s*['"]?(.+?)['"]?\s*$/) {
          $pkgver = $1;
       }
-      elsif (/^\s*pkgrel\s*=\s*(.+)$/) {
+      elsif (/^\s*pkgrel\s*=\s*['"]?(.+?)['"]?\s*$/) {
          $pkgrel = $1;
       }
    }
    close $fh;
+
+   die "cannot find pkgver for package $package" unless $pkgver;
+   die "cannot find pkgrel for package $package" unless $pkgrel;
 
    # construct the version string
    return "$pkgver-$pkgrel";
@@ -68,6 +73,14 @@ my $package_version = version_of_aurpackage($package);
 my $package_file = file_for_aurpackage($package, $package_version, '-nodie');
 
 unless ($package_file) {
+   # write the resulting package to the repo directory
+
    local $ENV{PKGDEST} = getcwd() . '/../repo';
-   system(qw(makepkg -s));
+
+   # skip integrity checks (md5sums etc.) for holograms
+   my @command = qw(makepkg -s);
+   if ($package =~ /^holo(?:gram|deck)/) {
+      push @command, '--skipchecksums';
+   }
+   system @command;
 }
