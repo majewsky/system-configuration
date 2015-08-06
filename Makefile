@@ -1,15 +1,38 @@
 THIS_DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+# The build process has three steps:
+# 1. clean the repo/ subdirectory
+# 2. build all holograms and packages and copy them into there
+# 3. make a pacman repo in the repo/ subdirectory
+all: clean-repo build-holograms build-packages create-repo
+
+clean-repo:
+	@mkdir -p repo
+	@rm -f -- repo/holo.db* repo/*.pkg.tar.xz
+
+create-repo: build-packages
+	@repo-add repo/aurpackages.db.tar.gz repo/*.pkg.tar.xz
+
+################################################################################
+# compile holograms
+
 SUBDIRS = $(wildcard holo*)
-.PHONY: all repo $(SUBDIRS)
-all: $(SUBDIRS)
+.PHONY: $(SUBDIRS)
+build-holograms: $(SUBDIRS)
 
 $(SUBDIRS):
 	@echo "Building $@..."
-	$(MAKE) -C $@ $(MFLAGS)
+	@env PKGDEST="$(THIS_DIRECTORY)/repo" $(MAKE) -C $@ $(MFLAGS)
 
-repo:
-	@mkdir -p repo
-	@rm -f -- repo/holo.db* repo/*.pkg.tar.xz
-	env PKGDEST="$(THIS_DIRECTORY)/repo" $(MAKE) all
-	repo-add repo/holo.db.tar.gz repo/*.pkg.tar.xz
+################################################################################
+# compile AUR packages
+
+# These are the packages that I want.
+build-packages: package-yaourt
+
+# These are dependencies between these packages.
+package-yaourt: package-package-query
+
+# the build rule for all packages
+package-%: clean-repo
+	@cd $* && perl ../build_package.pl $@ $^

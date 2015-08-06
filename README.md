@@ -69,20 +69,28 @@ other things, the following holograms:
 
 # How to build
 
-Every subfolder (i.e. each hologram and holodeck) has a simple Makefile so
-that `make` builds the package. The top-level directory has a Makefile with the
-following targets:
+Every subfolder (i.e. each hologram and holodeck) has a simple Makefile so that
+`make` builds the package. The top-level directory has a Makefile with targets
+for all the subdirectories, and a default target that builds all of them and
+collects the resulting packages in a pacman repo in the `repo` subdirectory:
 
-    make all                # default: build all packages
+    make all                # default: build all packages and compile a pacman repo
     make hologram-base      # build just that package, identical to `make -C hologram-base`
-
-There is an extra make target that builds a pacman repo with all packages in
-the `repo` subdirectory:
-
-    make repo
 
 Some holograms include sensible information that has been left out of this
 public repo. This information is in my private clones of this repo only, in the
 top-level directory of the repo in a `.env` file. The
 [`env.example`](env.example) file shows which environment variables are
 expected to be defined by `.env`.
+
+## AUR
+
+Some holograms reference packages from the AUR. These packages are included in
+here as submodules (thanks to AUR4 being based on Git repositories), and can
+individually be built with make targets of the form:
+
+    make package-yaourt     # build the package yaourt and all of its dependencies
+
+THe default target includes these package targets, so after `make all`, all
+holodecks, holograms and included AUR packages will be present in the `repo`
+subdirectory.

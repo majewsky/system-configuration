@@ -1,0 +1,6 @@
+[submodule "package-query"]
+	path = package-query
+	url = https://aur4.archlinux.org/package-query.git/
+[submodule "yaourt"]
+	path = yaourt
+	url = https://aur4.archlinux.org/yaourt.git/
