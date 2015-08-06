@@ -11,7 +11,7 @@ clean-repo:
 	@rm -f -- repo/holo.db* repo/*.pkg.tar.xz
 
 create-repo: build-packages
-	@repo-add repo/aurpackages.db.tar.gz repo/*.pkg.tar.xz
+	@repo-add repo/holo.db.tar.gz repo/*.pkg.tar.xz
 
 ################################################################################
 # compile holograms
