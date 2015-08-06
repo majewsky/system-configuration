@@ -11,12 +11,6 @@ use Cwd;
 # prefixes
 my ($package, @deps) = map { /^package-(.+)$/ ? $1 : () } @ARGV;
 
-sub _ {
-   use Data::Dump qw(pp);
-   pp(@_);
-   wantarray ? @_ : $_[0];
-}
-
 ################################################################################
 # install missing dependencies
 
