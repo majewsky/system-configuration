@@ -7,7 +7,6 @@ THIS_DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 all: clean-repo build-holograms build-packages create-repo
 
 clean-repo:
-	@mkdir -p repo
 	@rm -f -- repo/holo.db* repo/*.pkg.tar.xz
 
 create-repo: build-packages
