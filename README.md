@@ -42,12 +42,16 @@ found in the AUR, but development happens here first usually.
 * [hologram-dev-tools](hologram-dev-tools) contains a selection of compilers
   and development tools.
 
+# Shared pieces for machines with GUI only
+
 * [hologram-base-gui](hologram-base-gui) is a base hologram for systems with
   GUI, including [hologram-base](hologram-base),
   [hologram-multimedia-base](hologram-multimedia-base) and my basic GUI apps.
 
 * [hologram-kde-desktop](hologram-kde-desktop) expands
   [hologram-base-gui](hologram-base-gui) with a Plasma desktop and KDE apps.
+
+* [hologram-games](hologram-games) contains a selection of games.
 
 ## Holograms for Damogran
 

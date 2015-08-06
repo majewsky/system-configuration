@@ -1,0 +1,25 @@
+pkgname='hologram-games'
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='hologram: games selection'
+arch=('any')
+url=''
+license=('AGPL3')
+depends=() # runtime dependencies are listed below
+source=()
+
+package() {
+    depends=(
+        # for Minecraft
+        'jre7-openjdk'
+        # Steam and support libraries
+        'steam'
+        'lib32-alsa-plugins'
+        'lib32-libpulse'
+        # assorted games
+        'hedgewars'
+        'openttd'
+        'openttd-opengfx'
+        'openttd-opensfx'
+    )
+}
