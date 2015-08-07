@@ -23,7 +23,10 @@ $(SUBDIRS):
 # compile AUR packages
 
 # These are the packages that I want.
+#build-packages: package-cargo-bin                         # disabled because build_package.pl gets confused by the calculated pkgver()
 build-packages: package-cutegram
+#build-packages: package-gnaural package-gnaural-presets   # disabled because this is not yet transferred to AUR4, it seems
+#build-packages: package-otf-titillium                     # disabled because this is not yet transferred to AUR4, it seems
 build-packages: package-ripit
 build-packages: package-screen-message
 build-packages: package-vimprobable2
@@ -32,6 +35,7 @@ build-packages: package-yaourt
 # These are dependencies between these packages.
 package-cutegram: package-telegramqml package-libqtelegram-ae
 package-telegramqml: package-libqtelegram-ae
+#package-gnaural-presets: package-gnaural
 package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
 
