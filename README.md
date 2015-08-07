@@ -51,6 +51,9 @@ found in the AUR, but development happens here first usually.
 * [hologram-kde-desktop](hologram-kde-desktop) expands
   [hologram-base-gui](hologram-base-gui) with a Plasma desktop and KDE apps.
 
+* [hologram-dtp](hologram-dtp) contains a package selection for my desktop
+  publishing needs.
+
 * [hologram-games](hologram-games) contains a selection of games.
 
 ## Holograms for Damogran
