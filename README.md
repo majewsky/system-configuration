@@ -70,6 +70,11 @@ other things, the following holograms:
 * [hologram-damogran-dyndns](hologram-damogran-dyndns) contains the DynDNS
   setup for Damogran.
 
+## Holograms for Arcturus
+
+Arcturus is my desktop PC. Its [holodeck](holodeck-arcturus) has no special
+holograms and mostly configures the boot sequence and networking.
+
 # How to build
 
 Every subfolder (i.e. each hologram and holodeck) has a simple Makefile so that

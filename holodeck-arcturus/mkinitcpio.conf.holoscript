@@ -1,0 +1,2 @@
+#!/bin/sed
+s/^HOOKS="[^"]*/& encrypt/

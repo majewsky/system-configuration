@@ -1,0 +1,7 @@
+[Match]
+Name=wl*
+
+[Network]
+Address=${DAMOGRAN_NET_WLAN}.2/24
+Gateway=${DAMOGRAN_NET_WLAN}.1
+DNS=${DAMOGRAN_NET_WLAN}.1
