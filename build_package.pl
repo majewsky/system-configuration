@@ -17,7 +17,7 @@ my @deps = map { /^package-(.+)$/ ? $1 : () } @ARGV;
 
 sub version_of_aurpackage {
    my ($package) = @_;
-   my ($pkgver, $pkgrel);
+   my ($epoch, $pkgver, $pkgrel);
 
    # read the .SRCINFO (for AUR packages) or the PKGBUILD (for holograms) of the $package
    my $filename = (-f "../$package/.SRCINFO") ? "../$package/.SRCINFO" : "../$package/PKGBUILD";
@@ -29,6 +29,9 @@ sub version_of_aurpackage {
       elsif (/^\s*pkgrel\s*=\s*['"]?(.+?)['"]?\s*$/) {
          $pkgrel = $1;
       }
+      elsif (/^\s*epoch\s*=\s*['"]?(.+?)['"]?\s*$/) {
+         $epoch = $1;
+      }
    }
    close $fh;
 
@@ -36,7 +39,7 @@ sub version_of_aurpackage {
    die "cannot find pkgrel for package $package" unless $pkgrel;
 
    # construct the version string
-   return "$pkgver-$pkgrel";
+   return $epoch ? "$epoch:$pkgver-$pkgrel" : "$pkgver-$pkgrel";
 }
 
 sub file_for_aurpackage {
