@@ -23,9 +23,11 @@ $(SUBDIRS):
 # compile AUR packages
 
 # These are the packages that I want.
+build-packages: package-ripit
 build-packages: package-yaourt
 
 # These are dependencies between these packages.
+package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
 
 # the build rule for all packages

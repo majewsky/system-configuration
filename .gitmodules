@@ -4,3 +4,9 @@
 [submodule "yaourt"]
 	path = yaourt
 	url = https://aur4.archlinux.org/yaourt.git/
+[submodule "ripit"]
+	path = ripit
+	url = https://aur4.archlinux.org/ripit.git/
+[submodule "perl-mp3-tag"]
+	path = perl-mp3-tag
+	url = https://aur4.archlinux.org/perl-mp3-tag.git/
