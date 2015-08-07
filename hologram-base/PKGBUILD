@@ -1,6 +1,6 @@
 pkgname='hologram-base'
 pkgver=20150806
-pkgrel=3
+pkgrel=4
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -91,6 +91,11 @@ package() {
     mkdir -p "${pkgdir}/etc/systemd/system/sysinit.target.wants/"
     ln -sf /usr/lib/systemd/system/systemd-timesyncd.service "${pkgdir}/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
     ln -sf /usr/share/zoneinfo/Europe/Berlin                 "${pkgdir}/etc/localtime"
+
+    # pre-create some directories with special permission levels
+    install -d -m 0700 "${pkgdir}/home/stefan/"
+    install -d -m 0700 "${pkgdir}/home/stefan/.ssh/"
+    install -d -m 0700 "${pkgdir}/home/stefan.devenv/"
 
     install -D -m 0600 authorized_keys        "${pkgdir}/home/stefan/.ssh/authorized_keys"
     install -D -m 0644 journald.conf          "${pkgdir}/etc/systemd/journald.conf.d/hologram-base.conf"
