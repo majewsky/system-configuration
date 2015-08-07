@@ -85,6 +85,8 @@ unless ($package_file) {
    system @command;
 }
 
+$package_file = file_for_aurpackage($package, $package_version, '-nodie');
+
 ################################################################################
 # clean earlier versions of this package
 
