@@ -1,6 +1,6 @@
 pkgname='hologram-base'
 pkgver=20150806
-pkgrel=2
+pkgrel=3
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -62,6 +62,7 @@ package() {
         'lsof'
         'net-tools'      # netstat
         'nmap'           # ncat
+        'optipng'
         'pacgraph'
         'pwgen'
         'smartmontools'
