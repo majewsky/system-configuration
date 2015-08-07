@@ -23,10 +23,15 @@ $(SUBDIRS):
 # compile AUR packages
 
 # These are the packages that I want.
+build-packages: package-cutegram
 build-packages: package-ripit
+build-packages: package-screen-message
+build-packages: package-vimprobable2
 build-packages: package-yaourt
 
 # These are dependencies between these packages.
+package-cutegram: package-telegramqml package-libqtelegram-ae
+package-telegramqml: package-libqtelegram-ae
 package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
 

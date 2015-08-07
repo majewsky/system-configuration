@@ -1,5 +1,5 @@
 pkgname='hologram-base-gui'
-pkgver='1.0.0'
+pkgver='1.0.1'
 pkgrel=1
 pkgdesc='hologram: base GUI installation'
 arch=('any')
@@ -15,6 +15,7 @@ package() {
         'xorg-server'
         # assorted GUI apps
         $(pacman -Sqg xorg-apps)
+        'cutegram'
         'firefox'
         'graphviz'
         'gnuplot'
@@ -25,9 +26,11 @@ package() {
         'paprefs'
         'pavucontrol'
         'pidgin-otr' # includes pidgin
+        'screen-message'
         'sxiv'
         'thunderbird'
         'tk'         # for gitk and git-gui
+        'vimprobable2'
         'vlc'
         'xsel'
         # helper packages (icons, codecs, etc.)
