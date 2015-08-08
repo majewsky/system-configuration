@@ -1,2 +1,4 @@
-#!/bin/sed
-s/^HOOKS="[^"]*/& encrypt/
+#!/bin/bash
+sed '
+    s/^HOOKS=.*$/HOOKS="base udev autodetect modconf block keymap keyboard encrypt filesystems fsck"/
+'

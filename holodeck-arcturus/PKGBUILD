@@ -1,5 +1,5 @@
 pkgname='holodeck-arcturus'
-pkgver=20150807
+pkgver=20150808
 pkgrel=1
 pkgdesc='holodeck: services on Arcturus'
 arch=('any')
