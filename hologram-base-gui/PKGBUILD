@@ -1,5 +1,5 @@
 pkgname='hologram-base-gui'
-pkgver='1.0.1'
+pkgver='1.0.2'
 pkgrel=1
 pkgdesc='hologram: base GUI installation'
 arch=('any')
@@ -34,6 +34,7 @@ package() {
         'vlc'
         'xsel'
         # helper packages (icons, codecs, etc.)
+        'aspell-de'  # to silence complaints in gitk about missing spell check dict
         'gstreamer0.10-ffmpeg'
         'human-icon-theme'
         # font packages
