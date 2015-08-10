@@ -1,2 +1,4 @@
 root    ALL=(ALL) ALL
 %sudo   ALL=(ALL) ALL
+
+Defaults env_keep+="http_proxy https_proxy ftp_proxy all_proxy socks_proxy no_proxy"
