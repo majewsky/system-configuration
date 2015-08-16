@@ -1,5 +1,5 @@
 pkgname='hologram-dev-tools'
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc='hologram: compilers and development tools'
 arch=('any')
@@ -18,6 +18,8 @@ package() {
         'doxygen'
         'gdb'
         'go'
+        'perl-ipc-system-simple' # required for build_package.pl in this repo
+        'perl-term-readkey'      # required for "interactive.singlekey" config of Git
         'pkgbuild-introspection'
         'rust'
         'sloccount'
