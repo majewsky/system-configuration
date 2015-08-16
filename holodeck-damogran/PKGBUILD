@@ -1,6 +1,6 @@
 pkgname='holodeck-damogran'
-pkgver=20150805
-pkgrel=6
+pkgver=20150812
+pkgrel=1
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
@@ -19,6 +19,7 @@ source=(
     'mkinitcpio.conf.holoscript'
     'nginx.conf.in'
     'nginx_50x.html'
+    'prettyprompt.sh'
     'lan.network.in'
     'wan.network.in'
     'wlan.network.in'
@@ -84,6 +85,7 @@ package() {
     install -D -m 0644 nginx.conf                  "${pkgdir}/holo/repo/etc/nginx/nginx.conf"
     install -D -m 0644 nginx_50x.html              "${pkgdir}/etc/nginx/pages/nginx_50x.html"
     install -D -m 0755 90-firewall.conf            "${pkgdir}/etc/sysctl.d/90-firewall.conf"
+    install -D -m 0755 prettyprompt.sh             "${pkgdir}/etc/profile.d/prettyprompt.sh"
     install -D -m 0644 lan.network                 "${pkgdir}/etc/systemd/network/lan.network"
     install -D -m 0644 wan.network                 "${pkgdir}/etc/systemd/network/wan.network"
     install -D -m 0644 wlan.network                "${pkgdir}/etc/systemd/network/wlan.network"

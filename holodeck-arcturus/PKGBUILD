@@ -1,5 +1,5 @@
 pkgname='holodeck-arcturus'
-pkgver=20150808
+pkgver=20150812
 pkgrel=2
 pkgdesc='holodeck: services on Arcturus'
 arch=('any')
@@ -9,6 +9,7 @@ depends=() # runtime dependencies are listed below
 source=(
     '.env'
     'mkinitcpio.conf.holoscript'
+    'prettyprompt.sh'
     'systemd-boot-entry.conf.in'
     'systemd-boot-loader.conf'
     'lan.network.in'
@@ -58,6 +59,7 @@ package() {
 
     install -D -m 0644 hostname                    "${pkgdir}/etc/hostname"
     install -D -m 0755 mkinitcpio.conf.holoscript  "${pkgdir}/holo/repo/etc/mkinitcpio.conf.holoscript"
+    install -D -m 0755 prettyprompt.sh             "${pkgdir}/etc/profile.d/prettyprompt.sh"
     install -D -m 0644 systemd-boot-entry.conf     "${pkgdir}/boot/loader/entries/arch.conf"
     install -D -m 0644 systemd-boot-loader.conf    "${pkgdir}/boot/loader/loader.conf"
     install -D -m 0644 lan.network                 "${pkgdir}/etc/systemd/network/lan.network"
