@@ -1,6 +1,6 @@
 pkgname='hologram-base'
-pkgver=20150817
-pkgrel=1
+pkgver=20150821
+pkgrel=2
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -111,4 +111,8 @@ package() {
     # environment, which resides in a separate repo.
     mkdir -p "${pkgdir}/home/stefan.devenv/build"
     install -D -m 0755 devenv-bootstrap.sh    "${pkgdir}/home/stefan.devenv/bootstrap.sh"
+
+    # TODO: krikkit has a modified yaourt.conf with SUDONOVERIF=1
+    # (which "avoids multiple sudo checks when timestamp_timeout=0"); what is
+    # all this?
 }

@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# add catalyst repo on Arcturus only (and before all other repos, as instructed
+# by the Arch wiki)
+if grep -qw arcturus /etc/hostname; then
+    echo '[catalyst]'
+    echo 'Server = http://catalyst.wirephire.com/repo/catalyst/$arch'
+    echo
+fi
+
 sed '
     # enable additional options
     s/^#\(Color\|VerbosePkgLists\)$/\1/
