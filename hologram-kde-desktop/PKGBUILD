@@ -1,5 +1,5 @@
 pkgname='hologram-kde-desktop'
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc='hologram: GUI installation with KDE Plasma desktop'
 arch=('any')
@@ -16,7 +16,7 @@ package() {
         # display manager
         'sddm'
         # desktop
-        $(pacman -Sqg plasma | grep -v bluedevil | grep -v plasna-nm)
+        $(pacman -Sqg plasma | grep -v bluedevil | grep -v plasma-nm | grep -v ksshaskpass)
         'breeze-kde4'
         'gtk-theme-orion'
         'gst-plugins-good' # optional: for WebM support in qt5-webkit
