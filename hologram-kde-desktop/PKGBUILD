@@ -1,5 +1,5 @@
 pkgname='hologram-kde-desktop'
-pkgver=1.0.1
+pkgver=1.0.2
 pkgrel=1
 pkgdesc='hologram: GUI installation with KDE Plasma desktop'
 arch=('any')
@@ -23,8 +23,8 @@ package() {
         'mariadb'          # optional: for Akonadi
         'kde-agent'        # optional: GPG agent integration
         # applications
-        'kdeutils-ark'
-        'kdebase-dolphin'
+        'ark'
+        'dolphin'
         'gwenview'
         'filelight'
         'kcharselect'
@@ -36,7 +36,7 @@ package() {
         'konsole'
         'kruler'
         'kdegraphics-ksnapshot'
-        'kdeutils-kwalletmanager'
+        'kwalletmanager'
         'yakuake'
     )
 
