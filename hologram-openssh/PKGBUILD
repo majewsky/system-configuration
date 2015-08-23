@@ -1,6 +1,6 @@
 pkgname='hologram-openssh'
 pkgver=1.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='hologram: hardened OpenSSH server'
 arch=('any')
 url=''
@@ -15,7 +15,7 @@ install='hologram-openssh.install'
 
 package() {
     depends=(
-        'holo'
+        'holo<0.3'
         'openssh'
     )
 

@@ -1,6 +1,6 @@
 pkgname='hologram-damogran-audio'
 pkgver=1.0.0
-pkgrel=2
+pkgrel=3
 pkgdesc='hologram: PulseAudio and MPD service for Damogran'
 arch=('any')
 url=''
@@ -16,7 +16,7 @@ install='hologram-damogran-audio.install'
 
 package() {
     depends=(
-        'holo' # obviously :)
+        'holo<0.3' # obviously :)
         'hologram-user-dbus' # for systemd user sessions to work
         'mpd'
         'pulseaudio'

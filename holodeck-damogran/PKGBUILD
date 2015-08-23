@@ -1,6 +1,6 @@
 pkgname='holodeck-damogran'
 pkgver=20150812
-pkgrel=1
+pkgrel=2
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
@@ -50,7 +50,7 @@ build() {
 package() {
     # runtime-only dependencies
     depends+=(
-        'holo'
+        'holo<0.3'
         'hologram-base'
         'hologram-multimedia-base'
         'hologram-damogran-dyndns'
