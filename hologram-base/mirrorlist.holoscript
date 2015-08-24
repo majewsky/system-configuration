@@ -1,4 +1,3 @@
 #!/bin/sh
-
-sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d' > /tmp/pacmanmirrorlist
-rankmirrors -n 10 /tmp/pacmanmirrorlist
+# choose some German mirrors randomly (rankmirrors is better, but slows down holo-apply too much)
+sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d' | sort -R
