@@ -1,5 +1,5 @@
 post_install() {
-	holo-apply
+	holo apply
 	locale-gen
 
 	# on Arcturus, we need to import the GPG key for the catalyst repository
@@ -27,4 +27,7 @@ post_install() {
 }
 post_upgrade() {
 	post_install
+}
+post_remove() {
+	holo apply
 }

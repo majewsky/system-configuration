@@ -1,6 +1,6 @@
 pkgname='hologram-openssh'
 pkgver=1.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc='hologram: hardened OpenSSH server'
 arch=('any')
 url=''

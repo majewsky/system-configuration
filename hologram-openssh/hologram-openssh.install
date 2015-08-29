@@ -1,5 +1,5 @@
 post_install() {
-    holo-apply
+    holo apply
 }
 post_upgrade() {
     post_install
