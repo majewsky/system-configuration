@@ -1,0 +1,3 @@
+#!/bin/sh
+# add "nomodeset" kernel parameter
+sed '/^options/s/$/ nomodeset/'
