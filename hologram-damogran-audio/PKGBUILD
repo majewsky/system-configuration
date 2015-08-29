@@ -1,6 +1,6 @@
 pkgname='hologram-damogran-audio'
-pkgver=1.0.0
-pkgrel=3
+pkgver=1.1.0
+pkgrel=1
 pkgdesc='hologram: PulseAudio and MPD service for Damogran'
 arch=('any')
 url=''
@@ -16,7 +16,7 @@ install='hologram-damogran-audio.install'
 
 package() {
     depends=(
-        'holo<0.3' # obviously :)
+        'holo>=0.3' # obviously :)
         'hologram-user-dbus' # for systemd user sessions to work
         'mpd'
         'pulseaudio'
@@ -25,7 +25,7 @@ package() {
 
     # audio setup involves a systemd user session for the "pulse" user where
     # PulseAudio and MPD are managed
-    install -D -m 0755 pulseaudio-default.pa.holoscript "${pkgdir}/holo/repo/etc/pulse/default.pa.holoscript"
+    install -D -m 0755 pulseaudio-default.pa.holoscript "${pkgdir}/holo/repo/50-damogran/etc/pulse/default.pa.holoscript"
     mkdir -p "${pkgdir}/home/pulse/.config/systemd/user/sockets.target.wants/"
     ln -sf /usr/lib/systemd/user/pulseaudio.socket "${pkgdir}/home/pulse/.config/systemd/user/sockets.target.wants/pulseaudio.socket"
 

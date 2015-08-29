@@ -1,5 +1,5 @@
 pkgname='hologram-base'
-pkgver=20150824
+pkgver=20150830
 pkgrel=1
 pkgdesc='hologram: base installation'
 arch=('any')
@@ -39,7 +39,7 @@ build() {
 
 package() {
     depends=(
-        'holo<0.3' # obviously :)
+        'holo>=0.3' # obviously :)
         # base system
         $(pacman -Sqg base | grep -v netctl)
         $(pacman -Sqg base-devel)
@@ -101,10 +101,10 @@ package() {
     install -D -m 0644 journald.conf          "${pkgdir}/etc/systemd/journald.conf.d/hologram-base.conf"
     install -D -m 0644 timesyncd.conf         "${pkgdir}/etc/systemd/timesyncd.conf.d/hologram-base.conf"
     install -D -m 0644 locale.conf            "${pkgdir}/etc/locale.conf"
-    install -D -m 0644 locale.gen             "${pkgdir}/holo/repo/etc/locale.gen"
-    install -D -m 0755 mirrorlist.holoscript  "${pkgdir}/holo/repo/etc/pacman.d/mirrorlist.holoscript"
-    install -D -m 0755 pacman.conf.holoscript "${pkgdir}/holo/repo/etc/pacman.conf.holoscript"
-    install -D -m 0440 sudoers                "${pkgdir}/holo/repo/etc/sudoers"
+    install -D -m 0644 locale.gen             "${pkgdir}/holo/repo/00-base/etc/locale.gen"
+    install -D -m 0755 mirrorlist.holoscript  "${pkgdir}/holo/repo/00-base/etc/pacman.d/mirrorlist.holoscript"
+    install -D -m 0755 pacman.conf.holoscript "${pkgdir}/holo/repo/00-base/etc/pacman.conf.holoscript"
+    install -D -m 0440 sudoers                "${pkgdir}/holo/repo/00-base/etc/sudoers"
     install -D -m 0644 vconsole.conf          "${pkgdir}/etc/vconsole.conf"
 
     # This is some extra setup for quick bootstrapping of my development
