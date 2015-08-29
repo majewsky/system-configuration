@@ -1,0 +1,21 @@
+pkgname='hologram-catalyst-repo'
+pkgver=1.0.0
+pkgrel=2
+pkgdesc='hologram: enable Catalyst repository'
+arch=('any')
+url=''
+license=('AGPL3')
+depends=() # runtime dependencies are listed below
+source=(
+    'pacman.conf.holoscript'
+)
+install='hologram-catalyst-repo.install'
+
+package() {
+    depends=(
+        'holo>=0.3'
+        'pacman'
+    )
+
+    install -D -m 0755 pacman.conf.holoscript "${pkgdir}/holo/repo/20-catalyst/etc/pacman.conf.holoscript"
+}

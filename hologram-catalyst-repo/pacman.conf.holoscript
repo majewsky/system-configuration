@@ -1,0 +1,7 @@
+#!/bin/sh
+# add catalyst repo (before all other repos, as instructed
+# by the Arch wiki)
+echo '[catalyst]'
+echo 'Server = http://catalyst.wirephire.com/repo/catalyst/$arch'
+echo
+cat

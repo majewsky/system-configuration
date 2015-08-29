@@ -1,12 +1,11 @@
 pkgname='hologram-base'
 pkgver=20150830
-pkgrel=2
+pkgrel=3
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
 license=('AGPL3')
 depends=() # runtime dependencies are listed below
-replaces=('holodeck-base') # this used to be called "holodeck" incorrectly
 source=(
     '.env'
     'devenv-bootstrap.sh'
