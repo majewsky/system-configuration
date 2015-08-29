@@ -72,8 +72,15 @@ other things, the following holograms:
 
 ## Holograms for Arcturus
 
-Arcturus is my desktop PC. Its [holodeck](holodeck-arcturus) has no special
-holograms and mostly configures the boot sequence and networking.
+Arcturus is my desktop PC. Its [holodeck](holodeck-arcturus) mostly configures
+the boot sequence and networking, but there are two extra holograms:
+
+* [hologram-catalyst](hologram-catalyst) installs the AMD Catalyst driver. It
+  requires...
+
+* [hologram-catalyst-repo](hologram-catalyst-repo) sets up the Catalyst package
+  repository. It needs to be separate from hologram-catalyst since we need to
+  download the Catalyst packages while installing the hologram-catalyst.
 
 # How to build
 
