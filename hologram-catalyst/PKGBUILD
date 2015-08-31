@@ -1,5 +1,5 @@
 pkgname='hologram-catalyst'
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc='hologram: enable Catalyst driver'
 arch=('any')
@@ -14,8 +14,9 @@ install='hologram-catalyst.install'
 
 build() {
     cd "${srcdir}"
-    echo 'fglrx'            > modules-load.conf
-    echo 'blacklist radeon' > modprobe.conf
+    echo 'fglrx'             > modules-load.conf
+    echo 'blacklist radeon'  > modprobe.conf
+    echo 'blacklist amdgpu' >> modprobe.conf # don't enable it until Catalyst is ready for it
 }
 
 package() {
