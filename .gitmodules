@@ -25,3 +25,6 @@
 [submodule "vimprobable2"]
 	path = vimprobable2
 	url = https://aur4.archlinux.org/vimprobable2.git/
+[submodule "broadcom-wl-dkms"]
+	path = broadcom-wl-dkms
+	url = https://aur4.archlinux.org/broadcom-wl-dkms.git/

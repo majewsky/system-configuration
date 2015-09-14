@@ -1,6 +1,6 @@
 pkgname='holodeck-arcturus'
-pkgver=20150830
-pkgrel=2
+pkgver=20150914
+pkgrel=1
 pkgdesc='holodeck: services on Arcturus'
 arch=('any')
 url=''
@@ -49,6 +49,8 @@ package() {
         'xf86-video-intel'
         'libva-intel-driver'
         # network setup
+        'broadcom-wl-dkms' # closed source driver because Linux kernel does not support my Wifi module
+        'linux-headers'    # optional dep for broadcom-wl-dkms
         'wpa_supplicant'
     )
 
