@@ -1,2 +1,2 @@
-#!/bin/sed
-s/^MODULES="/MODULES="vfat /
+#!/bin/sh
+sed 's/^MODULES="/MODULES="vfat /'
