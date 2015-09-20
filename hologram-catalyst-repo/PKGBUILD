@@ -1,6 +1,6 @@
 pkgname='hologram-catalyst-repo'
-pkgver=1.0.0
-pkgrel=2
+pkgver=1.0.1
+pkgrel=1
 pkgdesc='hologram: enable Catalyst repository'
 arch=('any')
 url=''
@@ -13,9 +13,9 @@ install='hologram-catalyst-repo.install'
 
 package() {
     depends=(
-        'holo>=0.3'
+        'holo>=0.4'
         'pacman'
     )
 
-    install -D -m 0755 pacman.conf.holoscript "${pkgdir}/holo/repo/20-catalyst/etc/pacman.conf.holoscript"
+    install -D -m 0755 pacman.conf.holoscript "${pkgdir}/usr/share/holo/repo/20-catalyst/etc/pacman.conf.holoscript"
 }

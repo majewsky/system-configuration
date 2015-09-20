@@ -1,6 +1,6 @@
 pkgname='hologram-openssh'
-pkgver=1.2.0
-pkgrel=2
+pkgver=1.2.1
+pkgrel=1
 pkgdesc='hologram: hardened OpenSSH server'
 arch=('any')
 url=''
@@ -15,12 +15,12 @@ install='hologram-openssh.install'
 
 package() {
     depends=(
-        'holo>=0.3'
+        'holo>=0.4'
         'openssh'
     )
 
-    install -D -m 0755 ssh-moduli.holoscript  "${pkgdir}/holo/repo/10-openssh/etc/ssh/moduli.holoscript"
-    install -D -m 0755 sshd_config.holoscript "${pkgdir}/holo/repo/10-openssh/etc/ssh/sshd_config.holoscript"
+    install -D -m 0755 ssh-moduli.holoscript  "${pkgdir}/usr/share/holo/repo/10-openssh/etc/ssh/moduli.holoscript"
+    install -D -m 0755 sshd_config.holoscript "${pkgdir}/usr/share/holo/repo/10-openssh/etc/ssh/sshd_config.holoscript"
 
     # enable SSH daemon
     mkdir -p "${pkgdir}/etc/systemd/system/multi-user.target.wants/"
