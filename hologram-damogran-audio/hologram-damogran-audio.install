@@ -1,13 +1,7 @@
 post_install() {
 	holo apply
 
-	# add audio group/user if it does not exist yet
-	if getent group pulse >/dev/null 2>&1; then true; else
-		groupadd --system pulse
-	fi
-	if getent passwd pulse >/dev/null 2>&1; then true; else
-		useradd --system --comment "PulseAudio User" --gid pulse --groups audio pulse
-	fi
+	# fix permissions below /home/
 	chmod 0700 /home/pulse
 	chown -R pulse:pulse /home/pulse
 }

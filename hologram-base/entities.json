@@ -1,0 +1,8 @@
+{
+    "groups": [
+        { "name": "sudo", "system": true }
+    ],
+    "users": [
+        { "name": "stefan", "uid": 1001, "group": "users", "groups": ["sudo"], "shell": "/bin/zsh" }
+    ]
+}

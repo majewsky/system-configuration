@@ -1,6 +1,6 @@
 pkgname='hologram-base'
 pkgver=20150920
-pkgrel=1
+pkgrel=3
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -9,6 +9,7 @@ depends=() # runtime dependencies are listed below
 source=(
     '.env'
     'devenv-bootstrap.sh'
+    'entities.json'
     'journald.conf'
     'locale.conf'
     'locale.gen'
@@ -105,6 +106,7 @@ package() {
     install -D -m 0755 pacman.conf.holoscript "${pkgdir}/usr/share/holo/repo/00-base/etc/pacman.conf.holoscript"
     install -D -m 0440 sudoers                "${pkgdir}/usr/share/holo/repo/00-base/etc/sudoers"
     install -D -m 0644 vconsole.conf          "${pkgdir}/etc/vconsole.conf"
+    install -D -m 0444 entities.json          "${pkgdir}/usr/share/holo/00-base.json"
 
     # This is some extra setup for quick bootstrapping of my development
     # environment, which resides in a separate repo.
