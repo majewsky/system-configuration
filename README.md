@@ -61,9 +61,6 @@ found in the AUR, but development happens here first usually.
 Damogran is my home server. Its [holodeck](holodeck-damogran) contains, among
 other things, the following holograms:
 
-* [hologram-user-dbus](hologram-user-dbus) enables the DBus session bus in
-  systemd user sessions.
-
 * [hologram-damogran-audio](hologram-damogran-audio) contains the audio
   setup for Damogran (intranet-widely accessible PulseAudio and MPD).
 

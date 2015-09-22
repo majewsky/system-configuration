@@ -1,11 +1,12 @@
 pkgname='holodeck-damogran'
-pkgver=20150920
-pkgrel=2
+pkgver=20150922
+pkgrel=1
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
 license=('AGPL3')
 depends=() # runtime dependencies are listed below
+replaces=('hologram-user-dbus') # deprecated
 source=(
     # TODO: smartd to monitor RAID
     # TODO: setup for Minecraft server
@@ -54,7 +55,6 @@ package() {
         'hologram-base'
         'hologram-multimedia-base'
         'hologram-damogran-dyndns'
-        'hologram-user-dbus'
         'hologram-damogran-audio'
         # boot loader (NOTE: no intel-ucode since Damogran has an AMD CPU and chipset)
         'gummiboot'
