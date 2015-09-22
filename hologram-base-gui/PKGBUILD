@@ -1,6 +1,6 @@
 pkgname='hologram-base-gui'
 pkgver='1.0.3'
-pkgrel=1
+pkgrel=2
 pkgdesc='hologram: base GUI installation'
 arch=('any')
 url=''
@@ -22,6 +22,8 @@ package() {
         'gnaural-presets'
         'gnuplot'
         'inkscape'
+        'livestreamer'
+        'mesa-demos'
         'mumble'
         'mupdf'
         'qgit'

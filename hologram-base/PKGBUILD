@@ -1,6 +1,6 @@
 pkgname='hologram-base'
-pkgver=20150920
-pkgrel=3
+pkgver=20150922
+pkgrel=1
 pkgdesc='hologram: base installation'
 arch=('any')
 url=''
@@ -57,6 +57,7 @@ package() {
         'hdparm'
         'htop'
         'inotify-tools'
+        'iperf'
         'irssi'
         'iw'
         'lsof'

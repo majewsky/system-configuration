@@ -1,5 +1,5 @@
 pkgname='hologram-dev-tools'
-pkgver=1.0.1
+pkgver=1.0.2
 pkgrel=1
 pkgdesc='hologram: compilers and development tools'
 arch=('any')
@@ -10,6 +10,7 @@ source=()
 
 package() {
     depends=(
+        'apitrace'
         'arch-install-scripts'
         'automoc4'
         'cmake'
