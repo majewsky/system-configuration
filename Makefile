@@ -26,7 +26,7 @@ $(SUBDIRS):
 build-packages: package-broadcom-wl-dkms
 #build-packages: package-cargo-bin                         # disabled because build_package.pl gets confused by the calculated pkgver()
 build-packages: package-cutegram
-#build-packages: package-gnaural package-gnaural-presets   # disabled because this is not yet transferred to AUR4, it seems
+build-packages: package-gnaural package-gnaural-presets
 #build-packages: package-otf-titillium                     # disabled because this is not yet transferred to AUR4, it seems
 build-packages: package-ripit
 build-packages: package-screen-message

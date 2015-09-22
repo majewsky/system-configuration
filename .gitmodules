@@ -28,3 +28,9 @@
 [submodule "broadcom-wl-dkms"]
 	path = broadcom-wl-dkms
 	url = https://aur4.archlinux.org/broadcom-wl-dkms.git/
+[submodule "gnaural"]
+	path = gnaural
+	url = https://aur4.archlinux.org/gnaural.git
+[submodule "gnaural-presets"]
+	path = gnaural-presets
+	url = https://aur4.archlinux.org/gnaural-presets.git
