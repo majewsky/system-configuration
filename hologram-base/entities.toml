@@ -1,0 +1,11 @@
+[[group]]
+name    = "sudo"
+system  = true
+
+[[user]]
+name    = "stefan"
+comment = "Stefan Majewsky"
+uid     = 1001
+group   = "users"
+groups  = ["sudo"]
+shell   = "/bin/zsh"

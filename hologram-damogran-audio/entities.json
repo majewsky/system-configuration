@@ -1,8 +1,0 @@
-{
-    "groups": [
-        { "name": "pulse", "system": true }
-    ],
-    "users": [
-        { "name": "pulse", "comment": "PulseAudio user", "group": "pulse", "groups": ["audio"] }
-    ]
-}
