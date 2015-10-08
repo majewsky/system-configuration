@@ -1,5 +1,5 @@
 pkgname='holodeck-damogran'
-pkgver=20150922
+pkgver=20151008
 pkgrel=1
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
@@ -13,6 +13,7 @@ source=(
     '.env'
     '90-firewall.conf.in'
     'dnsmasq.conf.in'
+    'dnsmasq-service.conf'
     'gummiboot-entry.conf.in'
     'gummiboot-loader.conf'
     'hostapd.conf.in'
@@ -76,6 +77,7 @@ package() {
     ln -sf /usr/lib/systemd/system/systemd-resolved.service  "${pkgdir}/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 
     install -D -m 0644 dnsmasq.conf                "${pkgdir}/usr/share/holo/repo/50-damogran/etc/dnsmasq.conf"
+    install -D -m 0644 dnsmasq-service.conf        "${pkgdir}/etc/systemd/system/dnsmasq.service.d/reorder.conf"
     install -D -m 0644 gummiboot-entry.conf        "${pkgdir}/boot/loader/entries/arch.conf"
     install -D -m 0644 gummiboot-loader.conf       "${pkgdir}/boot/loader/loader.conf"
     install -D -m 0644 hostapd.conf                "${pkgdir}/etc/hostapd/hostapd.conf"
