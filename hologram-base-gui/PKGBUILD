@@ -1,6 +1,6 @@
 pkgname='hologram-base-gui'
-pkgver='1.0.3'
-pkgrel=2
+pkgver='1.0.4'
+pkgrel=1
 pkgdesc='hologram: base GUI installation'
 arch=('any')
 url=''
@@ -44,6 +44,7 @@ package() {
         # font packages
         'adobe-source-sans-pro-fonts'
         'cantarell-fonts'
+        'otf-titillium'
         'ttf-bitstream-vera'
         'ttf-dejavu'
         'ttf-droid'
