@@ -1,5 +1,5 @@
 title     Arch Linux
-linux     /vmlinuz-linux
+linux     /vmlinuz-linux-lts
 initrd    /intel-ucode.img
-initrd    /initramfs-linux.img
+initrd    /initramfs-linux-lts.img
 options   cryptdevice=PARTUUID=${ARCTURUS_ROOT_PARTUUID}:root:allow-discards root=/dev/mapper/root rw
