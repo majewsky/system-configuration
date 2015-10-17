@@ -1,5 +1,5 @@
 pkgname='hologram-catalyst'
-pkgver=1.0.2
+pkgver=1.1.0
 pkgrel=1
 pkgdesc='hologram: enable Catalyst driver'
 arch=('any')
@@ -14,7 +14,6 @@ install='hologram-catalyst.install'
 
 build() {
     cd "${srcdir}"
-    echo 'fglrx'             > modules-load.conf
     echo 'blacklist radeon'  > modprobe.conf
     echo 'blacklist amdgpu' >> modprobe.conf # don't enable it until Catalyst is ready for it
 }
@@ -37,6 +36,5 @@ package() {
 
     install -D -m 0644 20-radeon.conf                     "${pkgdir}/etc/X11/xorg.conf.d/20-radeon.conf"
     install -D -m 0644 modprobe.conf                      "${pkgdir}/etc/modprobe.d/catalyst.conf"
-    install -D -m 0644 modules-load.conf                  "${pkgdir}/etc/modules-load.d/catalyst.conf"
     install -D -m 0755 systemd-boot-entry.conf.holoscript "${pkgdir}/usr/share/holo/repo/20-catalyst/boot/loader/entries/arch.conf.holoscript"
 }
