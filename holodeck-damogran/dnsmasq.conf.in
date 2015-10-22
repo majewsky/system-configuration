@@ -5,11 +5,12 @@ except-interface=${DAMOGRAN_IFACE_WAN}
 # allocate IPv4 ranges for DHCP
 dhcp-range=${DAMOGRAN_NET_LAN}.100,${DAMOGRAN_NET_LAN}.199,12h
 dhcp-range=${DAMOGRAN_NET_WLAN}.100,${DAMOGRAN_NET_WLAN}.199,12h
+# assign a static IP address to Krikkit
+dhcp-host=${KRIKKIT_MACADDR_LAN},${DAMOGRAN_NET_LAN}.3
 
 # obtain upstream DNS from systemd-resolved
 resolv-file=/run/systemd/resolve/resolv.conf
 # local DNS overrides
 address=/damogran.local/${DAMOGRAN_NET_LAN}.1
 address=/arcturus.local/${DAMOGRAN_NET_LAN}.2
-address=/krikkit.local/${DAMOGRAN_NET_WLAN}.3
-address=/magrathea.local/${DAMOGRAN_NET_LAN}.4
+address=/krikkit.local/${DAMOGRAN_NET_LAN}.3

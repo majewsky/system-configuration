@@ -1,5 +1,5 @@
 pkgname='holodeck-damogran'
-pkgver=20151008
+pkgver=20151021
 pkgrel=1
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
