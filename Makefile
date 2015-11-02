@@ -17,7 +17,6 @@ HOLOBUILD_HOLOGRAMS = $(patsubst %.toml,%-toml,$(wildcard holo*.toml))
 .PHONY: $(MAKEPKG_HOLOGRAMS)
 
 build-holograms: $(MAKEPKG_HOLOGRAMS) $(HOLOBUILD_HOLOGRAMS)
-	@echo $^
 
 %-toml: %.toml
 	@cd repo && perl ../build_package_with_holo.pl ../$<
