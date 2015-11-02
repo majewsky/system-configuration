@@ -1,0 +1,39 @@
+[package]
+name        = "holodeck-krikkit"
+version     = "20151102-1"
+description = "Holodeck: services on Krikkit"
+requires    = [
+    "holo",
+    "hologram-kde-desktop",
+    "hologram-dev-tools",
+    "hologram-games",
+    "hologram-dtp",
+    # hardware support
+    "intel-ucode",
+    "xf86-video-intel",
+    "xf86-input-synaptics",
+    "libva-intel-driver",
+    # applications
+    "mpd",
+    "openvpn",
+    "pkgfile",
+    "plasma-nm",
+    "skype",
+    "virtualbox",
+]
+# TODO: holo-build should set this up itself
+setupScript = "holo apply"
+cleanupScript = "holo apply"
+
+[[file]]
+path    = "/etc/hostname"
+content = "krikkit"
+
+# TODO: offer native entity handling in holo-build
+[[file]]
+path    = "/usr/share/holo/50-krikkit.toml"
+content = """
+[[user]]
+name = "stefan"
+groups = ["vboxusers"]
+"""

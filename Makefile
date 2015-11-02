@@ -12,12 +12,18 @@ create-repo: build-packages
 ################################################################################
 # compile holograms
 
-SUBDIRS = $(wildcard holo*)
-.PHONY: $(SUBDIRS)
-build-holograms: $(SUBDIRS)
+MAKEPKG_HOLOGRAMS   = $(dir $(wildcard holo*/PKGBUILD))
+HOLOBUILD_HOLOGRAMS = $(patsubst %.toml,%-toml,$(wildcard holo*.toml))
+.PHONY: $(MAKEPKG_HOLOGRAMS)
 
-$(SUBDIRS):
-	@cd $@ && perl ../build_package.pl $@
+build-holograms: $(MAKEPKG_HOLOGRAMS) $(HOLOBUILD_HOLOGRAMS)
+	@echo $^
+
+%-toml: %.toml
+	@cd repo && perl ../build_package_with_holo.pl ../$<
+
+$(MAKEPKG_HOLOGRAMS): .env
+	@cd $@ && perl ../build_package.pl $(patsubst %/,%,$@)
 
 ################################################################################
 # compile AUR packages
