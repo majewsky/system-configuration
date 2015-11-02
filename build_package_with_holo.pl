@@ -19,6 +19,9 @@ while (<$fh>) {
    elsif (/^\s*version\s*=\s*"(.+?)"\s*$/) {
       $pkgver = $1;
    }
+   elsif (/^\[(?!package)/) {
+      last;
+   }
 }
 close($fh);
 

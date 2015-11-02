@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151102-1"
+version     = "20151102-5"
 description = "Holodeck: services on Krikkit"
 requires    = [
     "holo",
@@ -30,10 +30,28 @@ path    = "/etc/hostname"
 content = "krikkit"
 
 # TODO: offer native entity handling in holo-build
+# enable VirtualBox for my user account
 [[file]]
 path    = "/usr/share/holo/50-krikkit.toml"
 content = """
 [[user]]
 name = "stefan"
 groups = ["vboxusers"]
+"""
+
+# /etc/pulse/default.pa: disable corking which would mute MPD while Mumble or Skype are running
+[[file]]
+path = "/usr/share/holo/repo/50-krikkit/etc/pulse/default.pa.holoscript"
+mode = "0755"
+content = """
+#!/bin/sh
+sed '/load-module module-role-cork/d'
+"""
+
+[[file]]
+path = "/etc/systemd/logind.conf.d/no-magic-suspend.conf"
+content = """
+[Login]
+HandlePowerKey=ignore
+HandleLidSwitch=ignore
 """
