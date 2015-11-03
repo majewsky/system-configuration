@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151103-1"
+version     = "20151103-3"
 description = "Holodeck: services on Krikkit"
 requires    = [
     "holo",
@@ -47,6 +47,32 @@ content = """
 name = "stefan"
 groups = ["vboxusers"]
 """
+
+# Xorg: enable palm detection on touchpad
+[[file]]
+path    = "/etc/X11/xorg.conf.d/52-palm-detection.conf"
+content = """
+Section "InputClass"
+    Identifier "touchpad enable palm detection"
+    Driver "synaptics"
+    MatchIsTouchpad "on"
+    MatchDevicePath "/dev/input/event*"
+    Option "PalmDetect" "on"
+    Option "PalmMinWidth" "4"
+    Option "PalmMinZ" "1"
+EndSection
+"""
+
+# enable NetworkManager.service
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+target = "/usr/lib/systemd/system/NetworkManager.service"
+[[symlink]]
+path   = "/etc/systemd/system/dbus-org.freedesktop.NetworkManager.service"
+target = "/usr/lib/systemd/system/NetworkManager.service"
+[[symlink]]
+path   = "/etc/systemd/system/dbus-org.freedesktop.nm-dispatcher.service"
+target = "/usr/lib/systemd/system/NetworkManager-dispatcher.service"
 
 # /etc/pulse/default.pa: disable corking which would mute MPD while Mumble or Skype are running
 [[file]]
