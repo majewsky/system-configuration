@@ -1,5 +1,5 @@
 pkgname='hologram-base'
-pkgver=20150930
+pkgver=20151103
 pkgrel=1
 pkgdesc='hologram: base installation'
 arch=('any')

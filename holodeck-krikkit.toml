@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151102-5"
+version     = "20151103-1"
 description = "Holodeck: services on Krikkit"
 requires    = [
     "holo",
@@ -14,11 +14,13 @@ requires    = [
     "xf86-input-synaptics",
     "libva-intel-driver",
     # applications
+    "libreoffice-still",
     "mpd",
     "openvpn",
     "pkgfile",
     "plasma-nm",
     "skype",
+    "lib32-libcanberra", # optional dep for Skype
     "virtualbox",
 ]
 # TODO: holo-build should set this up itself
@@ -28,6 +30,13 @@ cleanupScript = "holo apply"
 [[file]]
 path    = "/etc/hostname"
 content = "krikkit"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = """
+export PRETTYPROMPT_COMMONUSER=stefan
+export PRETTYPROMPT_HOSTCOLOR='0;32'
+"""
 
 # TODO: offer native entity handling in holo-build
 # enable VirtualBox for my user account
