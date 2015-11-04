@@ -9,8 +9,8 @@ use IPC::Open2;
 # the first argument is the package definition file
 my $filename = shift @ARGV;
 
-# read file for package name, version
-my ($pkgname, $pkgver) = (undef, undef);
+# read file for package name, version (TODO: recognize epoch)
+my ($pkgname, $pkgver, $pkgrel) = (undef, undef, 1);
 open my $fh, '<', $filename;
 while (<$fh>) {
    if (/^\s*name\s*=\s*"(.+?)"\s*$/) {
@@ -18,6 +18,9 @@ while (<$fh>) {
    }
    elsif (/^\s*version\s*=\s*"(.+?)"\s*$/) {
       $pkgver = $1;
+   }
+   elsif (/^\s*release\s*=\s*(\d+?)\s*$/) {
+      $pkgrel = $1;
    }
    elsif (/^\[(?!package)/) {
       last;
@@ -33,7 +36,7 @@ system("holo-build <$filename");
 ################################################################################
 # clean earlier versions of this package
 
-my $package_file = "$pkgname-$pkgver-any.pkg.tar.xz";
+my $package_file = "$pkgname-$pkgver-$pkgrel-any.pkg.tar.xz";
 for my $other_file (glob("$pkgname-*.pkg.tar.xz")) {
    # check that this is not the latest version of the package
    next if $other_file eq $package_file;
