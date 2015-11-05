@@ -13,12 +13,12 @@ create-repo: build-packages
 # compile holograms
 
 MAKEPKG_HOLOGRAMS   = $(dir $(wildcard holo*/PKGBUILD))
-HOLOBUILD_HOLOGRAMS = $(patsubst %.toml,%-toml,$(wildcard holo*.toml))
+HOLOBUILD_HOLOGRAMS = $(patsubst %.pkg.toml,%-pkg-toml,$(wildcard holo*.pkg.toml))
 .PHONY: $(MAKEPKG_HOLOGRAMS)
 
 build-holograms: $(MAKEPKG_HOLOGRAMS) $(HOLOBUILD_HOLOGRAMS)
 
-%-toml: %.toml
+%-pkg-toml: %.pkg.toml
 	@cd repo && perl ../build_package_with_holo.pl ../$<
 
 $(MAKEPKG_HOLOGRAMS): .env
