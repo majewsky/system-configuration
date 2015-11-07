@@ -14,5 +14,6 @@ pkg/
 src/
 
 .env
+build/
 repo/*.pkg.tar.xz
 repo/holo.db*
