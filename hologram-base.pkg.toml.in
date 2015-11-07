@@ -1,0 +1,219 @@
+[package]
+name    = "hologram-base"
+version = "20151103"
+release = 2
+description = "hologram: base installation"
+
+requires = [
+    "group:base", "except:netctl",
+    "group:base-devel",
+    # system components
+    "haveged",
+    "hologram-openssh",
+    # assorted CLI tools
+    "ack",
+    "acpi",
+    "atop",
+    "dnsutils",
+    "dosfstools",     # mkfs.vfat
+    "git",
+    "gptfdisk",
+    "hdparm",
+    "htop",
+    "inotify-tools",
+    "iperf",
+    "irssi",
+    "iw",
+    "lsof",
+    "net-tools",      # netstat
+    "nmap",           # ncat
+    "optipng",
+    "pacgraph",
+    "pwgen",
+    "smartmontools",
+    "rsync",
+    "screen",
+    "strace",
+    "sshfs",
+    "sudo",
+    "tcpdump",
+    "traceroute",
+    "tree",
+    "units",
+    "unrar",
+    "unzip",
+    "vim",
+    "wget",
+    "whois",
+    "yaourt",
+    "zip",
+    "zsh",
+]
+
+setupScript = "locale-gen"
+
+# entities
+[[file]]
+path    = "/usr/share/holo/00-base.toml"
+content = """
+    [[group]]
+    name    = "sudo"
+    system  = true
+
+    [[user]]
+    name    = "stefan"
+    comment = "Stefan Majewsky"
+    uid     = 1001
+    group   = "users"
+    groups  = ["sudo"]
+    shell   = "/bin/zsh"
+"""
+
+# haveged
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/haveged.service"
+target = "/usr/lib/systemd/system/haveged.service"
+
+# locale
+[[file]]
+path    = "/etc/locale.conf"
+content = """
+    LANG=de_DE.UTF-8
+    LC_MESSAGES=C
+"""
+
+[[file]]
+path    = "/usr/share/holo/repo/00-base/etc/locale.gen"
+content = """
+    de_DE.UTF-8 UTF-8
+    en_US.UTF-8 UTF-8
+"""
+
+[[symlink]]
+path   = "/etc/localtime"
+target = "/usr/share/zoneinfo/Europe/Berlin"
+
+[[file]]
+path    = "/etc/vconsole.conf"
+content = """
+    KEYMAP=de-latin1-nodeadkeys
+"""
+
+# pacman
+[[file]]
+path    = "/usr/share/holo/repo/00-base/etc/pacman.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    sed '
+        # enable additional options
+        s/^#\(Color\|VerbosePkgLists\)$/\1/
+
+        # enable multilib repo
+        /^#\[multilib]/,/^$/s/^#//
+    '
+
+    # add holo repo
+    echo
+    echo '[holo]'
+    echo 'SigLevel = Optional TrustAll'
+    echo 'Server = http://${DAMOGRAN_HTTP_STATIC_DOMAIN}/repo'
+'''
+
+[[file]]
+path    = "/usr/share/holo/repo/00-base/etc/pacman.d/mirrorlist.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    # choose some German mirrors randomly (rankmirrors is better, but slows down `holo apply` too much)
+    sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d' | sort -R
+"""
+
+# sudo
+[[file]]
+path    = "/usr/share/holo/repo/00-base/etc/sudoers"
+mode    = "0440"
+content = """
+    root    ALL=(ALL) ALL
+    %sudo   ALL=(ALL) ALL
+
+    Defaults env_keep+="http_proxy https_proxy ftp_proxy all_proxy socks_proxy no_proxy"
+"""
+
+# systemd-journald
+[[file]]
+path    = "/etc/systemd/journald.conf.d/hologram-base.conf"
+content = """
+    [Journal]
+    # setup volatile storage
+    Storage=volatile
+    RuntimeMaxUse=100M
+    # setup forwarding to tty12
+    ForwardToConsole=yes
+    TTYPath=/dev/tty12
+    MaxLevelConsole=info
+"""
+
+# systemd-networkd
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-networkd.service"
+target = "/usr/lib/systemd/system/systemd-networkd.service"
+
+# systemd-timesyncd
+[[file]]
+path    = "/etc/systemd/timesyncd.conf.d/hologram-base.conf"
+content = """
+    [Time]
+    NTP=ptbtime1.ptb.de
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
+target = "/usr/lib/systemd/system/systemd-timesyncd.service"
+
+# home directory including SSH keys
+[[directory]]
+path  = "/home/stefan"
+mode  = "0700"
+owner = "stefan"
+group = "users"
+
+[[directory]]
+path  = "/home/stefan/.ssh"
+mode  = "0700"
+owner = "stefan"
+group = "users"
+
+[[file]]
+path    = "/home/stefan/.ssh/authorized_keys"
+mode    = "0600"
+owner   = "stefan"
+group   = "users"
+content = "${AUTHORIZED_KEYS}"
+
+# development environment bootstrapping
+[[directory]]
+path  = "/home/stefan.devenv"
+mode  = "0700"
+owner = "stefan"
+group = "users"
+
+[[directory]]
+path  = "/home/stefan.devenv/build"
+owner = "stefan"
+group = "users"
+
+[[file]]
+path  = "/home/stefan.devenv/bootstrap.sh"
+mode  = "0755"
+owner = "stefan"
+group = "users"
+content = """
+    #!/bin/sh
+    set -e
+    if [ ! -d /home/stefan.devenv/repo/.git ]; then
+        git clone https://github.com/majewsky/devenv.git /home/stefan.devenv/repo
+    fi
+    cd /home/stefan.devenv/repo
+    ./setup.sh install-core
+"""
