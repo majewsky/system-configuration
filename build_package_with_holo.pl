@@ -46,7 +46,7 @@ for my $other_file (glob("$pkgname-*.pkg.tar.xz")) {
    # whose name starts with that of the current package (globs can't tell that
    # apart)
    next if $other_file !~ m{^\Q$pkgname\E-[0-9.]+-[0-9]+-.*\.pkg\.tar\.xz};
-   say "Cleaning up $other_file (looks like an old version of $pkgname-$pkgver)";
+   say "Cleaning up $other_file (looks like an old version of $pkgname-$pkgver-$pkgrel)";
    unlink $other_file;
 }
 

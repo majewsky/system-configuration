@@ -1,0 +1,47 @@
+[package]
+name        = "hologram-kde-desktop"
+version     = "1.0.4"
+description = "hologram: GUI installation with KDE Plasma desktop"
+
+requires = [
+    "hologram-base-gui",
+    # display manager
+    "sddm",
+    # desktop
+    "group:plasma", "except:bluedevil", "except:plasma-nm", "except:ksshaskpass",
+    "breeze-kde4",
+    "gtk-theme-orion",
+    "gst-plugins-good", # optional: for WebM support in qt5-webkit
+    "mariadb",          # optional: for Akonadi
+    # applications
+    "ark",
+    "dolphin",
+    "gwenview",
+    "filelight",
+    "kcharselect",
+    "kdegraphics-kcolorchooser",
+    "kdeutils-kgpg",
+    "kid3",
+    "kmix",
+    "kdegraphics-kolourpaint",
+    "konsole",
+    "kruler",
+    "kdegraphics-ksnapshot",
+    "kwalletmanager",
+    "yakuake",
+]
+
+[[file]]
+path    = "/etc/sddm.conf"
+content = """
+    [Autologin]
+    User=stefan
+    Session=plasma.desktop
+
+    [Theme]
+    Current=breeze
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/display-manager.service"
+target = "/usr/lib/systemd/system/sddm.service"
