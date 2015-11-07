@@ -29,14 +29,16 @@ while (<$fh>) {
 close($fh);
 
 ################################################################################
-# build package (we're running inside the repo directory, so auto-output is fine)
+# build package if it's not yet there
+#
+# (we're running inside the repo directory, so auto-output is fine)
 
-system("holo-build <$filename");
+my $package_file = "$pkgname-$pkgver-$pkgrel-any.pkg.tar.xz";
+system("holo-build <$filename") unless -f $package_file;
 
 ################################################################################
 # clean earlier versions of this package
 
-my $package_file = "$pkgname-$pkgver-$pkgrel-any.pkg.tar.xz";
 for my $other_file (glob("$pkgname-*.pkg.tar.xz")) {
    # check that this is not the latest version of the package
    next if $other_file eq $package_file;
