@@ -1,0 +1,22 @@
+[package]
+name        = "hologram-dev-tools"
+version     = "1.0.3"
+description = "hologram: compilers and development tools"
+
+requires = [
+    "apitrace",
+    "arch-install-scripts",
+    "automoc4",
+    "cmake",
+    "cloc",
+    "cpanminus",
+    "doxygen",
+    "gdb",
+    "go",
+    "perl-ipc-system-simple", # required for build_package.pl in this repo
+    "perl-term-readkey",      # required for "interactive.singlekey" config of Git
+    "pkgbuild-introspection",
+    "rust",
+    "sloccount",
+    "valgrind",
+]
