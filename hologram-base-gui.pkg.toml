@@ -1,0 +1,50 @@
+[package]
+name        = "hologram-base-gui"
+version     = "1.0.5"
+description = "hologram: base GUI installation"
+
+requires = [
+    "hologram-base",
+    "hologram-multimedia-base",
+    "xorg-server",
+    # assorted GUI apps
+    "group:xorg-apps",
+    "cutegram",
+    "firefox",
+    "graphviz",
+    "gnaural",
+    "gnaural-presets",
+    "gnuplot",
+    "inkscape",
+    "livestreamer",
+    "mesa-demos",
+    "mumble",
+    "mupdf",
+    "qgit",
+    "paprefs",
+    "pavucontrol",
+    "pidgin-otr", # includes pidgin
+    "screen-message",
+    "sxiv",
+    "thunderbird",
+    "tk", # for gitk and git-gui
+    "vimprobable2",
+    "vlc",
+    "xsel",
+    # helper packages (icons, codecs, etc.)
+    "aspell-de",  # to silence complaints in gitk about missing spell check dict
+    "gstreamer0.10-ffmpeg",
+    "human-icon-theme",
+    # font packages
+    "adobe-source-sans-pro-fonts",
+    "cantarell-fonts",
+    "otf-titillium",
+    "ttf-bitstream-vera",
+    "ttf-dejavu",
+    "ttf-droid",
+    "ttf-freefont",
+    "ttf-liberation",
+    "ttf-linux-libertine",
+    "ttf-oxygen",
+    "ttf-ubuntu-font-family",
+]
