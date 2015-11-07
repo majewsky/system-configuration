@@ -1,0 +1,66 @@
+[package]
+name        = "hologram-openssh"
+version     = "1.2.2"
+description = "hologram: hardened OpenSSH server"
+requires    = [ "openssh" ]
+
+# enable SSH daemon
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/sshd.service"
+target = "/usr/lib/systemd/system/sshd.service"
+
+# extend the default SSH configuration with recommendations from
+# https://stribika.github.io/2015/01/04/secure-secure-shell.html
+[[file]]
+path   = "/usr/share/holo/repo/10-openssh/etc/ssh/sshd_config.holoscript"
+mode   = "0755"
+content = """
+    #!/bin/sh
+    cat
+    cat <<-'EOF'
+
+    # custom settings
+    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+
+    Protocol 2
+    HostKey /etc/ssh/ssh_host_ed22519_key
+    HostKey /etc/ssh/ssh_host_rsa_key
+
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    PubkeyAuthentication yes
+
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+    EOF
+"""
+
+# filter weak moduli
+[[file]]
+path   = "/usr/share/holo/repo/10-openssh/etc/ssh/moduli.holoscript"
+mode   = "0755"
+content = """
+    #!/usr/bin/awk -f
+    $5 > 2000
+"""
+
+# disable weak host keys by placing invalid symlinks at their location
+[[symlink]]
+path   = "/etc/ssh/ssh_host_key"
+target = "ssh_host_key"
+[[symlink]]
+path   = "/etc/ssh/ssh_host_key.pub"
+target = "ssh_host_key.pub"
+[[symlink]]
+path   = "/etc/ssh/ssh_host_dsa_key"
+target = "ssh_host_dsa_key"
+[[symlink]]
+path   = "/etc/ssh/ssh_host_dsa_key.pub"
+target = "ssh_host_dsa_key.pub"
+[[symlink]]
+path   = "/etc/ssh/ssh_host_ecdsa_key"
+target = "ssh_host_ecdsa_key"
+[[symlink]]
+path   = "/etc/ssh/ssh_host_ecdsa_key.pub"
+target = "ssh_host_ecdsa_key.pub"

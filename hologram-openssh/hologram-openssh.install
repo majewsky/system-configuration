@@ -1,6 +1,0 @@
-post_install() {
-    holo apply
-}
-post_upgrade() {
-    post_install
-}
