@@ -1,0 +1,18 @@
+[package]
+name        = "hologram-games"
+version     = "1.0.1"
+description = "hologram: games selection"
+
+requires = [
+    # for Minecraft
+    "jre7-openjdk",
+    # Steam and support libraries
+    "steam",
+    "lib32-alsa-plugins",
+    "lib32-libpulse",
+    # assorted games
+    "hedgewars",
+    "openttd",
+    "openttd-opengfx",
+    "openttd-opensfx",
+]
