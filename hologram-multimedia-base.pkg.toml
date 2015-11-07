@@ -1,0 +1,38 @@
+[package]
+name        = "hologram-multimedia-base"
+version     = "1.0.3"
+description = "hologram: basic multimedia software collection (no GUI required)"
+
+requires = [
+    # PulseAudio-over-network capabilities
+    "avahi",
+    "pulseaudio",
+    "pulseaudio-alsa",
+    "pulseaudio-zeroconf",
+    # clients
+    "mpc",
+    "mpv",
+    "ncmpcpp",
+    # tools
+    "mp3splt", # contains oggsplt
+    "opus-tools",
+    "ripit",
+    "vorbis-tools",
+    "vorbisgain",
+    "youtube-dl",
+    "rtmpdump", # optional for youtube-dl
+]
+
+# NOTE: PulseAudio is usually activated on demand by the user session;
+# hologram-damogran-audio adds explicit activation logic for its PulseAudio
+
+# "PulseAudio over network" uses Avahi for service discovery
+[[symlink]]
+path   = "/etc/systemd/system/dbus-org.freedesktop.Avahi.service"
+target = "/usr/lib/systemd/system/avahi-daemon.service"
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/avahi-daemon.service"
+target = "/usr/lib/systemd/system/avahi-daemon.service"
+[[symlink]]
+path   = "/etc/systemd/system/sockets.target.wants/avahi-daemon.socket"
+target = "/usr/lib/systemd/system/avahi-daemon.socket"
