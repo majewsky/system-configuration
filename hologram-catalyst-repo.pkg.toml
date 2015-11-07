@@ -1,0 +1,20 @@
+[package]
+name = "hologram-catalyst-repo"
+version = "1.0.2"
+description = "hologram: enable Catalyst repository"
+requires = [ "pacman" ]
+
+# import the GPG key for the catalyst repository
+setupScript = "pacman-key -r 653C3094"
+
+# add catalyst repo to pacman.conf (before all other repos, as instructed by the Arch wiki)
+[[file]]
+path    = "/usr/share/holo/repo/20-catalyst/etc/pacman.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    echo '[catalyst]'
+    echo 'Server = http://catalyst.wirephire.com/repo/catalyst/$arch'
+    echo
+    cat
+"""
