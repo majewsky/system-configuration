@@ -1,6 +1,0 @@
-[Match]
-Name=${ARCTURUS_IFACE_WLAN}
-
-[Network]
-Address=${DAMOGRAN_NET_WLAN}.2/24
-DNS=${DAMOGRAN_NET_WLAN}.1

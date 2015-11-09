@@ -1,4 +1,0 @@
-network={
-    ssid="${DAMOGRAN_WLAN_SSID}"
-    psk="${DAMOGRAN_WLAN_PSK}"
-}

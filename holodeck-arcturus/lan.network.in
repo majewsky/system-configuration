@@ -1,7 +1,0 @@
-[Match]
-Name=en*
-
-[Network]
-Address=${DAMOGRAN_NET_LAN}.2/24
-Gateway=${DAMOGRAN_NET_LAN}.1
-DNS=${DAMOGRAN_NET_LAN}.1

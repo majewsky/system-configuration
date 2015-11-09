@@ -1,0 +1,118 @@
+[package]
+name        = "holodeck-arcturus"
+version     = "20151109"
+description = "holodeck: services on Arcturus"
+
+requires = [
+    "hologram-kde-desktop",
+    "hologram-dev-tools",
+    "hologram-games",
+    # Catalyst only works with LTS kernel
+    "linux-lts",
+    # support for Intel CPU/GPU
+    "intel-ucode",
+    "xf86-video-intel",
+    "libva-intel-driver",
+    # network setup
+    "broadcom-wl-dkms", # closed source driver because Linux kernel does not support my Wifi module
+    "linux-headers",    # optional dep for broadcom-wl-dkms
+    "wpa_supplicant",
+]
+
+# setup script is required because mkinitcpio.conf is being modified by this package
+setupScript = """
+    mkinitcpio -p linux
+    mkinitcpio -p linux-lts
+"""
+
+# identity
+
+[[file]]
+path    = "/etc/hostname"
+content = "arcturus"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = """
+    export PRETTYPROMPT_COMMONUSER=stefan
+    export PRETTYPROMPT_HOSTCOLOR='0;37'
+"""
+
+# boot loader (systemd-boot with encrypted root filesystem)
+
+[[file]]
+path    = "/boot/loader/loader.conf"
+content = """
+    default arch
+    timeout 2
+"""
+
+[[file]]
+path    = "/boot/loader/entries/arch.conf"
+content = """
+    title     Arch Linux
+    linux     /vmlinuz-linux-lts
+    initrd    /intel-ucode.img
+    initrd    /initramfs-linux-lts.img
+    options   cryptdevice=PARTUUID=${ARCTURUS_ROOT_PARTUUID}:root:allow-discards root=/dev/mapper/root rw
+"""
+
+[[file]]
+path    = "/usr/share/holo/repo/50-arcturus/etc/mkinitcpio.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/bash
+    sed '
+        s/^HOOKS=.*$/HOOKS="base udev autodetect modconf block keymap keyboard encrypt filesystems fsck"/
+    '
+"""
+
+# network setup: systemd-networkd
+
+[[file]]
+path    = "/etc/systemd/network/lan.network"
+content = """
+    [Match]
+    Name=en*
+
+    [Network]
+    Address=${DAMOGRAN_NET_LAN}.2/24
+    Gateway=${DAMOGRAN_NET_LAN}.1
+    DNS=${DAMOGRAN_NET_LAN}.1
+"""
+
+[[file]]
+path    = "/etc/systemd/network/wlan.network"
+content = """
+    [Match]
+    Name=${ARCTURUS_IFACE_WLAN}
+
+    [Network]
+    Address=${DAMOGRAN_NET_WLAN}.2/24
+    DNS=${DAMOGRAN_NET_WLAN}.1
+"""
+
+# network setup: systemd-resolved
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
+target = "/usr/lib/systemd/system/systemd-resolved.service"
+
+[[symlink]]
+path   = "/usr/share/holo/repo/50-arcturus/etc/resolv.conf"
+target = "/run/systemd/resolve/resolv.conf"
+
+# network setup: wpa_supplicant
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@${ARCTURUS_IFACE_WLAN}.service"
+target = "/usr/lib/systemd/system/wpa_supplicant@.service"
+
+[[file]]
+path    = "/etc/wpa_supplicant/wpa_supplicant-${ARCTURUS_IFACE_WLAN}.conf"
+content = """
+    network={
+        ssid="${DAMOGRAN_WLAN_SSID}"
+        psk="${DAMOGRAN_WLAN_PSK}"
+    }
+"""
