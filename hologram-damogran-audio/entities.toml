@@ -1,9 +1,0 @@
-[[group]]
-name    = "pulse"
-system  = true
-
-[[user]]
-name    = "pulse"
-comment = "PulseAudio user"
-group   = "pulse"
-groups  = ["audio"]
