@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-games"
-version     = "1.0.1"
+version     = "1.1.0"
 description = "hologram: games selection"
 
 requires = [
@@ -16,3 +16,12 @@ requires = [
     "openttd-opengfx",
     "openttd-opensfx",
 ]
+
+# enable gamepad emulation for Steam controller; source:
+# https://steamcommunity.com/app/353370/discussions/0/490123197956024380/
+
+[[file]]
+path = "/etc/udev/rules.d/81-steam-controller.rules"
+content = """
+    KERNEL=="uinput", MODE="0660", GROUP="users", OPTIONS+="static_node=uinput"
+"""
