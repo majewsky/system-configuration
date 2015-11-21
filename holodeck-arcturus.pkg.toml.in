@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20151109"
+version     = "20151121"
 release     = 2
 description = "holodeck: services on Arcturus"
 
@@ -8,8 +8,6 @@ requires = [
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",
-    # Catalyst only works with LTS kernel
-    "linux-lts",
     # support for Intel CPU/GPU
     "intel-ucode",
     "xf86-video-intel",
@@ -21,10 +19,7 @@ requires = [
 ]
 
 # setup script is required because mkinitcpio.conf is being modified by this package
-setupScript = """
-    mkinitcpio -p linux
-    mkinitcpio -p linux-lts
-"""
+setupScript = "mkinitcpio -p linux"
 
 # identity
 
@@ -52,9 +47,9 @@ content = """
 path    = "/boot/loader/entries/arch.conf"
 content = """
     title     Arch Linux
-    linux     /vmlinuz-linux-lts
+    linux     /vmlinuz-linux
     initrd    /intel-ucode.img
-    initrd    /initramfs-linux-lts.img
+    initrd    /initramfs-linux.img
     options   cryptdevice=PARTUUID=${ARCTURUS_ROOT_PARTUUID}:root:allow-discards root=/dev/mapper/root rw
 """
 
