@@ -17,3 +17,4 @@ src/
 build/
 repo/*.pkg.tar.xz
 repo/holo.db*
+repo/holo.files*
