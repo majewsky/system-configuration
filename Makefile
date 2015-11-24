@@ -35,7 +35,6 @@ $(MAKEPKG_HOLOGRAMS): .env
 
 # These are the packages that I want.
 build-packages: package-broadcom-wl-dkms
-build-packages: package-cutegram
 build-packages: package-gnaural package-gnaural-presets
 #build-packages: package-otf-titillium # disabled because this is not yet transferred to AUR4, it seems
 build-packages: package-otf-titillium-selfpackaged
@@ -45,8 +44,6 @@ build-packages: package-vimprobable2
 build-packages: package-yaourt
 
 # These are dependencies between these packages.
-package-cutegram: package-telegramqml package-libqtelegram-ae
-package-telegramqml: package-libqtelegram-ae
 package-gnaural-presets: package-gnaural
 package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query

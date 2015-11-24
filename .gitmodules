@@ -10,15 +10,6 @@
 [submodule "perl-mp3-tag"]
 	path = perl-mp3-tag
 	url = https://aur4.archlinux.org/perl-mp3-tag.git/
-[submodule "cutegram"]
-	path = cutegram
-	url = https://aur4.archlinux.org/cutegram.git/
-[submodule "telegramqml"]
-	path = telegramqml
-	url = https://aur4.archlinux.org/telegramqml.git/
-[submodule "libqtelegram-ae"]
-	path = libqtelegram-ae
-	url = https://aur4.archlinux.org/libqtelegram-ae.git
 [submodule "screen-message"]
 	path = screen-message
 	url = https://aur4.archlinux.org/screen-message.git/
