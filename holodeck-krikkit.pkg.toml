@@ -1,10 +1,9 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151103"
-release     = 3
+version     = "20151126"
 description = "Holodeck: services on Krikkit"
 requires    = [
-    "holo",
+    "holo<0.10", # next Holo has an incompatible filesystem layout
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",

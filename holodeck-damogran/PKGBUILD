@@ -1,5 +1,5 @@
 pkgname='holodeck-damogran'
-pkgver=20151021
+pkgver=20151126
 pkgrel=1
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
@@ -52,7 +52,7 @@ build() {
 package() {
     # runtime-only dependencies
     depends+=(
-        'holo>=0.4'
+        'holo<0.10' # next Holo has an incompatible filesystem layout
         'hologram-base'
         'hologram-multimedia-base'
         'hologram-damogran-dyndns'

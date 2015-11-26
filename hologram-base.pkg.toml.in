@@ -1,10 +1,10 @@
 [package]
 name    = "hologram-base"
-version = "20151103"
-release = 2
+version = "20151126"
 description = "hologram: base installation"
 
 requires = [
+    "holo<0.10", # next Holo has an incompatible filesystem layout
     "group:base", "except:netctl",
     "group:base-devel",
     # system components

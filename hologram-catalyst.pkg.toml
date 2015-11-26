@@ -1,10 +1,10 @@
 [package]
 name        = "hologram-catalyst"
-version     = "1.1.3"
+version     = "1.1.4"
 description = "hologram: Catalyst driver"
 
 requires = [
-    "holo>=0.4",
+    "holo<0.10", # next Holo has an incompatible filesystem layout
     "hologram-catalyst-repo",
     "catalyst-hook",
     "catalyst-libgl",

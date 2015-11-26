@@ -1,8 +1,11 @@
 [package]
 name = "hologram-catalyst-repo"
-version = "1.1.0"
+version = "1.1.1"
 description = "hologram: enable Catalyst repository"
-requires = [ "pacman" ]
+requires = [
+    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "pacman",
+]
 
 # import the GPG key for the catalyst repository
 setupScript = "pacman-key -r 653C3094"
