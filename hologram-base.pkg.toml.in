@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20151126"
+version = "20151202"
 description = "hologram: base installation"
 
 requires = [
@@ -30,6 +30,7 @@ requires = [
     "optipng",
     "pacgraph",
     "pwgen",
+    "p7zip",
     "smartmontools",
     "rsync",
     "screen",

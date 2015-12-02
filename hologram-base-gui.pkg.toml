@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.0.5"
+version     = "1.0.6"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -15,6 +15,7 @@ requires = [
     "gnaural",
     "gnaural-presets",
     "gnuplot",
+    "gvim", # esp. for X11 clipboard in CLI
     "inkscape",
     "livestreamer",
     "mesa-demos",
