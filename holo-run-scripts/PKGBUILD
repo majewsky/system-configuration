@@ -1,7 +1,7 @@
 pkgname='holo-run-scripts'
 _actual_pkgver=1.0-beta.1
 pkgver=${_actual_pkgver//-/}
-pkgrel=1
+pkgrel=2
 pkgdesc='Holo plugin for running custom provisioning scripts'
 arch=('i686' 'x86_64')
 url='http://holocm.org'
@@ -10,6 +10,7 @@ depends=(
     'HOLO_API_VERSION=1'
 )
 makedepends=('perl')
+install='holo-run-scripts.install'
 source=("https://github.com/holocm/${pkgname}/archive/v${_actual_pkgver}.tar.gz")
 md5sums=('05d77cca7a7a6240eaf4c09492baa31a')
 

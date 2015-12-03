@@ -1,7 +1,7 @@
 pkgname='holo-users-groups'
 _actual_pkgver=1.0-beta.1
 pkgver=${_actual_pkgver//-/}
-pkgrel=2
+pkgrel=3
 pkgdesc='Holo plugin for provisioning user accounts and groups'
 arch=('i686' 'x86_64')
 url='http://holocm.org'
@@ -11,6 +11,7 @@ depends=(
     'shadow'
 )
 makedepends=('go' 'perl')
+install='holo-users-groups.install'
 source=("https://github.com/holocm/${pkgname}/releases/download/v${_actual_pkgver}/${pkgname}-${_actual_pkgver}.tar.gz")
 md5sums=('a65d6df7f843db7055491de0a4a3831a')
 
