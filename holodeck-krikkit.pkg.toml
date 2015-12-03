@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151203"
+version     = "20151204"
 description = "Holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",

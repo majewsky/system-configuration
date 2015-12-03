@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20151203"
+version     = "20151204"
 description = "holodeck: services on Arcturus"
 
 requires = [

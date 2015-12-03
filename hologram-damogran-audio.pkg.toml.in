@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-audio"
-version     = "1.2.3"
+version     = "1.2.4"
 description = "hologram: PulseAudio and MPD service for Damogran"
 requires    = [
     "holo>=0.10",
