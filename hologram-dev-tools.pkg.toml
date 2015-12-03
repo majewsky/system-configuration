@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.0.3"
+version     = "1.0.4"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -13,6 +13,7 @@ requires = [
     "doxygen",
     "gdb",
     "go",
+    "holo-build",
     "perl-ipc-system-simple", # required for build_package.pl in this repo
     "perl-term-readkey",      # required for "interactive.singlekey" config of Git
     "pkgbuild-introspection",

@@ -1,10 +1,10 @@
 [package]
 name    = "hologram-base"
-version = "20151202"
+version = "20151203"
 description = "hologram: base installation"
 
 requires = [
-    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "holo>=0.10",
     "group:base", "except:netctl",
     "group:base-devel",
     # system components
@@ -55,7 +55,7 @@ setupScript = "locale-gen"
 
 # entities
 [[file]]
-path    = "/usr/share/holo/00-base.toml"
+path    = "/usr/share/holo/users-groups/00-base.toml"
 content = """
     [[group]]
     name    = "sudo"
@@ -84,7 +84,7 @@ content = """
 """
 
 [[file]]
-path    = "/usr/share/holo/repo/00-base/etc/locale.gen"
+path    = "/usr/share/holo/files/00-base/etc/locale.gen"
 content = """
     de_DE.UTF-8 UTF-8
     en_US.UTF-8 UTF-8
@@ -102,7 +102,7 @@ content = """
 
 # pacman
 [[file]]
-path    = "/usr/share/holo/repo/00-base/etc/pacman.conf.holoscript"
+path    = "/usr/share/holo/files/00-base/etc/pacman.conf.holoscript"
 mode    = "0755"
 content = '''
     #!/bin/sh
@@ -122,7 +122,7 @@ content = '''
 '''
 
 [[file]]
-path    = "/usr/share/holo/repo/00-base/etc/pacman.d/mirrorlist.holoscript"
+path    = "/usr/share/holo/files/00-base/etc/pacman.d/mirrorlist.holoscript"
 mode    = "0755"
 content = """
     #!/bin/sh
@@ -132,7 +132,7 @@ content = """
 
 # sudo
 [[file]]
-path    = "/usr/share/holo/repo/00-base/etc/sudoers"
+path    = "/usr/share/holo/files/00-base/etc/sudoers"
 mode    = "0440"
 content = """
     root    ALL=(ALL) ALL

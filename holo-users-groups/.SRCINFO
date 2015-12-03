@@ -1,0 +1,17 @@
+pkgbase = holo-users-groups
+	pkgdesc = Holo plugin for provisioning user accounts and groups
+	pkgver = 1.0beta.1
+	pkgrel = 2
+	url = http://holocm.org
+	arch = i686
+	arch = x86_64
+	license = GPL3
+	makedepends = go
+	makedepends = perl
+	depends = HOLO_API_VERSION=1
+	depends = shadow
+	source = https://github.com/holocm/holo-users-groups/releases/download/v1.0-beta.1/holo-users-groups-1.0-beta.1.tar.gz
+	md5sums = a65d6df7f843db7055491de0a4a3831a
+
+pkgname = holo-users-groups
+

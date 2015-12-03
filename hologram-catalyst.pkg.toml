@@ -1,10 +1,10 @@
 [package]
 name        = "hologram-catalyst"
-version     = "1.1.4"
+version     = "1.1.5"
 description = "hologram: Catalyst driver"
 
 requires = [
-    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "holo>=0.10",
     "hologram-catalyst-repo",
     "catalyst-hook",
     "catalyst-libgl",
@@ -29,7 +29,7 @@ content = """
 
 # add "nomodeset" to kernel command line
 [[file]]
-path    = "/usr/share/holo/repo/20-catalyst/boot/loader/entries/arch.conf.holoscript"
+path    = "/usr/share/holo/files/20-catalyst/boot/loader/entries/arch.conf.holoscript"
 mode    = "0755"
 content = """
     #!/bin/sh

@@ -1,9 +1,9 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151126"
+version     = "20151203"
 description = "Holodeck: services on Krikkit"
 requires    = [
-    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "holo>=0.10",
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",
@@ -23,9 +23,6 @@ requires    = [
     "lib32-libcanberra", # optional dep for Skype
     "virtualbox",
 ]
-# TODO: holo-build should set this up itself
-setupScript = "holo apply"
-cleanupScript = "holo apply"
 
 [[file]]
 path    = "/etc/hostname"
@@ -38,10 +35,10 @@ export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;32'
 """
 
-# TODO: offer native entity handling in holo-build
+# TODO: native entity handling now offered in holo-build
 # enable VirtualBox for my user account
 [[file]]
-path    = "/usr/share/holo/50-krikkit.toml"
+path    = "/usr/share/holo/users-groups/50-krikkit.toml"
 content = """
 [[user]]
 name = "stefan"
@@ -76,7 +73,7 @@ target = "/usr/lib/systemd/system/NetworkManager-dispatcher.service"
 
 # /etc/pulse/default.pa: disable corking which would mute MPD while Mumble or Skype are running
 [[file]]
-path = "/usr/share/holo/repo/50-krikkit/etc/pulse/default.pa.holoscript"
+path = "/usr/share/holo/files/50-krikkit/etc/pulse/default.pa.holoscript"
 mode = "0755"
 content = """
 #!/bin/sh

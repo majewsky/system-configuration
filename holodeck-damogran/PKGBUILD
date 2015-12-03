@@ -1,12 +1,11 @@
 pkgname='holodeck-damogran'
-pkgver=20151126
+pkgver=20151203
 pkgrel=1
 pkgdesc='holodeck: services on Damogran'
 arch=('any')
 url=''
 license=('AGPL3')
 depends=() # runtime dependencies are listed below
-replaces=('hologram-user-dbus') # deprecated
 source=(
     # TODO: smartd to monitor RAID
     # TODO: setup for Minecraft server
@@ -52,7 +51,7 @@ build() {
 package() {
     # runtime-only dependencies
     depends+=(
-        'holo<0.10' # next Holo has an incompatible filesystem layout
+        'holo>=0.10'
         'hologram-base'
         'hologram-multimedia-base'
         'hologram-damogran-dyndns'
@@ -76,15 +75,15 @@ package() {
     ln -sf /usr/lib/systemd/system/nginx.service             "${pkgdir}/etc/systemd/system/multi-user.target.wants/nginx.service"
     ln -sf /usr/lib/systemd/system/systemd-resolved.service  "${pkgdir}/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 
-    install -D -m 0644 dnsmasq.conf                "${pkgdir}/usr/share/holo/repo/50-damogran/etc/dnsmasq.conf"
+    install -D -m 0644 dnsmasq.conf                "${pkgdir}/usr/share/holo/files/50-damogran/etc/dnsmasq.conf"
     install -D -m 0644 dnsmasq-service.conf        "${pkgdir}/etc/systemd/system/dnsmasq.service.d/reorder.conf"
     install -D -m 0644 gummiboot-entry.conf        "${pkgdir}/boot/loader/entries/arch.conf"
     install -D -m 0644 gummiboot-loader.conf       "${pkgdir}/boot/loader/loader.conf"
     install -D -m 0644 hostapd.conf                "${pkgdir}/etc/hostapd/hostapd.conf"
     install -D -m 0644 hostname                    "${pkgdir}/etc/hostname"
     install -D -m 0644 iptables.rules              "${pkgdir}/etc/iptables/iptables.rules"
-    install -D -m 0755 mkinitcpio.conf.holoscript  "${pkgdir}/usr/share/holo/repo/50-damogran/etc/mkinitcpio.conf.holoscript"
-    install -D -m 0644 nginx.conf                  "${pkgdir}/usr/share/holo/repo/50-damogran/etc/nginx/nginx.conf"
+    install -D -m 0755 mkinitcpio.conf.holoscript  "${pkgdir}/usr/share/holo/files/50-damogran/etc/mkinitcpio.conf.holoscript"
+    install -D -m 0644 nginx.conf                  "${pkgdir}/usr/share/holo/files/50-damogran/etc/nginx/nginx.conf"
     install -D -m 0644 nginx_50x.html              "${pkgdir}/etc/nginx/pages/nginx_50x.html"
     install -D -m 0755 90-firewall.conf            "${pkgdir}/etc/sysctl.d/90-firewall.conf"
     install -D -m 0755 prettyprompt.sh             "${pkgdir}/etc/profile.d/prettyprompt.sh"

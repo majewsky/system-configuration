@@ -1,9 +1,9 @@
 [package]
 name        = "hologram-damogran-audio"
-version     = "1.2.2"
+version     = "1.2.3"
 description = "hologram: PulseAudio and MPD service for Damogran"
 requires    = [
-    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "holo>=0.10",
     "mpd",
     "pulseaudio",
     "pulseaudio-zeroconf",
@@ -16,7 +16,7 @@ setupScript = "chown -R pulse:pulse /home/pulse"
 # that services come up automatically on boot
 
 [[file]]
-path = "/usr/share/holo/50-damogran-audio.toml"
+path = "/usr/share/holo/users-groups/50-damogran-audio.toml"
 content = """
     [[group]]
     name    = "pulse"
@@ -41,7 +41,7 @@ contentFrom = "/dev/null" # empty file
 # enable network access for PulseAudio
 
 [[file]]
-path = "/usr/share/holo/repo/50-damogran/etc/pulse/default.pa.holoscript"
+path = "/usr/share/holo/files/50-damogran/etc/pulse/default.pa.holoscript"
 mode = "0755"
 content = """
 #!/bin/sh

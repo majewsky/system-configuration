@@ -1,0 +1,32 @@
+pkgname='holo-users-groups'
+_actual_pkgver=1.0-beta.1
+pkgver=${_actual_pkgver//-/}
+pkgrel=2
+pkgdesc='Holo plugin for provisioning user accounts and groups'
+arch=('i686' 'x86_64')
+url='http://holocm.org'
+license=('GPL3')
+depends=(
+    'HOLO_API_VERSION=1'
+    'shadow'
+)
+makedepends=('go' 'perl')
+source=("https://github.com/holocm/${pkgname}/releases/download/v${_actual_pkgver}/${pkgname}-${_actual_pkgver}.tar.gz")
+md5sums=('a65d6df7f843db7055491de0a4a3831a')
+
+build() {
+    cd "${srcdir}/${pkgname}-${_actual_pkgver}"
+    make
+}
+
+check() {
+    cd "${srcdir}/${pkgname}-${_actual_pkgver}"
+    # fix a wrong path in the Makefile
+    sed -i 's+holo-test+/usr/lib/holo/holo-test+' Makefile
+    make check
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${_actual_pkgver}"
+    make install DESTDIR="${pkgdir}"
+}

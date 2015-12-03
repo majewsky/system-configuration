@@ -1,9 +1,9 @@
 [package]
 name        = "hologram-openssh"
-version     = "1.2.3"
+version     = "1.2.4"
 description = "hologram: hardened OpenSSH server"
 requires    = [
-    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "holo>=0.10",
     "openssh",
 ]
 
@@ -15,7 +15,7 @@ target = "/usr/lib/systemd/system/sshd.service"
 # extend the default SSH configuration with recommendations from
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
 [[file]]
-path   = "/usr/share/holo/repo/10-openssh/etc/ssh/sshd_config.holoscript"
+path   = "/usr/share/holo/files/10-openssh/etc/ssh/sshd_config.holoscript"
 mode   = "0755"
 content = """
     #!/bin/sh
@@ -41,7 +41,7 @@ content = """
 
 # filter weak moduli
 [[file]]
-path   = "/usr/share/holo/repo/10-openssh/etc/ssh/moduli.holoscript"
+path   = "/usr/share/holo/files/10-openssh/etc/ssh/moduli.holoscript"
 mode   = "0755"
 content = """
     #!/usr/bin/awk -f

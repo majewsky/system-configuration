@@ -1,10 +1,10 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20151126"
+version     = "20151203"
 description = "holodeck: services on Arcturus"
 
 requires = [
-    "holo<0.10", # next Holo has an incompatible filesystem layout
+    "holo>=0.10",
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",
@@ -54,7 +54,7 @@ content = """
 """
 
 [[file]]
-path    = "/usr/share/holo/repo/50-arcturus/etc/mkinitcpio.conf.holoscript"
+path    = "/usr/share/holo/files/50-arcturus/etc/mkinitcpio.conf.holoscript"
 mode    = "0755"
 content = """
     #!/bin/bash
@@ -95,7 +95,7 @@ path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 target = "/usr/lib/systemd/system/systemd-resolved.service"
 
 [[symlink]]
-path   = "/usr/share/holo/repo/50-arcturus/etc/resolv.conf"
+path   = "/usr/share/holo/files/50-arcturus/etc/resolv.conf"
 target = "/run/systemd/resolve/resolv.conf"
 
 # network setup: wpa_supplicant
