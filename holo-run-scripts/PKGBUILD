@@ -1,9 +1,8 @@
 pkgname='holo-run-scripts'
-_actual_pkgver=1.0-beta.1
-pkgver=${_actual_pkgver//-/}
-pkgrel=2
+pkgver=1.0
+pkgrel=1
 pkgdesc='Holo plugin for running custom provisioning scripts'
-arch=('i686' 'x86_64')
+arch=('any')
 url='http://holocm.org'
 license=('GPL3')
 depends=(
@@ -11,17 +10,15 @@ depends=(
 )
 makedepends=('perl')
 install='holo-run-scripts.install'
-source=("https://github.com/holocm/${pkgname}/archive/v${_actual_pkgver}.tar.gz")
-md5sums=('05d77cca7a7a6240eaf4c09492baa31a')
+source=("https://github.com/holocm/${pkgname}/archive/v${pkgver}.tar.gz")
+md5sums=('9b6c1e7878cb789d53cf8028de2b3474')
 
 check() {
-    cd "${srcdir}/${pkgname}-${_actual_pkgver}"
-    # fix a wrong path in the Makefile
-    sed -i 's+holo-test+/usr/lib/holo/holo-test+' Makefile
+    cd "${srcdir}/${pkgname}-${pkgver}"
     make check
 }
 
 package() {
-    cd "${srcdir}/${pkgname}-${_actual_pkgver}"
+    cd "${srcdir}/${pkgname}-${pkgver}"
     make install DESTDIR="${pkgdir}"
 }
