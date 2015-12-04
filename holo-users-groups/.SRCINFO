@@ -1,8 +1,9 @@
 pkgbase = holo-users-groups
 	pkgdesc = Holo plugin for provisioning user accounts and groups
 	pkgver = 1.0beta.1
-	pkgrel = 2
+	pkgrel = 3
 	url = http://holocm.org
+	install = holo-users-groups.install
 	arch = i686
 	arch = x86_64
 	license = GPL3

@@ -1,6 +1,6 @@
 pkgbase = holo
 	pkgdesc = Minimalistic configuration management
-	pkgver = 1.0beta.1
+	pkgver = 1.0beta.2
 	pkgrel = 2
 	url = http://holocm.org
 	arch = i686
@@ -9,10 +9,10 @@ pkgbase = holo
 	makedepends = go
 	makedepends = perl
 	depends = git
-	provides = holo-files=1.0beta.1
+	provides = holo-files=1.0beta.2
 	provides = HOLO_API_VERSION=1
-	source = https://github.com/holocm/holo/archive/v1.0-beta.1.tar.gz
-	md5sums = de5e7ee9e4a53ac4a5cf0706bec83e74
+	source = https://github.com/holocm/holo/archive/v1.0-beta.2.tar.gz
+	md5sums = c4e35e16a5069f05ac9144545bb196bf
 
 pkgname = holo
 

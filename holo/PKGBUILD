@@ -1,5 +1,5 @@
 pkgname='holo'
-_actual_pkgver=1.0-beta.1
+_actual_pkgver=1.0-beta.2
 pkgver=${_actual_pkgver//-/}
 pkgrel=2
 pkgdesc='Minimalistic configuration management'
@@ -15,7 +15,7 @@ provides=(
     'HOLO_API_VERSION=1'
 )
 source=("https://github.com/holocm/${pkgname}/archive/v${_actual_pkgver}.tar.gz")
-md5sums=('de5e7ee9e4a53ac4a5cf0706bec83e74')
+md5sums=('c4e35e16a5069f05ac9144545bb196bf')
 
 build() {
     cd "${srcdir}/${pkgname}-${_actual_pkgver}"
@@ -30,7 +30,4 @@ check() {
 package() {
     cd "${srcdir}/${pkgname}-${_actual_pkgver}"
     make install DESTDIR="${pkgdir}"
-    # fixup install bug
-    mv "${pkgdir}/etc/holo/holorc" "${pkgdir}/etc/holorc"
-    rmdir "${pkgdir}/etc/holo"
 }
