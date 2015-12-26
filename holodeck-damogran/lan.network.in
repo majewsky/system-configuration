@@ -1,7 +1,0 @@
-[Match]
-Name=${DAMOGRAN_IFACE_LAN}
-
-[Network]
-Description=Internal LAN
-Address=${DAMOGRAN_NET_LAN}.1/24
-IPForward=ipv4

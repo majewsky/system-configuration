@@ -1,0 +1,355 @@
+[package]
+name        = "holodeck-damogran"
+version     = "20151226"
+description = "holodeck: services on Damogran"
+
+requires = [
+    "hologram-base",
+    "hologram-multimedia-base",
+    "hologram-damogran-dyndns",
+    "hologram-damogran-audio",
+    # install a vim without GUI components
+    "vim-minimal",
+    # boot loader (no intel-ucode since Damogran has an AMD CPU and chipset)
+    "gummiboot",
+    # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)
+    "dnsmasq",
+    "hostapd",
+    "iptables",
+    # public services
+    "nginx",
+    # intranet services
+    "jre7-openjdk-headless", # for Minecraft
+]
+
+# setup script is required because mkinitcpio.conf is being modified by this package
+setupScript = "mkinitcpio -p linux"
+
+# TODO: smartd to monitor RAID
+# TODO: setup for Minecraft server
+
+################################################################################
+# identity
+
+[[file]]
+path    = "/etc/hostname"
+content = "damogran"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = """
+export PRETTYPROMPT_COMMONUSER=stefan
+export PRETTYPROMPT_HOSTCOLOR='0;35'
+"""
+
+################################################################################
+# boot loader (systemd-boot)
+
+[[file]]
+path    = "/boot/loader/loader.conf"
+content = """
+    default arch
+    timeout 1
+"""
+
+[[file]]
+path    = "/boot/loader/entries/arch.conf"
+content = """
+    title     Arch Linux
+    linux     /vmlinuz-linux
+    initrd    /initramfs-linux.img
+    options   root=PARTUUID=${DAMOGRAN_ROOT_PARTUUID} rw
+"""
+
+[[file]]
+path    = "/usr/share/holo/files/50-damogran/etc/mkinitcpio.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    sed 's/^MODULES="/MODULES="vfat /'
+"""
+
+################################################################################
+# network setup: systemd-{networkd,resolved} to configure interfaces and upstream DNS
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
+target = "/usr/lib/systemd/system/systemd-resolved.service"
+
+[[file]]
+path    = "/etc/systemd/network/lan.network"
+content = """
+    [Match]
+    Name=${DAMOGRAN_IFACE_LAN}
+
+    [Network]
+    Description=Internal LAN
+    Address=${DAMOGRAN_NET_LAN}.1/24
+    IPForward=ipv4
+"""
+
+[[file]]
+path    = "/etc/systemd/network/wlan.network"
+content = """
+    [Match]
+    Name=${DAMOGRAN_IFACE_WLAN}
+
+    [Network]
+    Description=Internal Wireless LAN
+    Address=${DAMOGRAN_NET_WLAN}.1/24
+    IPForward=ipv4
+"""
+
+[[file]]
+path    = "/etc/systemd/network/wan.network"
+content = """
+    [Match]
+    Name=${DAMOGRAN_IFACE_WAN}
+
+    [Network]
+    Description=External Network (Internet)
+    DHCP=ipv4
+"""
+
+################################################################################
+# network setup: an iptables ruleset acts as firewall
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/iptables.service"
+target = "/usr/lib/systemd/system/iptables.service"
+
+[[file]]
+path = "/etc/sysctl.d/90-firewall.conf"
+content = """
+    # filter spoofing of local source addresses from internet locations
+    net.ipv4.conf.all.rp_filter = 1
+    # enable IPv4 forwarding (NAT)
+    net.ipv4.ip_forward = 1
+    net.ipv4.conf.all.forwarding = 1
+    net.ipv4.conf.default.forwarding = 1
+    net.ipv4.conf.${DAMOGRAN_IFACE_LAN}.forwarding = 1
+    net.ipv4.conf.${DAMOGRAN_IFACE_WLAN}.forwarding = 1
+    net.ipv4.conf.${DAMOGRAN_IFACE_WAN}.forwarding = 1
+
+    # disable IPv6 for internet-facing interfaces
+    net.ipv6.conf.${DAMOGRAN_IFACE_WAN}.disable_ipv6 = 1
+"""
+
+[[file]]
+path = "/etc/iptables/iptables.rules"
+content = """
+    *filter
+
+    # standard chains
+    :INPUT DROP [0:0]
+    :FORWARD DROP [0:0]
+    :OUTPUT ACCEPT [0:0]
+    # chains for accepting incoming connections
+    :TCP - [0:0]
+    :UDP - [0:0]
+
+
+
+    # accept traffic on established connections
+    -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    # accept all local traffic
+    -A INPUT -i lo -j ACCEPT
+    # drop all invalid traffic (esp. to avoid attacks from the internet)
+    -A INPUT -m conntrack --ctstate INVALID -j DROP
+    # accept pings from everywhere
+    -A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
+    # attach chains for checking incoming connections
+    -A INPUT -p udp -m conntrack --ctstate NEW -j UDP
+    -A INPUT -p tcp -m tcp --syn -m conntrack --ctstate NEW -j TCP
+    # reject unwanted connections
+    -A INPUT -p tcp -j REJECT --reject-with tcp-reset
+    -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+    -A INPUT -j REJECT --reject-with icmp-proto-unreachable
+
+    # allow public SSH
+    -A TCP -p tcp -m tcp --dport 22 -j ACCEPT
+    # allow public HTTP(S)
+    -A TCP -p tcp -m tcp --dport 80 -j ACCEPT
+    -A TCP -p tcp -m tcp --dport 443 -j ACCEPT
+    # allow intranet PulseAudio
+    -A TCP -i ${DAMOGRAN_IFACE_WLAN} -p tcp -m tcp --dport 4713 -j ACCEPT
+    -A TCP -i ${DAMOGRAN_IFACE_LAN} -p tcp -m tcp --dport 4713 -j ACCEPT
+    # allow intranet MPD
+    -A TCP -i ${DAMOGRAN_IFACE_WLAN} -p tcp -m tcp --dport 6600 -j ACCEPT
+    -A TCP -i ${DAMOGRAN_IFACE_LAN} -p tcp -m tcp --dport 6600 -j ACCEPT
+    # allow public Minecraft
+    -A TCP -p tcp -m tcp --dport 25565 -j ACCEPT
+
+    # allow intranet DNS
+    -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --dport 53 -j ACCEPT
+    -A UDP -i ${DAMOGRAN_IFACE_LAN} -p udp -m udp --dport 53 -j ACCEPT
+    # allow intranet DHCP
+    -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
+    -A UDP -i ${DAMOGRAN_IFACE_LAN} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
+    # allow intranet MDNS (for PulseAudio)
+    -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --dport 5353 -j ACCEPT
+    -A UDP -i ${DAMOGRAN_IFACE_LAN} -p udp -m udp --dport 5353 -j ACCEPT
+
+
+
+    # accept traffic on established connections
+    -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    # accept forwarding connections from intranet to public
+    -A FORWARD -i ${DAMOGRAN_IFACE_WLAN} -j ACCEPT
+    -A FORWARD -i ${DAMOGRAN_IFACE_LAN} -j ACCEPT
+    # reject unwanted connections
+    -A FORWARD -j REJECT --reject-with icmp-host-unreachable
+
+    COMMIT
+    *nat
+
+    # standard chains for NAT
+    :PREROUTING ACCEPT [0:0]
+    :INPUT ACCEPT [0:0]
+    :OUTPUT ACCEPT [0:0]
+    :POSTROUTING ACCEPT [0:0]
+
+    # establish forwarding connections from intranet (IP range) to public (${DAMOGRAN_IFACE_WAN})
+    -A POSTROUTING -s ${DAMOGRAN_NET_LAN}.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
+    -A POSTROUTING -s ${DAMOGRAN_NET_WLAN}.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
+
+    COMMIT
+"""
+
+################################################################################
+# network setup: hostapd to provide the WiFi access point
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/hostapd.service"
+target = "/usr/lib/systemd/system/hostapd.service"
+
+[[file]]
+path    = "/etc/hostapd/hostapd.conf"
+content = """
+    # specify the wireless interface to operate on
+    interface=${DAMOGRAN_IFACE_WLAN}
+    driver=nl80211
+    # enable 802.11g base functionality (n comes on top of g)
+    hw_mode=g
+    channel=8
+    # enable 802.11n
+    ieee80211n=1
+    wmm_enabled=1
+    # HT capabilities as detected by `iw list` and translated by the reference hostapd.conf
+    ht_capab=[HT40][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
+    # enable 802.11d (advertisement of allowed channels and transmit power levels in
+    # this regulatory domain)
+    ieee80211d=1
+    country_code=DE
+
+    # broadcast the network ID
+    ssid2="${DAMOGRAN_WLAN_SSID}"
+    ignore_broadcast_ssid=0
+    # enable WPA2 encryption
+    auth_algs=3
+    wpa=2
+    wpa_passphrase=${DAMOGRAN_WLAN_PSK}
+    wpa_key_mgmt=WPA-PSK
+    wpa_pairwise=CCMP
+    rsn_pairwise=CCMP
+
+    # limit number of "stations" (connected clients) for good measure
+    max_num_sta=20
+
+    # log to stdout (all modules, above level 2 = informational messages)
+    logger_stdout=-1
+    logger_stdout_level=2
+"""
+
+################################################################################
+# network setup: dnsmasq to provide DHCP and DNS in the internal networks
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/dnsmasq.service"
+target = "/usr/lib/systemd/system/dnsmasq.service"
+
+[[file]]
+path    = "/etc/systemd/system/dnsmasq.service.d/reorder.conf"
+content = """
+    [Unit]
+    After=systemd-resolved.service
+    Requires=systemd-resolved.service
+"""
+
+[[file]]
+path    = "/usr/share/holo/files/50-damogran/etc/dnsmasq.conf"
+content = """
+    # bind DHCP and DNS servers to all interfaces except external internet
+    bind-interfaces
+    except-interface=${DAMOGRAN_IFACE_WAN}
+
+    # allocate IPv4 ranges for DHCP
+    dhcp-range=${DAMOGRAN_NET_LAN}.100,${DAMOGRAN_NET_LAN}.199,12h
+    dhcp-range=${DAMOGRAN_NET_WLAN}.100,${DAMOGRAN_NET_WLAN}.199,12h
+    # assign a static IP address to Krikkit
+    dhcp-host=${KRIKKIT_MACADDR_LAN},${DAMOGRAN_NET_LAN}.3
+
+    # obtain upstream DNS from systemd-resolved
+    resolv-file=/run/systemd/resolve/resolv.conf
+    # local DNS overrides
+    address=/damogran.local/${DAMOGRAN_NET_LAN}.1
+    address=/arcturus.local/${DAMOGRAN_NET_LAN}.2
+    address=/krikkit.local/${DAMOGRAN_NET_LAN}.3
+"""
+
+################################################################################
+# public web server
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/nginx.service"
+target = "/usr/lib/systemd/system/nginx.service"
+
+[[file]]
+path    = "/usr/share/holo/files/50-damogran/etc/nginx/nginx.conf"
+content = """
+    # default configuration
+    user http;
+    worker_processes 1;
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        include mime.types;
+        default_type application/octet-stream;
+
+        sendfile on;
+        keepalive_timeout 65;
+
+        # Host: ${DAMOGRAN_HTTP_STATIC_DOMAIN}
+        # TODO: TLS
+        server {
+            listen      80;
+            server_name ${DAMOGRAN_HTTP_STATIC_DOMAIN} static;
+
+            location / {
+                root  ${DAMOGRAN_HTTP_STATIC_PATH};
+                index index.html index.htm;
+            }
+
+            error_page 500 502 503 504  /nginx_50x.html;
+            location = /nginx_50x.html {
+                root /etc/nginx/pages;
+            }
+        }
+
+    }
+"""
+
+[[file]]
+path    = "/etc/nginx/pages/nginx_50x.html"
+content = """
+    <!DOCTYPE html>
+    <html>
+        <head><title>Error</title></head>
+        <body>
+            <h1>An error occurred</h1>
+            <p>This page is currently unavailable. Please try again later.</p>
+        </body>
+    </html>
+"""

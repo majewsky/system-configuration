@@ -1,7 +1,0 @@
-[Match]
-Name=${DAMOGRAN_IFACE_WLAN}
-
-[Network]
-Description=Internal Wireless LAN
-Address=${DAMOGRAN_NET_WLAN}.1/24
-IPForward=ipv4

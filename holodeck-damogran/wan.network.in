@@ -1,6 +1,0 @@
-[Match]
-Name=${DAMOGRAN_IFACE_WAN}
-
-[Network]
-Description=External Network (Internet)
-DHCP=ipv4
