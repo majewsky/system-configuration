@@ -1,7 +1,7 @@
 [package]
 name        = "holodeck-damogran"
 version     = "20151226"
-release     = 8
+release     = 9
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -329,16 +329,7 @@ content = """
         server {
             listen      80;
             server_name ${DAMOGRAN_HTTP_STATIC_DOMAIN};
-
-            location / {
-                root  ${DAMOGRAN_HTTP_STATIC_PATH};
-                index index.html index.htm;
-            }
-
-            error_page 500 502 503 504  /nginx_50x.html;
-            location = /nginx_50x.html {
-                root /etc/nginx/pages;
-            }
+            return 301  https://${DAMOGRAN_HTTP_STATIC_DOMAIN}$request_uri;
         }
 
         server {
