@@ -1,6 +1,7 @@
 [package]
 name        = "holodeck-damogran"
 version     = "20151226"
+release     = 8
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -18,9 +19,13 @@ requires = [
     "iptables",
     # public services
     "nginx",
+    "letsencrypt",
     # intranet services
     "jre7-openjdk-headless", # for Minecraft
 ]
+
+# for letsencrypt
+definitionFile = "/usr/share/holo/users-groups/50-damogran.toml"
 
 # setup script is required because mkinitcpio.conf is being modified by this package
 setupScript = "mkinitcpio -p linux"
@@ -321,11 +326,36 @@ content = """
         sendfile on;
         keepalive_timeout 65;
 
-        # Host: ${DAMOGRAN_HTTP_STATIC_DOMAIN}
-        # TODO: TLS
         server {
             listen      80;
-            server_name ${DAMOGRAN_HTTP_STATIC_DOMAIN} static;
+            server_name ${DAMOGRAN_HTTP_STATIC_DOMAIN};
+
+            location / {
+                root  ${DAMOGRAN_HTTP_STATIC_PATH};
+                index index.html index.htm;
+            }
+
+            error_page 500 502 503 504  /nginx_50x.html;
+            location = /nginx_50x.html {
+                root /etc/nginx/pages;
+            }
+        }
+
+        server {
+            listen      443;
+            server_name ${DAMOGRAN_HTTP_STATIC_DOMAIN};
+
+            ssl on;
+            ssl_certificate     /etc/letsencrypt/live/${DAMOGRAN_HTTP_STATIC_DOMAIN}/fullchain.pem;
+            ssl_certificate_key /etc/letsencrypt/live/${DAMOGRAN_HTTP_STATIC_DOMAIN}/privkey.pem;
+            # source: https://community.qualys.com/blogs/securitylabs/2013/08/05/configuring-apache-nginx-and-openssl-for-forward-secrecy
+            ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+            ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
+            ssl_prefer_server_ciphers on;
+            # active OCSP stapling (source: https://github.com/letsencrypt/letsencrypt/blob/master/letsencrypt-nginx/letsencrypt_nginx/configurator.py)
+            ssl_trusted_certificate /etc/letsencrypt/live/${DAMOGRAN_HTTP_STATIC_DOMAIN}/chain.pem;
+            ssl_stapling on;
+            ssl_stapling_verify on;
 
             location / {
                 root  ${DAMOGRAN_HTTP_STATIC_PATH};
@@ -353,3 +383,122 @@ content = """
         </body>
     </html>
 """
+
+################################################################################
+# public web server: letsencrypt integration
+
+[[group]]
+name   = "letsencrypt"
+system = true
+
+[[user]]
+name   = "letsencrypt"
+group  = "letsencrypt"
+system = true
+home   = "/var/lib/letsencrypt"
+
+[[user]]
+name   = "http"
+groups = ["letsencrypt"]
+
+# fix UID/GID on directories provided by letsencrypt package
+[[directory]]
+path  = "/etc/letsencrypt"
+owner = "letsencrypt"
+group = "letsencrypt"
+[[directory]]
+path  = "/var/lib/letsencrypt"
+owner = "letsencrypt"
+group = "letsencrypt"
+[[directory]]
+path  = "/var/log/letsencrypt"
+mode  = "0700"
+owner = "letsencrypt"
+group = "letsencrypt"
+
+# these directories need to be writable by the letsencrypt user for the web challenges
+[[directory]]
+path  = "${DAMOGRAN_HTTP_STATIC_PATH}/.well-known/acme-challenge"
+mode  = "0770"
+owner = "letsencrypt"
+group = "letsencrypt"
+
+# TODO: automate the initial `letsencrypt certonly --webroot -w ${DAMOGRAN_HTTP_STATIC_PATH} -d ${DAMOGRAN_HTTP_STATIC_DOMAIN}`
+
+# run letsencrypt-renewer regularly
+[[file]]
+path    = "/usr/lib/systemd/system/letsencrypt-renewer.service"
+content = """
+    [Unit]
+    Description=Check and renew TLS certificates
+    After=network-online.target gandi-dyndns.service
+    Wants=network-online.target gandi-dyndns.service
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/letsencrypt-renewer
+    User=letsencrypt
+"""
+
+[[file]]
+path    = "/usr/lib/systemd/system/letsencrypt-renewer.timer"
+content = """
+    [Unit]
+    Description=Check and renew TLS certificates once a day
+    After=network-online.target
+    Wants=network-online.target
+
+    [Timer]
+    OnBootSec=1h
+    OnUnitActiveSec=1d
+
+    [Install]
+    WantedBy=timers.target
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/timers.target.wants/letsencrypt-renewer.timer"
+target = "/usr/lib/systemd/system/letsencrypt-renewer.timer"
+
+# take an automatic backup of /etc/letsencrypt every three days
+[[file]]
+path    = "/usr/lib/letsencrypt-backup.sh"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    cd /
+    P="${DAMOGRAN_CERT_BACKUP_PATH}"
+    mkdir -p "$P"
+    chmod 0700 "$P"
+    chown root:root "$P"
+    tar cJf "$P/$(date +%F).tar.xz" /etc/letsencrypt
+"""
+
+[[file]]
+path    = "/usr/lib/systemd/system/letsencrypt-backup.service"
+content = """
+    [Unit]
+    Description=Backup /etc/letsencrypt
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/lib/letsencrypt-backup.sh
+"""
+
+[[file]]
+path    = "/usr/lib/systemd/system/letsencrypt-backup.timer"
+content = """
+    [Unit]
+    Description=Backup /etc/letsencrypt once a day
+
+    [Timer]
+    OnBootSec=3h
+    OnUnitActiveSec=3d
+
+    [Install]
+    WantedBy=timers.target
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/timers.target.wants/letsencrypt-backup.timer"
+target = "/usr/lib/systemd/system/letsencrypt-backup.timer"
