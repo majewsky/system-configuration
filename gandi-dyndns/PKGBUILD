@@ -1,7 +1,7 @@
 pkgname='gandi-dyndns'
-_commit='ae71c88'
-pkgver="2015.02.10"
-pkgrel=1
+_commit='8d54127'
+pkgver="2015.12.26"
+pkgrel=2
 pkgdesc="A script to update a Gandi A record to point at a machine's external IP address."
 arch=('any')
 url='https://github.com/jasontbradshaw/gandi-dyndns'
@@ -11,9 +11,13 @@ depends=(
     'systemd'
 )
 source=(
-    "git+https://github.com/jasontbradshaw/gandi-dyndns.git#commit=${_commit}"
+    "git+https://github.com/majewsky/gandi-dyndns.git#commit=${_commit}"
     'gandi-dyndns.service'
     'wrapper.sh'
+)
+backup=(
+    'etc/gandi-dyndns/config.json'
+    'etc/gandi-dyndns/providers.json'
 )
 md5sums=('SKIP'
          '3f5eedc3a9a55e919a3b25f0cd716e53'
