@@ -1,16 +1,18 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "2.0.1"
+version     = "2.1.0"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
-requires    = ["gandi-dyndns"]
+requires    = ["gandi-dyndns>=2015.12.26"]
 
 [[file]]
 path    = "/usr/share/holo/files/50-damogran/etc/gandi-dyndns/config.json"
 content = """
     {
       "api_key": "${GANDI_APIKEY}",
-      "domain": "${GANDI_DOMAIN}",
-      "names": ${GANDI_SUBDOMAINS}
+      "domains": {
+        "${GANDI_DOMAIN}": ${GANDI_SUBDOMAINS},
+        "holocm.org": ["repo"]
+      }
     }
 """
 
