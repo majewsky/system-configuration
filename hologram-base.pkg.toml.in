@@ -1,6 +1,7 @@
 [package]
 name    = "hologram-base"
 version = "20151226"
+release = 2
 description = "hologram: base installation"
 
 requires = [
@@ -114,9 +115,9 @@ content = '''
         /^#\[multilib]/,/^$/s/^#//
     '
 
-    # add holo repo
+    # add holograms repo
     echo
-    echo '[holo]'
+    echo '[holograms]'
     echo 'SigLevel = Optional TrustAll'
     echo 'Server = https://${DAMOGRAN_HTTP_STATIC_DOMAIN}/repo'
 '''
