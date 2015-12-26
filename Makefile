@@ -7,7 +7,7 @@ all: build-holograms build-packages create-repo
 
 create-repo: build-holograms build-packages
 	@repo-add -n -f repo/holo.db.tar.xz repo/*.pkg.tar.xz
-	@rm repo/holo.db.tar.xz.old
+	@rm -f repo/holo.db.tar.xz.old
 	@ln -sf holo.db repo/holo.files
 
 ################################################################################
