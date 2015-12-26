@@ -1,0 +1,32 @@
+pkgname='gandi-dyndns'
+_commit='ae71c88'
+pkgver="2015.02.10_${_commit}"
+pkgrel=1
+pkgdesc="A script to update a Gandi A record to point at a machine's external IP address."
+arch=('any')
+url='https://github.com/jasontbradshaw/gandi-dyndns'
+license=('MIT')
+depends=(
+    'python2'
+    'systemd'
+)
+source=(
+    "git+https://github.com/jasontbradshaw/gandi-dyndns.git#commit=${_commit}"
+    'gandi-dyndns.service'
+    'wrapper.sh'
+)
+md5sums=('SKIP'
+         '3f5eedc3a9a55e919a3b25f0cd716e53'
+         'fb49a6fbd84adcd940cba0ec7edff7d6')
+
+package() {
+    cd "${srcdir}/${pkgname}"
+
+    install -D -m 0644 gandi_dyndns.py         "${pkgdir}/usr/lib/gandi-dyndns.py"
+    install -D -m 0644 providers.json          "${pkgdir}/etc/gandi-dyndns/providers.json"
+    install -D -m 0644 config-example.json     "${pkgdir}/etc/gandi-dyndns/config.json"
+    install -D -m 0644 README.md               "${pkgdir}/usr/share/doc/gandi-dyndns/README.md"
+
+    install -D -m 0755 ../wrapper.sh           "${pkgdir}/usr/bin/gandi-dyndns"
+    install -D -m 0644 ../gandi-dyndns.service "${pkgdir}/usr/lib/systemd/system/gandi-dyndns.service"
+}

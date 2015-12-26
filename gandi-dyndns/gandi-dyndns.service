@@ -1,0 +1,9 @@
+[Unit]
+Description=Update DNS entries for Damogran
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gandi-dyndns
+User=nobody
