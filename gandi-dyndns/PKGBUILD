@@ -1,6 +1,6 @@
 pkgname='gandi-dyndns'
 _commit='ae71c88'
-pkgver="2015.02.10_${_commit}"
+pkgver="2015.02.10"
 pkgrel=1
 pkgdesc="A script to update a Gandi A record to point at a machine's external IP address."
 arch=('any')
