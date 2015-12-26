@@ -6,9 +6,9 @@ THIS_DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 all: build-holograms build-packages create-repo
 
 create-repo: build-holograms build-packages
-	@repo-add -n -f repo/holo.db.tar.xz repo/*.pkg.tar.xz
-	@rm -f repo/holo.db.tar.xz.old
-	@ln -sf holo.db repo/holo.files
+	@repo-add -n -f repo/holograms.db.tar.xz repo/*.pkg.tar.xz
+	@rm -f repo/holograms.db.tar.xz.old
+	@ln -sf holograms.db repo/holograms.files
 
 ################################################################################
 # compile holograms

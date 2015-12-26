@@ -15,5 +15,5 @@ src/
 .env
 build/
 repo/*.pkg.tar.xz
-repo/holo.db*
-repo/holo.files*
+repo/holograms.db*
+repo/holograms.files*
