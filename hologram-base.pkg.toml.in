@@ -1,7 +1,7 @@
 [package]
 name    = "hologram-base"
 version = "20151227"
-release = 2
+release = 3
 description = "hologram: base installation"
 
 requires = [
@@ -52,24 +52,21 @@ requires = [
     "zsh",
 ]
 
-setupScript = "locale-gen"
+definitionFile = "/usr/share/holo/users-groups/00-base.toml"
+setupScript    = "locale-gen"
 
 # entities
-[[file]]
-path    = "/usr/share/holo/users-groups/00-base.toml"
-content = """
-    [[group]]
-    name    = "sudo"
-    system  = true
+[[group]]
+name    = "sudo"
+system  = true
 
-    [[user]]
-    name    = "stefan"
-    comment = "Stefan Majewsky"
-    uid     = 1001
-    group   = "users"
-    groups  = ["sudo"]
-    shell   = "/bin/zsh"
-"""
+[[user]]
+name    = "stefan"
+comment = "Stefan Majewsky"
+uid     = 1001
+group   = "users"
+groups  = ["sudo"]
+shell   = "/bin/zsh"
 
 # haveged
 [[symlink]]

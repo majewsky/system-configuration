@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20151204"
+version     = "20151227"
 description = "Holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -24,6 +24,8 @@ requires    = [
     "virtualbox",
 ]
 
+definitionFile = "/usr/share/holo/users-groups/50-krikkit.toml"
+
 [[file]]
 path    = "/etc/hostname"
 content = "krikkit"
@@ -35,15 +37,10 @@ export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;32'
 """
 
-# TODO: native entity handling now offered in holo-build
 # enable VirtualBox for my user account
-[[file]]
-path    = "/usr/share/holo/users-groups/50-krikkit.toml"
-content = """
 [[user]]
 name = "stefan"
 groups = ["vboxusers"]
-"""
 
 # Xorg: enable palm detection on touchpad
 [[file]]

@@ -1,9 +1,8 @@
 [package]
 name        = "hologram-damogran-audio"
-version     = "1.2.4"
+version     = "1.2.5"
 description = "hologram: PulseAudio and MPD service for Damogran"
 requires    = [
-    "holo>=0.10",
     "mpd",
     "pulseaudio",
     "pulseaudio-zeroconf",
@@ -14,20 +13,17 @@ setupScript = "chown -R pulse:pulse /home/pulse"
 
 # create "pulse" user and group, with a lingering user session that ensures
 # that services come up automatically on boot
+definitionFile = "/usr/share/holo/users-groups/50-damogran-audio.toml"
 
-[[file]]
-path = "/usr/share/holo/users-groups/50-damogran-audio.toml"
-content = """
-    [[group]]
-    name    = "pulse"
-    system  = true
+[[group]]
+name    = "pulse"
+system  = true
 
-    [[user]]
-    name    = "pulse"
-    comment = "PulseAudio user"
-    group   = "pulse"
-    groups  = ["audio"]
-"""
+[[user]]
+name    = "pulse"
+comment = "PulseAudio user"
+group   = "pulse"
+groups  = ["audio"]
 
 [[directory]]
 path = "/home/pulse"
