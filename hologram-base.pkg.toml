@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20151228"
+version = "20151228.4"
 description = "hologram: base installation"
 
 requires = [
@@ -52,7 +52,14 @@ requires = [
 ]
 
 definitionFile = "/usr/share/holo/users-groups/00-base.toml"
-setupScript    = "locale-gen"
+setupScript    = """
+    locale-gen
+    if [ ! -f /home/stefan/.ssh/authorized_keys ]; then
+        cp /my/authorized_keys /home/stefan/.ssh/authorized_keys
+        chmod 0600 /home/stefan/.ssh/authorized_keys
+        chmod 0600 /home/stefan/.ssh/authorized_keys
+    fi
+"""
 
 # entities
 [[group]]
@@ -117,6 +124,9 @@ content = '''
     echo 'SigLevel = Optional TrustAll'
     echo 'Server = https://static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/repo'
 '''
+[[symlink]]
+path   = "/usr/share/holo/files/99-variables/etc/pacman.conf.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/usr/share/holo/files/00-base/etc/pacman.d/mirrorlist.holoscript"
@@ -197,13 +207,6 @@ path  = "/home/stefan/.ssh"
 mode  = "0700"
 owner = "stefan"
 group = "users"
-
-[[file]]
-path    = "/home/stefan/.ssh/authorized_keys"
-mode    = "0600"
-owner   = "stefan"
-group   = "users"
-content = "${AUTHORIZED_KEYS}"
 
 # development environment bootstrapping
 [[directory]]
