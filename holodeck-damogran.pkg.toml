@@ -65,6 +65,9 @@ content = """
     initrd    /initramfs-linux.img
     options   root=PARTUUID=${DAMOGRAN_ROOT_PARTUUID} rw
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/boot/loader/entries/arch.conf.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/usr/share/holo/files/50-damogran/etc/mkinitcpio.conf.holoscript"
@@ -92,6 +95,9 @@ content = """
     Address=10.0.0.1/24
     IPForward=ipv4
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/lan.network.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/etc/systemd/network/wlan.network"
@@ -104,6 +110,9 @@ content = """
     Address=10.0.1.1/24
     IPForward=ipv4
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/wlan.network.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/etc/systemd/network/wan.network"
@@ -115,6 +124,9 @@ content = """
     Description=External Network (Internet)
     DHCP=ipv4
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/wan.network.holoscript"
+target = "/my/variables"
 
 ################################################################################
 # network setup: an iptables ruleset acts as firewall
@@ -139,6 +151,9 @@ content = """
     # disable IPv6 for internet-facing interfaces
     net.ipv6.conf.${DAMOGRAN_IFACE_WAN}.disable_ipv6 = 1
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/sysctl.d/90-firewall.conf.holoscript"
+target = "/my/variables"
 
 [[file]]
 path = "/etc/iptables/iptables.rules"
@@ -220,6 +235,9 @@ content = """
 
     COMMIT
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/iptables/iptables.rules.holoscript"
+target = "/my/variables"
 
 ################################################################################
 # network setup: hostapd to provide the WiFi access point
@@ -265,6 +283,9 @@ content = """
     logger_stdout=-1
     logger_stdout_level=2
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/hostapd/hostapd.conf.holoscript"
+target = "/my/variables"
 
 ################################################################################
 # network setup: dnsmasq to provide DHCP and DNS in the internal networks
@@ -301,6 +322,9 @@ content = """
     address=/arcturus.local/10.0.0.2
     address=/krikkit.local/10.0.0.3
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/dnsmasq.conf.holoscript"
+target = "/my/variables"
 
 ################################################################################
 # public web server
@@ -410,6 +434,9 @@ content = """
 
     }
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/nginx/nginx.conf.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/etc/nginx/pages/nginx_50x.html"
@@ -463,12 +490,12 @@ mode  = "0770"
 owner = "letsencrypt"
 group = "letsencrypt"
 [[directory]]
-path  = "/srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/.well-known/acme-challenge"
+path  = "/srv/http/static.private/.well-known/acme-challenge"
 mode  = "0770"
 owner = "letsencrypt"
 group = "letsencrypt"
 
-# TODO: automate the initial `letsencrypt certonly --webroot -w /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN} -d static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}` -w /srv/http/repo.holocm.org -d repo.holocm.org
+# TODO: automate the initial `letsencrypt certonly --webroot -w /srv/http/static.private -d static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}` -w /srv/http/repo.holocm.org -d repo.holocm.org
 
 # run letsencrypt-renewer regularly
 [[file]]
