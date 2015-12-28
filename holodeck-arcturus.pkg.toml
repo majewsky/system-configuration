@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20151228"
+version     = "20151228.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -52,6 +52,9 @@ content = """
     initrd    /initramfs-linux.img
     options   cryptdevice=PARTUUID=${ARCTURUS_ROOT_PARTUUID}:root:allow-discards root=/dev/mapper/root rw
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-arcturus-vars/boot/loader/entries/arch.conf.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/usr/share/holo/files/50-arcturus/etc/mkinitcpio.conf.holoscript"
@@ -81,7 +84,7 @@ content = """
 path    = "/etc/systemd/network/wlan.network"
 content = """
     [Match]
-    Name=${ARCTURUS_IFACE_WLAN}
+    Name=wlp3s0
 
     [Network]
     Address=10.0.1.2/24
@@ -101,14 +104,17 @@ target = "/run/systemd/resolve/resolv.conf"
 # network setup: wpa_supplicant
 
 [[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@${ARCTURUS_IFACE_WLAN}.service"
+path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlp3s0.service"
 target = "/usr/lib/systemd/system/wpa_supplicant@.service"
 
 [[file]]
-path    = "/etc/wpa_supplicant/wpa_supplicant-${ARCTURUS_IFACE_WLAN}.conf"
+path    = "/etc/wpa_supplicant/wpa_supplicant-wlp3s0.conf"
 content = """
     network={
         ssid="${DAMOGRAN_WLAN_SSID}"
         psk="${DAMOGRAN_WLAN_PSK}"
     }
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-arcturus-vars/etc/wpa_supplicant/wpa_supplicant-wlp3s0.conf.holoscript"
+target = "/my/variables"
