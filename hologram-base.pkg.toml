@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20151228.4"
+version = "20151228.5"
 description = "hologram: base installation"
 
 requires = [
@@ -117,6 +117,11 @@ content = '''
         # enable multilib repo
         /^#\[multilib]/,/^$/s/^#//
     '
+
+    # add official holo repo
+    echo
+    echo '[holo]'
+    echo 'Server = https://repo.holocm.org/archlinux/$arch'
 
     # add holograms repo
     echo
