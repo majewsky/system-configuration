@@ -25,3 +25,6 @@
 [submodule "gnaural-presets"]
 	path = gnaural-presets
 	url = https://aur4.archlinux.org/gnaural-presets.git
+[submodule "ttf-montserrat"]
+	path = ttf-montserrat
+	url = https://aur.archlinux.org/ttf-montserrat.git/
