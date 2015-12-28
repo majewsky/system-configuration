@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20151228.5"
+version = "20151228.6"
 description = "hologram: base installation"
 
 requires = [
@@ -57,7 +57,7 @@ setupScript    = """
     if [ ! -f /home/stefan/.ssh/authorized_keys ]; then
         cp /my/authorized_keys /home/stefan/.ssh/authorized_keys
         chmod 0600 /home/stefan/.ssh/authorized_keys
-        chmod 0600 /home/stefan/.ssh/authorized_keys
+        chown stefan:users /home/stefan/.ssh/authorized_keys
     fi
 """
 
