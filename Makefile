@@ -13,14 +13,9 @@ create-repo: build-holograms build-packages
 ################################################################################
 # compile holograms
 
-HOLOBUILD_HOLOGRAMS = $(patsubst %.pkg.toml,%-pkg-toml,$(patsubst %.pkg.toml.in,%-pkg-toml-in,$(wildcard holo*.pkg.toml*)))
+HOLOBUILD_HOLOGRAMS = $(patsubst %.pkg.toml,%-pkg-toml,$(wildcard holo*.pkg.toml*))
 
 build-holograms: $(HOLOBUILD_HOLOGRAMS)
-
-%-pkg-toml-in: %.pkg.toml.in
-	@mkdir -p build
-	@sh replace-env.sh < $< > build/$*.pkg.toml
-	@cd repo && perl ../build_package_with_holo.pl ../build/$*.pkg.toml
 
 %-pkg-toml: %.pkg.toml
 	@cd repo && perl ../build_package_with_holo.pl ../$<
