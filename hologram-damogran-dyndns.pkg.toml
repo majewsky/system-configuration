@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "2.1.1"
+version     = "2.1.2"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
 requires    = ["gandi-dyndns>=2015.12.26"]
 
@@ -15,6 +15,9 @@ content = """
       }
     }
 """
+[[symlink]]
+path   = "/usr/share/holo/files/50-damogran-vars/etc/gandi-dyndns/config.json.holoscript"
+target = "/my/variables"
 
 [[file]]
 path    = "/usr/lib/systemd/system/gandi-dyndns.timer"
