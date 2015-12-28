@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-audio"
-version     = "1.2.5"
+version     = "1.3.0"
 description = "hologram: PulseAudio and MPD service for Damogran"
 requires    = [
     "mpd",
@@ -42,7 +42,7 @@ mode = "0755"
 content = """
 #!/bin/sh
     cat
-    echo 'load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1;${DAMOGRAN_NET_LAN}.0/24;${DAMOGRAN_NET_WLAN}.0/24 auth-anonymous=1'
+    echo 'load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1;10.0.0.0/8 auth-anonymous=1'
     echo 'load-module module-zeroconf-publish'
 """
 

@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20151204"
+version     = "20151228"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -72,9 +72,9 @@ content = """
     Name=en*
 
     [Network]
-    Address=${DAMOGRAN_NET_LAN}.2/24
-    Gateway=${DAMOGRAN_NET_LAN}.1
-    DNS=${DAMOGRAN_NET_LAN}.1
+    Address=10.0.0.2/24
+    Gateway=10.0.0.1
+    DNS=10.0.0.1
 """
 
 [[file]]
@@ -84,8 +84,8 @@ content = """
     Name=${ARCTURUS_IFACE_WLAN}
 
     [Network]
-    Address=${DAMOGRAN_NET_WLAN}.2/24
-    DNS=${DAMOGRAN_NET_WLAN}.1
+    Address=10.0.1.2/24
+    DNS=10.0.1.1
 """
 
 # network setup: systemd-resolved

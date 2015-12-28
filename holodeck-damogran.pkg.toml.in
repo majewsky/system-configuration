@@ -1,7 +1,7 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20151227"
-release     = 6
+version     = "20151228"
+release     = 1
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -89,7 +89,7 @@ content = """
 
     [Network]
     Description=Internal LAN
-    Address=${DAMOGRAN_NET_LAN}.1/24
+    Address=10.0.0.1/24
     IPForward=ipv4
 """
 
@@ -101,7 +101,7 @@ content = """
 
     [Network]
     Description=Internal Wireless LAN
-    Address=${DAMOGRAN_NET_WLAN}.1/24
+    Address=10.0.1.1/24
     IPForward=ipv4
 """
 
@@ -215,8 +215,8 @@ content = """
     :POSTROUTING ACCEPT [0:0]
 
     # establish forwarding connections from intranet (IP range) to public (${DAMOGRAN_IFACE_WAN})
-    -A POSTROUTING -s ${DAMOGRAN_NET_LAN}.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
-    -A POSTROUTING -s ${DAMOGRAN_NET_WLAN}.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
+    -A POSTROUTING -s 10.0.0.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
+    -A POSTROUTING -s 10.0.1.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
 
     COMMIT
 """
@@ -289,17 +289,17 @@ content = """
     except-interface=${DAMOGRAN_IFACE_WAN}
 
     # allocate IPv4 ranges for DHCP
-    dhcp-range=${DAMOGRAN_NET_LAN}.100,${DAMOGRAN_NET_LAN}.199,12h
-    dhcp-range=${DAMOGRAN_NET_WLAN}.100,${DAMOGRAN_NET_WLAN}.199,12h
+    dhcp-range=10.0.0.100,10.0.0.199,12h
+    dhcp-range=10.0.1.100,10.0.1.199,12h
     # assign a static IP address to Krikkit
-    dhcp-host=${KRIKKIT_MACADDR_LAN},${DAMOGRAN_NET_LAN}.3
+    dhcp-host=${KRIKKIT_MACADDR_LAN},10.0.0.3
 
     # obtain upstream DNS from systemd-resolved
     resolv-file=/run/systemd/resolve/resolv.conf
     # local DNS overrides
-    address=/damogran.local/${DAMOGRAN_NET_LAN}.1
-    address=/arcturus.local/${DAMOGRAN_NET_LAN}.2
-    address=/krikkit.local/${DAMOGRAN_NET_LAN}.3
+    address=/damogran.local/10.0.0.1
+    address=/arcturus.local/10.0.0.2
+    address=/krikkit.local/10.0.0.3
 """
 
 ################################################################################
