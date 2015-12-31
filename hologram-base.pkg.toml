@@ -1,14 +1,11 @@
 [package]
 name    = "hologram-base"
-version = "20151228.6"
+version = "20151231"
 description = "hologram: base installation"
 
 requires = [
-    "holo>=0.10",
     "group:base", "except:netctl",
     "group:base-devel",
-    # system components
-    "haveged",
     "hologram-openssh",
     # assorted CLI tools
     "ack",
@@ -61,6 +58,8 @@ setupScript    = """
     fi
 """
 
+# TODO: use holo-ssh-keys
+
 # entities
 [[group]]
 name    = "sudo"
@@ -73,11 +72,6 @@ uid     = 1001
 group   = "users"
 groups  = ["sudo"]
 shell   = "/bin/zsh"
-
-# haveged
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/haveged.service"
-target = "/usr/lib/systemd/system/haveged.service"
 
 # locale
 [[file]]
