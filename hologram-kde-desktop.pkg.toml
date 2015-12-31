@@ -31,6 +31,8 @@ requires = [
     "yakuake",
 ]
 
+# TODO: kwallet-pam
+
 [[file]]
 path    = "/etc/sddm.conf"
 content = """
