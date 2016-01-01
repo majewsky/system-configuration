@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20151231"
+version = "20160101"
 description = "hologram: base installation"
 
 requires = [
@@ -120,7 +120,6 @@ content = '''
     # add holograms repo
     echo
     echo '[holograms]'
-    echo 'SigLevel = Optional TrustAll'
     echo 'Server = https://static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/repo'
 '''
 [[symlink]]
