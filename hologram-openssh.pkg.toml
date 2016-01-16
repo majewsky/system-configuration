@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-openssh"
-version     = "1.3.0"
+version     = "1.4.0"
 description = "hologram: hardened OpenSSH server"
 requires    = [
     "holo>=0.10",
@@ -51,11 +51,12 @@ content = """
 
 # filter weak moduli
 [[file]]
-path   = "/usr/share/holo/files/10-openssh/etc/ssh/moduli.holoscript"
+path   = "/usr/share/holo/run-scripts/10-openssh-filter-weak-moduli.sh"
 mode   = "0755"
 content = """
-    #!/usr/bin/awk -f
-    $5 > 2000
+    #!/bin/sh
+    awk '$5 > 2000' < /etc/ssh/moduli > /tmp/ssh-moduli
+    mv /tmp/ssh-moduli /etc/ssh/moduli
 """
 
 # disable weak host keys by placing invalid symlinks at their location
