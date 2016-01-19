@@ -2,7 +2,7 @@
 
 This repo contains configuration for my private systems, formatted as Arch
 Linux packages using my minimal configuration management tool
-[Holo](https://github.com/majewsky/holo).
+[Holo](https://github.com/holocm/holo).
 
 ## License information
 
@@ -25,10 +25,14 @@ My naming convention draws on Holo's name and includes:
 ## Tools
 
 The [holo](holo) subdirectory contains the PKGBUILD for
-[Holo](https://github.com/majewsky/holo) itself. It is identical to the version
+[Holo](https://github.com/holocm/holo) itself. It is identical to the version
 found in the AUR, but development happens here first usually.
 
+Hologram packages are built with [holo-build](https://github.com/holocm/holo-build).
+
 ## Shared pieces
+
+**TODO:** This list is awfully out-of-date.
 
 * [hologram-base](hologram-base) contains everything that is shared across all
   my systems (tools, daemons, etc.). It also includes...
