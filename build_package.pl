@@ -77,31 +77,6 @@ my $package_file = file_for_aurpackage($package, $package_version, '-nodie');
 
 unless ($package_file) {
    # write the resulting package to the repo directory
-
    local $ENV{PKGDEST} = getcwd() . '/../repo';
-
-   # skip integrity checks (md5sums etc.) for holograms
-   my @command = qw(makepkg -s);
-   if ($package =~ /^holo(?:gram|deck)/) {
-      push @command, '--skipchecksums';
-   }
-   system @command;
+   system qw(makepkg -s);
 }
-
-$package_file = file_for_aurpackage($package, $package_version, '-nodie');
-
-################################################################################
-# clean earlier versions of this package
-
-for my $other_file (glob("../repo/$package-*.pkg.tar.xz"), glob("../repo/$package-*.pkg.tar.xz.sig")) {
-   # check that this is not the latest version of the package
-   next if $other_file eq $package_file;
-   next if $other_file eq "$package_file.sig";
-   # check that this is really a file for this package, not for another package
-   # whose name starts with that of the current package (globs can't tell that
-   # apart)
-   next if $other_file !~ m{^\.\./repo/\Q$package\E-[0-9.a-z_]+-[0-9]+-.*\.pkg\.tar\.xz(?:\.sig)?$};
-   say "Cleaning up $other_file (looks like an old version of $package-$package_version)";
-   unlink $other_file;
-}
-

@@ -6,6 +6,7 @@ THIS_DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 all: build-holograms build-packages create-repo
 
 create-repo: build-holograms build-packages
+	@cd repo && perl ../prune_repo.pl
 	@repo-add -n -f repo/holograms.db.tar.xz repo/*.pkg.tar.xz
 	@rm -f repo/holograms.db.tar.xz.old
 	@ln -sf holograms.db repo/holograms.files
