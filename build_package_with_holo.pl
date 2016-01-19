@@ -9,23 +9,20 @@ use IPC::Open2;
 # the first argument is the package definition file
 my $filename = shift @ARGV;
 
-# read file for package name, version (TODO: recognize epoch)
-my ($pkgname, $pkgver, $pkgrel) = (undef, undef, 1);
+# read file for package name
+my $pkgname;
 open my $fh, '<', $filename;
 while (<$fh>) {
    if (/^\s*name\s*=\s*"(.+?)"\s*$/) {
       $pkgname = $1;
-   }
-   elsif (/^\s*version\s*=\s*"(.+?)"\s*$/) {
-      $pkgver = $1;
-   }
-   elsif (/^\s*release\s*=\s*(\d+?)\s*$/) {
-      $pkgrel = $1;
-   }
-   elsif (/^\[(?!package)/) {
       last;
    }
 }
+close($fh);
+
+# use holo-build to find the package file name
+open $fh, '-|', 'sh', '-c', "holo-build --suggest-filename < $filename";
+chomp(my $package_file = <$fh>);
 close($fh);
 
 # read makepkg.conf to see if signing is wanted
@@ -46,7 +43,6 @@ close($fh);
 #
 # (we're running inside the repo directory, so auto-output is fine)
 
-my $package_file = "$pkgname-$pkgver-$pkgrel-any.pkg.tar.xz";
 if (not -f $package_file) {
    system("holo-build <$filename");
 }
@@ -64,7 +60,7 @@ for my $other_file (glob("$pkgname-*.pkg.tar.xz")) {
    # whose name starts with that of the current package (globs can't tell that
    # apart)
    next if $other_file !~ m{^\Q$pkgname\E-[0-9.]+-[0-9]+-.*\.pkg\.tar\.xz};
-   say "Cleaning up $other_file (looks like an old version of $pkgname-$pkgver-$pkgrel)";
+   say "Cleaning up $other_file (looks like an old version of $package_file)";
    unlink $other_file;
 }
 

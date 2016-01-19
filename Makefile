@@ -24,6 +24,7 @@ build-holograms: $(HOLOBUILD_HOLOGRAMS)
 # compile AUR packages
 
 # These are the packages that I want.
+build-packages: package-arduino
 build-packages: package-broadcom-wl-dkms
 build-packages: package-gandi-dyndns # this package is not hosted in the AUR
 build-packages: package-gnaural package-gnaural-presets
