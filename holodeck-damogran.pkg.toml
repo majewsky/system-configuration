@@ -1,7 +1,7 @@
 [package]
 name        = "holodeck-damogran"
 version     = "20160130"
-release     = 5
+release     = 6
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -9,6 +9,7 @@ requires = [
     "hologram-multimedia-base",
     "hologram-damogran-dyndns",
     "hologram-damogran-audio",
+    "hologram-remount-efivarfs",
     # install a vim without GUI components
     "vim-minimal",
     # boot loader (no intel-ucode since Damogran has an AMD CPU and chipset)

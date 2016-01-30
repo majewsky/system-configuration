@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160101"
+version = "20160130"
 description = "hologram: base installation"
 
 requires = [
@@ -96,6 +96,17 @@ target = "/usr/share/zoneinfo/Europe/Berlin"
 path    = "/etc/vconsole.conf"
 content = """
     KEYMAP=de-latin1-nodeadkeys
+"""
+
+# filesystem
+[[file]]
+path    = "/usr/share/holo/files/00-base/etc/fstab.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    cat
+    # the following file should be generated at install time with genfstab
+    cat /etc/fstab.local || exit 1
 """
 
 # pacman

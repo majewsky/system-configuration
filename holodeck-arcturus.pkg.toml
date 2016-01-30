@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20151228.1"
+version     = "20160130"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -8,6 +8,7 @@ requires = [
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",
+    "hologram-remount-efivarfs",
     # support for Intel CPU/GPU
     "intel-ucode",
     "xf86-video-intel",
