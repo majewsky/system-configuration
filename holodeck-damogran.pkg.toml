@@ -1,7 +1,7 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20151228"
-release     = 3
+version     = "20160130"
+release     = 5
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -19,6 +19,7 @@ requires = [
     "iptables",
     # public services
     "nginx",
+    "todolist",
     "letsencrypt",
     # intranet services
     "jre7-openjdk-headless", # for Minecraft
@@ -392,6 +393,19 @@ content = """
 
         server {
             listen      80;
+            server_name todolist.holocm.org;
+
+            location / {
+                return 301 https://$host$request_uri;
+            }
+
+            location /.well-known/acme-challenge/ {
+                root /srv/http/todolist.holocm.org;
+            }
+        }
+
+        server {
+            listen      80;
             server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
 
             location / {
@@ -415,6 +429,21 @@ content = """
                 root  /srv/http/repo.holocm.org;
                 index index.html index.htm;
                 autoindex on;
+            }
+        }
+
+        server {
+            server_name todolist.holocm.org;
+            include     /etc/nginx/common-ssl.inc;
+
+            ssl_certificate     /etc/letsencrypt/live/todolist.holocm.org/fullchain.pem;
+            ssl_certificate_key /etc/letsencrypt/live/todolist.holocm.org/privkey.pem;
+            ssl_trusted_certificate /etc/letsencrypt/live/todolist.holocm.org/chain.pem;
+
+            location / {
+                proxy_pass http://localhost:8113;
+                proxy_set_header Authorization $http_authorization;
+                proxy_pass_header Authorization;
             }
         }
 
@@ -450,6 +479,42 @@ content = """
         </body>
     </html>
 """
+
+################################################################################
+# public web server: todolist app
+
+[[group]]
+name   = "todolist"
+system = true
+
+[[user]]
+name   = "todolist"
+group  = "todolist"
+system = true
+
+[[directory]]
+path  = "/var/lib/todolist"
+owner = "todolist"
+group = "todolist"
+
+[[file]]
+path    = "/usr/lib/systemd/system/todolist.service"
+content = """
+    [Unit]
+    Description=Minimalistic web-based todolist app
+
+    [Service]
+    ExecStart=/usr/bin/todolist -port 8113
+    WorkingDirectory=/var/lib/todolist
+    User=todolist
+
+    [Install]
+    WantedBy=multi-user.target
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/todolist.service"
+target = "/usr/lib/systemd/system/todolist.service"
 
 ################################################################################
 # public web server: letsencrypt integration
@@ -490,12 +555,17 @@ mode  = "0770"
 owner = "letsencrypt"
 group = "letsencrypt"
 [[directory]]
+path  = "/srv/http/todolist.holocm.org/.well-known/acme-challenge"
+mode  = "0770"
+owner = "letsencrypt"
+group = "letsencrypt"
+[[directory]]
 path  = "/srv/http/static.private/.well-known/acme-challenge"
 mode  = "0770"
 owner = "letsencrypt"
 group = "letsencrypt"
 
-# TODO: automate the initial `letsencrypt certonly --webroot -w /srv/http/static.private -d static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}` -w /srv/http/repo.holocm.org -d repo.holocm.org
+# TODO: automate the initial `letsencrypt certonly --webroot -w /srv/http/static.private -d static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}` -w /srv/http/repo.holocm.org -d repo.holocm.org -w /srv/http/todolist.holocm.org -d todolist.holocm.org
 
 # run letsencrypt-renewer regularly
 [[file]]

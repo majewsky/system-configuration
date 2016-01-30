@@ -1,9 +1,0 @@
-[Unit]
-Description=Minimalistic web-based todolist app
-
-[Service]
-ExecStart=/usr/bin/todolist -p 8113
-
-[Install]
-WantedBy=multi-user.target
-
