@@ -33,6 +33,7 @@ build-packages: package-gnaural package-gnaural-presets
 build-packages: package-otf-titillium-selfpackaged
 build-packages: package-ripit
 build-packages: package-screen-message
+build-packages: package-todolist # self-built
 build-packages: package-ttf-montserrat
 build-packages: package-vimprobable2
 build-packages: package-yaourt
