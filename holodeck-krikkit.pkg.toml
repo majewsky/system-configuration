@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20160130"
+version     = "20160201"
 description = "Holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -18,7 +18,6 @@ requires    = [
     "libreoffice-still",
     "mpd",
     "openvpn",
-    "pkgfile",
     "plasma-nm",
     "skype",
     "lib32-libcanberra", # optional dep for Skype
