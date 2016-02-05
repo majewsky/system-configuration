@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.1.0"
+version     = "1.1.1"
 description = "hologram: compilers and development tools"
 definitionFile = "/usr/share/holo/users-groups/50-arduino.toml"
 
@@ -15,6 +15,7 @@ requires = [
     "doxygen",
     "gdb",
     "go",
+    "go-tools",
     "holo-build",
     "perl-ipc-system-simple", # required for build_package.pl in this repo
     "perl-term-readkey",      # required for "interactive.singlekey" config of Git
