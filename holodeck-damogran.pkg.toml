@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160206.2"
+version     = "20160207.4"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -95,6 +95,10 @@ content = """
     Description=Internal LAN
     Address=10.0.0.1/24
     IPForward=ipv4
+
+    [Address]
+    # blackhole IP (traffic to this subnet is rejected)
+    Address=10.0.13.13/32
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/lan.network.holoscript"
@@ -179,6 +183,8 @@ content = """
     -A INPUT -m conntrack --ctstate INVALID -j DROP
     # accept pings from everywhere
     -A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
+    # block traffic to blackhole IP
+    -A INPUT --dest 10.0.13.13 -j REJECT --reject-with icmp-port-unreachable
     # attach chains for checking incoming connections
     -A INPUT -p udp -m conntrack --ctstate NEW -j UDP
     -A INPUT -p tcp -m tcp --syn -m conntrack --ctstate NEW -j TCP
@@ -322,10 +328,94 @@ content = """
     address=/damogran.local/10.0.0.1
     address=/arcturus.local/10.0.0.2
     address=/krikkit.local/10.0.0.3
+
+    # adblock
+    addn-hosts=/var/cache/adblock/hosts.txt
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/dnsmasq.conf.holoscript"
 target = "/my/variables"
+
+################################################################################
+# network setup: DNS-level adblocking using dnsmasq
+
+[[file]]
+path    = "/usr/lib/adblock-sync.sh"
+mode    = "0755"
+content = '''
+    #!/bin/bash
+    cd /var/cache/adblock/
+
+    # source: https://github.com/pi-hole/pi-hole/blob/963eacfe0537a7abddf30441c754c67ca1e40965/gravity.sh
+    sources=(
+        'https://adaway.org/hosts.txt'
+        'http://adblock.gjtech.net/?format=unix-hosts'
+        # 'http://adblock.mahakala.is/'
+        'http://hosts-file.net/.%5Cad_servers.txt'
+        'http://www.malwaredomainlist.com/hostslist/hosts.txt'
+        'http://pgl.yoyo.org/adservers/serverlist.php?'
+        'http://someonewhocares.org/hosts/hosts'
+        'http://winhelp2002.mvps.org/hosts.txt'
+    )
+
+    # query all sources
+    i=0
+    for s in ${sources[@]}; do
+        i=$((i+1))
+        wget -O hosts-$i.txt.new "$s" && mv hosts-$i.txt.new hosts-$i.txt
+    done
+
+    # select hostnames from hosts files (sed removes the IP, removes comments and trailing whitespace)
+    for file in hosts-?.txt; do
+        grep -E '^(127\.0\.0\.1|0\.0\.0\.0)\s' $file | sed 's/^\S*\s\+//;s/#.*//;s/\s\+$//'
+    # now generate a single addn-hosts file (sed adds the target, a blackhole IP configured on this host)
+    done | sort -u | grep -Ev '^local(host(.localdomain)?)?$' | sed 's/^/10.0.13.13 /' > hosts.txt
+'''
+
+[[directory]]
+path  = "/var/cache/adblock"
+owner = "dnsmasq"
+group = "dnsmasq"
+
+[[file]]
+path    = "/usr/lib/systemd/system/adblock-sync.service"
+content = """
+    [Unit]
+    Description=Generate domain-level adblock list
+    After=network-online.target
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/lib/adblock-sync.sh
+    User=dnsmasq
+"""
+
+[[file]]
+path    = "/etc/systemd/system/dnsmasq.service.d/adblock.conf"
+content = """
+    [Unit]
+    After=adblock-sync.service
+    Requires=adblock-sync.service
+"""
+
+[[file]]
+path    = "/usr/lib/systemd/system/adblock-sync.timer"
+content = """
+    [Unit]
+    Description=Renew domain-level adblock list weekly
+    After=network-online.target
+    Wants=network-online.target
+
+    [Timer]
+    OnUnitActiveSec=1w
+
+    [Install]
+    WantedBy=timers.target
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/timers.target.wants/adblock-sync.timer"
+target = "/usr/lib/systemd/system/adblock-sync.timer"
 
 ################################################################################
 # public web server
