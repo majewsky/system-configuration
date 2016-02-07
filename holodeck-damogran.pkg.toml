@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160207.4"
+version     = "20160207.6"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -445,7 +445,6 @@ content = """
     # recommended HTTP headers according to https://securityheaders.io
     add_header Strict-Transport-Security "max-age=15768000; includeSubDomains" always; # six months
     add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header Content-Security-Policy "default-src 'self'" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header X-Content-Type-Options "nosniff" always;
 
@@ -524,6 +523,8 @@ content = """
             server_name repo.holocm.org;
             include     /etc/nginx/common-ssl.inc;
 
+            add_header Content-Security-Policy "default-src 'self'" always;
+
             ssl_certificate     /etc/letsencrypt/live/repo.holocm.org/fullchain.pem;
             ssl_certificate_key /etc/letsencrypt/live/repo.holocm.org/privkey.pem;
             ssl_trusted_certificate /etc/letsencrypt/live/repo.holocm.org/chain.pem;
@@ -539,6 +540,8 @@ content = """
             server_name todolist.holocm.org;
             include     /etc/nginx/common-ssl.inc;
 
+            add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
+
             ssl_certificate     /etc/letsencrypt/live/todolist.holocm.org/fullchain.pem;
             ssl_certificate_key /etc/letsencrypt/live/todolist.holocm.org/privkey.pem;
             ssl_trusted_certificate /etc/letsencrypt/live/todolist.holocm.org/chain.pem;
@@ -553,6 +556,8 @@ content = """
         server {
             server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
             include     /etc/nginx/common-ssl.inc;
+
+            add_header Content-Security-Policy "default-src 'self'" always;
 
             ssl_certificate     /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/fullchain.pem;
             ssl_certificate_key /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/privkey.pem;
