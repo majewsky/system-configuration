@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160207.6"
+version     = "20160210.3"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -29,7 +29,14 @@ requires = [
 definitionFile = "/usr/share/holo/users-groups/50-damogran.toml"
 
 # setup script is required because mkinitcpio.conf is being modified by this package
-setupScript = "mkinitcpio -p linux"
+setupScript = """
+    mkinitcpio -p linux
+
+    if [ ! -f /var/cache/adblock/hosts.txt ]; then
+        touch /var/cache/adblock/hosts.txt
+        chown dnsmasq:dnsmasq /var/cache/adblock/hosts.txt
+    fi
+"""
 
 # TODO: smartd to monitor RAID
 # TODO: setup for Minecraft server
@@ -70,6 +77,7 @@ content = """
 path   = "/usr/share/holo/files/50-damogran-vars/boot/loader/entries/arch.conf.holoscript"
 target = "/my/variables"
 
+# TODO: is this still necessary? AFAICS the /boot partition is not involved in the early boot anymore
 [[file]]
 path    = "/usr/share/holo/files/50-damogran/etc/mkinitcpio.conf.holoscript"
 mode    = "0755"
@@ -370,6 +378,8 @@ content = '''
         grep -E '^(127\.0\.0\.1|0\.0\.0\.0)\s' $file | sed 's/^\S*\s\+//;s/#.*//;s/\s\+$//'
     # now generate a single addn-hosts file (sed adds the target, a blackhole IP configured on this host)
     done | sort -u | grep -Ev '^local(host(.localdomain)?)?$' | sed 's/^/10.0.13.13 /' > hosts.txt
+
+    systemctl reload dnsmasq
 '''
 
 [[directory]]
@@ -391,22 +401,15 @@ content = """
 """
 
 [[file]]
-path    = "/etc/systemd/system/dnsmasq.service.d/adblock.conf"
-content = """
-    [Unit]
-    After=adblock-sync.service
-    Requires=adblock-sync.service
-"""
-
-[[file]]
 path    = "/usr/lib/systemd/system/adblock-sync.timer"
 content = """
     [Unit]
     Description=Renew domain-level adblock list weekly
-    After=network-online.target
-    Wants=network-online.target
+    After=network-online.target dnsmasq.service
+    Wants=network-online.target dnsmasq.service
 
     [Timer]
+    OnBootSec=10s
     OnUnitActiveSec=1w
 
     [Install]
