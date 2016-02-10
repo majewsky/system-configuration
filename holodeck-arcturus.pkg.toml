@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20160130"
+version     = "20160209.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -17,6 +17,8 @@ requires = [
     "broadcom-wl-dkms", # closed source driver because Linux kernel does not support my Wifi module
     "linux-headers",    # optional dep for broadcom-wl-dkms
     "wpa_supplicant",
+    # additional apps
+    "kdeconnect",
 ]
 
 # setup script is required because mkinitcpio.conf is being modified by this package

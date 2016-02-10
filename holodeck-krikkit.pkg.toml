@@ -1,7 +1,7 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20160201"
-description = "Holodeck: services on Krikkit"
+version     = "20160209.1"
+description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
     "hologram-kde-desktop",
@@ -15,6 +15,7 @@ requires    = [
     "xf86-input-synaptics",
     "libva-intel-driver",
     # applications
+    "kdeconnect",
     "libreoffice-still",
     "mpd",
     "openvpn",
