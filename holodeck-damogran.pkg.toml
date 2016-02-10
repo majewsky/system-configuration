@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160210.3"
+version     = "20160210.4"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -9,8 +9,6 @@ requires = [
     "hologram-damogran-dyndns",
     "hologram-damogran-audio",
     "hologram-remount-efivarfs",
-    # install a vim without GUI components
-    "vim-minimal",
     # boot loader (no intel-ucode since Damogran has an AMD CPU and chipset)
     "gummiboot",
     # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)

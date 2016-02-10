@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160209.1"
+version = "20160210.1"
 description = "hologram: base installation"
 
 requires = [
@@ -23,6 +23,7 @@ requires = [
     "irssi",
     "iw",
     "lsof",
+    "neovim",
     "net-tools",      # netstat
     "nmap",           # ncat
     "optipng",
@@ -41,7 +42,7 @@ requires = [
     "units",
     "unrar",
     "unzip",
-    "vim",
+    "vim-minimal",
     "wget",
     "whois",
     "yaourt",
