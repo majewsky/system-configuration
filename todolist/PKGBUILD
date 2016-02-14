@@ -1,6 +1,6 @@
 pkgname='todolist'
-pkgver=0.1
-pkgrel=3
+pkgver=0.2
+pkgrel=1
 pkgdesc='Minimalistic web-based todolist app'
 arch=('i686' 'x86_64')
 url='https://github.com/majewsky/todolist'
@@ -8,14 +8,11 @@ license=('AGPL3')
 depends=()
 makedepends=('go')
 source=("https://github.com/majewsky/${pkgname}/archive/v${pkgver}.tar.gz")
-md5sums=('dece15c64895cbde02aeebdaf92f89e0')
+md5sums=('3d22dc608062a2eac81f90441dfd36b6')
 
 build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    rm -rf -- gopath
-    mkdir -p gopath/src/github.com/majewsky
-    ln -s $PWD gopath/src/github.com/majewsky/todolist
-    env GOPATH=$PWD/gopath make
+    make
 }
 
 package() {
