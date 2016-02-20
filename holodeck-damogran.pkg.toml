@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160220.2"
+version     = "20160220.3"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -365,8 +365,6 @@ content = '''
         grep -E '^(127\.0\.0\.1|0\.0\.0\.0)\s' $file | sed 's/^\S*\s\+//;s/#.*//;s/\s\+$//'
     # now generate a single addn-hosts file (sed adds the target, a blackhole IP configured on this host)
     done | sort -u | grep -Ev '^local(host(.localdomain)?)?$' | sed 's/^/10.0.13.13 /' > hosts.txt
-
-    systemctl reload dnsmasq
 '''
 
 [[directory]]
@@ -384,7 +382,9 @@ content = """
     [Service]
     Type=oneshot
     ExecStart=/usr/lib/adblock-sync.sh
+    ExecStartPost=/usr/bin/systemctl reload dnsmasq.service
     User=dnsmasq
+    PermissionsStartOnly=true
 """
 
 [[file]]

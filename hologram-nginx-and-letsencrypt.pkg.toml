@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx-and-letsencrypt"
-version     = "1.0"
+version     = "1.0.1"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -191,8 +191,10 @@ content = """
     [Service]
     Type=oneshot
     ExecStart=/usr/bin/letsencrypt-allofthem
+    ExecStartPost=/usr/bin/systemctl reload nginx.service
     User=letsencrypt
     Group=letsencrypt
+    PermissionsStartOnly=true
 """
 
 [[file]]
