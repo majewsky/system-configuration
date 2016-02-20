@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160210.4"
+version     = "20160220.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -16,14 +16,12 @@ requires = [
     "hostapd",
     "iptables",
     # public services
-    "nginx",
+    "hologram-nginx-and-letsencrypt",
     "todolist",
-    "letsencrypt",
     # intranet services
     "jre7-openjdk-headless", # for Minecraft
 ]
 
-# for letsencrypt
 definitionFile = "/usr/share/holo/users-groups/50-damogran.toml"
 
 # setup script is required because mkinitcpio.conf is being modified by this package
@@ -421,159 +419,78 @@ target = "/usr/lib/systemd/system/adblock-sync.timer"
 ################################################################################
 # public web server
 
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/nginx.service"
-target = "/usr/lib/systemd/system/nginx.service"
-
-# NOTE: ssl_certificate etc. do not interpolate variables, so need to be stated per host
+# TODO: split further
 [[file]]
-path    = "/etc/nginx/common-ssl.inc"
+path    = "/etc/nginx/sites-enabled/damogran.conf"
 content = """
-    listen 443 ssl;
+    server {
+        server_name repo.holocm.org;
+        include     /etc/nginx/server-baseline-http.inc;
+    }
 
-    ssl on;
-    # ssl_certificate     /etc/letsencrypt/live/$host/fullchain.pem;
-    # ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
-    ssl_session_timeout 1d;
-    ssl_session_cache shared:SSL:50m;
-    ssl_session_tickets off;
+    server {
+        server_name todolist.holocm.org;
+        include     /etc/nginx/server-baseline-http.inc;
+    }
 
-    # source esp. for cipher suite selection: https://wiki.mozilla.org/Security/Server_Side_TLS
-    ssl_prefer_server_ciphers on;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK';
+    server {
+        server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
+        include     /etc/nginx/server-baseline-http.inc;
+    }
 
-    # recommended HTTP headers according to https://securityheaders.io
-    add_header Strict-Transport-Security "max-age=15768000; includeSubDomains" always; # six months
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header X-Content-Type-Options "nosniff" always;
+    server {
+        server_name repo.holocm.org;
+        include     /etc/nginx/server-baseline-https.inc;
 
-    # Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
-    # NOTE: generate this with `sudo openssl dhparam -out /etc/nginx/dhparam.pem 2048`
-    ssl_dhparam /etc/nginx/dhparam.pem;
+        add_header Content-Security-Policy "default-src 'self'" always;
 
-    # activate OCSP stapling (source: https://github.com/letsencrypt/letsencrypt/blob/master/letsencrypt-nginx/letsencrypt_nginx/configurator.py)
-    # ssl_trusted_certificate /etc/letsencrypt/live/$host/chain.pem;
-    ssl_stapling on;
-    ssl_stapling_verify on;
+        ssl_certificate     /etc/letsencrypt/live/repo.holocm.org/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/repo.holocm.org/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/repo.holocm.org/chain.pem;
 
-    error_page 500 502 503 504  /50x.html;
-    location = /50x.html {
-        root /usr/share/nginx/html;
+        location / {
+            root  /srv/http/repo.holocm.org;
+            index index.html index.htm;
+            autoindex on;
+        }
+    }
+
+    server {
+        server_name todolist.holocm.org;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
+
+        ssl_certificate     /etc/letsencrypt/live/todolist.holocm.org/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/todolist.holocm.org/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/todolist.holocm.org/chain.pem;
+
+        location / {
+            proxy_pass http://localhost:8113;
+            proxy_set_header Authorization $http_authorization;
+            proxy_pass_header Authorization;
+        }
+    }
+
+    server {
+        server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header Content-Security-Policy "default-src 'self'" always;
+
+        ssl_certificate     /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/chain.pem;
+
+        location / {
+            root  /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
+            index index.html index.htm;
+        }
     }
 """
 
-[[file]]
-path    = "/usr/share/holo/files/50-damogran/etc/nginx/nginx.conf"
-content = """
-    # default configuration
-    user http;
-    worker_processes 1;
-    events {
-        worker_connections 1024;
-    }
-
-    http {
-        include mime.types;
-        default_type application/octet-stream;
-
-        sendfile on;
-        keepalive_timeout 65;
-
-        server {
-            listen      80;
-            server_name repo.holocm.org;
-
-            location / {
-                return 301 https://$host$request_uri;
-            }
-
-            location /.well-known/acme-challenge/ {
-                root /srv/http/repo.holocm.org;
-            }
-        }
-
-        server {
-            listen      80;
-            server_name todolist.holocm.org;
-
-            location / {
-                return 301 https://$host$request_uri;
-            }
-
-            location /.well-known/acme-challenge/ {
-                root /srv/http/todolist.holocm.org;
-            }
-        }
-
-        server {
-            listen      80;
-            server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-
-            location / {
-                return 301 https://$host$request_uri;
-            }
-
-            location /.well-known/acme-challenge/ {
-                root /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-            }
-        }
-
-        server {
-            server_name repo.holocm.org;
-            include     /etc/nginx/common-ssl.inc;
-
-            add_header Content-Security-Policy "default-src 'self'" always;
-
-            ssl_certificate     /etc/letsencrypt/live/repo.holocm.org/fullchain.pem;
-            ssl_certificate_key /etc/letsencrypt/live/repo.holocm.org/privkey.pem;
-            ssl_trusted_certificate /etc/letsencrypt/live/repo.holocm.org/chain.pem;
-
-            location / {
-                root  /srv/http/repo.holocm.org;
-                index index.html index.htm;
-                autoindex on;
-            }
-        }
-
-        server {
-            server_name todolist.holocm.org;
-            include     /etc/nginx/common-ssl.inc;
-
-            add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
-
-            ssl_certificate     /etc/letsencrypt/live/todolist.holocm.org/fullchain.pem;
-            ssl_certificate_key /etc/letsencrypt/live/todolist.holocm.org/privkey.pem;
-            ssl_trusted_certificate /etc/letsencrypt/live/todolist.holocm.org/chain.pem;
-
-            location / {
-                proxy_pass http://localhost:8113;
-                proxy_set_header Authorization $http_authorization;
-                proxy_pass_header Authorization;
-            }
-        }
-
-        server {
-            server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-            include     /etc/nginx/common-ssl.inc;
-
-            add_header Content-Security-Policy "default-src 'self'" always;
-
-            ssl_certificate     /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/fullchain.pem;
-            ssl_certificate_key /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/privkey.pem;
-            ssl_trusted_certificate /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/chain.pem;
-
-            location / {
-                root  /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-                index index.html index.htm;
-            }
-        }
-
-    }
-"""
 [[symlink]]
-path   = "/usr/share/holo/files/50-damogran-vars/etc/nginx/nginx.conf.holoscript"
+path   = "/usr/share/holo/files/50-damogran-vars/etc/nginx/sites-enabled/damogran.conf.holoscript"
 target = "/my/variables"
 
 ################################################################################
@@ -615,88 +532,21 @@ target = "/usr/lib/systemd/system/todolist.service"
 ################################################################################
 # public web server: letsencrypt integration
 
-[[group]]
-name   = "letsencrypt"
-system = true
-
-[[user]]
-name   = "letsencrypt"
-group  = "letsencrypt"
-system = true
-home   = "/var/lib/letsencrypt"
-
-[[user]]
-name   = "http"
-groups = ["letsencrypt"]
-
-# fix UID/GID on directories provided by letsencrypt package
-[[directory]]
-path  = "/etc/letsencrypt"
-owner = "letsencrypt"
-group = "letsencrypt"
-[[directory]]
-path  = "/var/lib/letsencrypt"
-owner = "letsencrypt"
-group = "letsencrypt"
-[[directory]]
-path  = "/var/log/letsencrypt"
-mode  = "0700"
-owner = "letsencrypt"
-group = "letsencrypt"
-
-# these directories need to be writable by the letsencrypt user for the web challenges
-[[directory]]
-path  = "/srv/http/repo.holocm.org/.well-known/acme-challenge"
-mode  = "0770"
-owner = "letsencrypt"
-group = "letsencrypt"
-[[directory]]
-path  = "/srv/http/todolist.holocm.org/.well-known/acme-challenge"
-mode  = "0770"
-owner = "letsencrypt"
-group = "letsencrypt"
-[[directory]]
-path  = "/srv/http/static.private/.well-known/acme-challenge"
-mode  = "0770"
-owner = "letsencrypt"
-group = "letsencrypt"
-
-# TODO: automate the initial `letsencrypt certonly --webroot -w /srv/http/static.private -d static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}` -w /srv/http/repo.holocm.org -d repo.holocm.org -w /srv/http/todolist.holocm.org -d todolist.holocm.org
-
-# run letsencrypt-renewer regularly
 [[file]]
-path    = "/usr/lib/systemd/system/letsencrypt-renewer.service"
+path    = "/etc/systemd/system/letsencrypt-allofthem.service.d/after-dyndns.conf"
 content = """
     [Unit]
-    Description=Check and renew TLS certificates
-    After=network-online.target gandi-dyndns.service
-    Wants=network-online.target gandi-dyndns.service
-
-    [Service]
-    Type=oneshot
-    ExecStart=/usr/bin/letsencrypt-renewer
-    User=letsencrypt
+    After=gandi-dyndns.service
+    Wants=gandi-dyndns.service
 """
 
 [[file]]
-path    = "/usr/lib/systemd/system/letsencrypt-renewer.timer"
+path    = "/etc/systemd/system/letsencrypt-allofthem.timer.d/after-dyndns.conf"
 content = """
     [Unit]
-    Description=Check and renew TLS certificates once a day
-    After=network-online.target
-    Wants=network-online.target
-
-    [Timer]
-    OnBootSec=1h
-    OnUnitActiveSec=1d
-
-    [Install]
-    WantedBy=timers.target
+    After=gandi-dyndns.service
+    Wants=gandi-dyndns.service
 """
-
-[[symlink]]
-path   = "/etc/systemd/system/timers.target.wants/letsencrypt-renewer.timer"
-target = "/usr/lib/systemd/system/letsencrypt-renewer.timer"
 
 # take an automatic backup of /etc/letsencrypt every three days
 [[file]]
