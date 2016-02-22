@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx-and-letsencrypt"
-version     = "1.0.1"
+version     = "1.0.2"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -153,7 +153,7 @@ group = "letsencrypt"
 # script to interactively (and after that, automatically) issue certificates
 # TODO: During initial setup, there is an ugly manual step involved here.
 # letsencrypt needs nginx to be running to serve the acme-challenge, but nginx
-# won't start until certs have been provisioned. The solution is to disable the
+# won't start until certs have been provisioned. A workaround is to disable the
 # https configurations until the first letsencrypt-allofthem passed.
 [[file]]
 path    = "/usr/bin/letsencrypt-allofthem"
@@ -167,19 +167,11 @@ content = '''
 
     set -e
     grep -o '/etc/letsencrypt/live/[^/]\+' /etc/nginx/sites-enabled/*.conf | cut -d/ -f5 | sort -u | while read domain; do
-        letsencrypt certonly --agree-tos --keep-until-expiring --webroot -w /srv/letsencrypt/ -d "$domain"
+        echo ">> domain: $domain"
+        letsencrypt certonly --non-interactive --agree-tos --keep-until-expiring --webroot -w /srv/letsencrypt/ -d "$domain"
     done
 '''
 
-# TODO: FIXME: This thing fails with
-# Feb 20 14:26:25 damogran systemd[1]: Starting Provision and renew TLS certificates automatically...
-# Feb 20 14:26:26 damogran letsencrypt-allofthem[7496]: An unexpected error occurred:
-# Feb 20 14:26:26 damogran letsencrypt-allofthem[7496]: PythonDialogBug
-# Feb 20 14:26:26 damogran letsencrypt-allofthem[7496]: Please see the logfiles in /var/log/letsencrypt for more details.
-# Feb 20 14:26:27 damogran systemd[1]: letsencrypt-allofthem.service: Main process exited, code=exited, status=1/FAILURE
-# Feb 20 14:26:27 damogran systemd[1]: Failed to start Provision and renew TLS certificates automatically.
-# Feb 20 14:26:27 damogran systemd[1]: letsencrypt-allofthem.service: Unit entered failed state.
-# Feb 20 14:26:27 damogran systemd[1]: letsencrypt-allofthem.service: Failed with result 'exit-code'.
 [[file]]
 path    = "/usr/lib/systemd/system/letsencrypt-allofthem.service"
 content = """

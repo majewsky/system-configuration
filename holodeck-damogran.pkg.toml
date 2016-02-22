@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160220.3"
+version     = "20160222.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -522,14 +522,6 @@ target = "/usr/lib/systemd/system/todolist.service"
 
 ################################################################################
 # public web server: letsencrypt integration
-
-[[file]]
-path    = "/etc/systemd/system/letsencrypt-allofthem.service.d/after-dyndns.conf"
-content = """
-    [Unit]
-    After=gandi-dyndns.service
-    Wants=gandi-dyndns.service
-"""
 
 [[file]]
 path    = "/etc/systemd/system/letsencrypt-allofthem.timer.d/after-dyndns.conf"
