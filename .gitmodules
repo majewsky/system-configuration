@@ -31,3 +31,6 @@
 [submodule "arduino"]
 	path = arduino
 	url = https://aur.archlinux.org/arduino.git/
+[submodule "gogs"]
+	path = gogs
+	url = https://aur.archlinux.org/gogs.git

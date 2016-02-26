@@ -1,11 +1,15 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.0.3"
+version     = "1.1.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
     "hologram-base-hetzner",
     "ferm",
+    # web services
+    "hologram-nginx-and-letsencrypt",
+    "gogs",
+    "sqlite",
 ]
 
 ################################################################################
@@ -81,3 +85,34 @@ content = """
         chain FORWARD policy DROP;
     }
 """
+
+################################################################################
+# web services: gogs
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/gogs.service"
+target = "/usr/lib/systemd/system/gogs.service"
+
+[[file]]
+path    = "/etc/nginx/sites-enabled/gogs.conf"
+content = '''
+    server {
+        server_name git.bethselamin.de;
+        include     /etc/nginx/server-baseline-http.inc;
+    }
+
+    server {
+        server_name git.bethselamin.de;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self'" always;
+
+        ssl_certificate     /etc/letsencrypt/live/git.bethselamin.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/git.bethselamin.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/git.bethselamin.de/chain.pem;
+
+        location / {
+            proxy_pass http://localhost:3000;
+        }
+    }
+'''

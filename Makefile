@@ -29,6 +29,7 @@ build-packages: package-arduino
 build-packages: package-broadcom-wl-dkms
 build-packages: package-gandi-dyndns # this package is not hosted in the AUR
 build-packages: package-gnaural package-gnaural-presets
+build-packages: package-gogs
 #build-packages: package-otf-titillium # disabled because this is not yet transferred to AUR4, it seems
 build-packages: package-otf-titillium-selfpackaged
 build-packages: package-ripit
