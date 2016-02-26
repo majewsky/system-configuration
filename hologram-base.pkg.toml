@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160210.1"
+version = "20160226.1"
 description = "hologram: base installation"
 
 requires = [
@@ -51,16 +51,7 @@ requires = [
 ]
 
 definitionFile = "/usr/share/holo/users-groups/00-base.toml"
-setupScript    = """
-    locale-gen
-    if [ ! -f /home/stefan/.ssh/authorized_keys ]; then
-        cp /my/authorized_keys /home/stefan/.ssh/authorized_keys
-        chmod 0600 /home/stefan/.ssh/authorized_keys
-        chown stefan:users /home/stefan/.ssh/authorized_keys
-    fi
-"""
-
-# TODO: use holo-ssh-keys
+setupScript    = "locale-gen"
 
 # entities
 [[group]]
@@ -121,7 +112,7 @@ content = '''
         # enable additional options
         s/^#\(Color\|VerbosePkgLists\)$/\1/
 
-        # enable multilib repo
+        # enable multilib repo (TODO: move this into a later hologram?)
         /^#\[multilib]/,/^$/s/^#//
     '
 
@@ -175,36 +166,10 @@ content = """
     Defaults env_keep+="http_proxy https_proxy ftp_proxy all_proxy socks_proxy no_proxy"
 """
 
-# systemd-journald
-[[file]]
-path    = "/etc/systemd/journald.conf.d/hologram-base.conf"
-content = """
-    [Journal]
-    # setup volatile storage
-    Storage=volatile
-    RuntimeMaxUse=100M
-    # setup forwarding to tty12
-    ForwardToConsole=yes
-    TTYPath=/dev/tty12
-    MaxLevelConsole=info
-"""
-
 # systemd-networkd
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/systemd-networkd.service"
 target = "/usr/lib/systemd/system/systemd-networkd.service"
-
-# systemd-timesyncd
-[[file]]
-path    = "/etc/systemd/timesyncd.conf.d/hologram-base.conf"
-content = """
-    [Time]
-    NTP=ptbtime1.ptb.de
-"""
-
-[[symlink]]
-path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
-target = "/usr/lib/systemd/system/systemd-timesyncd.service"
 
 # home directory including SSH keys
 [[directory]]

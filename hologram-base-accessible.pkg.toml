@@ -1,0 +1,45 @@
+[package]
+name        = "hologram-base-accessible"
+version     = "1.0.0"
+description = "hologram: extension of hologram-base for physically accessible systems"
+
+requires = [
+    "hologram-base",
+]
+
+definitionFile = "/usr/share/holo/users-groups/00-base.toml"
+setupScript = """
+    if [ ! -f /home/stefan/.ssh/authorized_keys ]; then
+        cp /my/authorized_keys /home/stefan/.ssh/authorized_keys
+        chmod 0600 /home/stefan/.ssh/authorized_keys
+        chown stefan:users /home/stefan/.ssh/authorized_keys
+    fi
+"""
+
+# TODO: use holo-ssh-keys
+
+# systemd-journald
+[[file]]
+path    = "/etc/systemd/journald.conf.d/hologram-base.conf"
+content = """
+    [Journal]
+    # setup volatile storage
+    Storage=volatile
+    RuntimeMaxUse=100M
+    # setup forwarding to tty12
+    ForwardToConsole=yes
+    TTYPath=/dev/tty12
+    MaxLevelConsole=info
+"""
+
+# systemd-timesyncd
+[[file]]
+path    = "/etc/systemd/timesyncd.conf.d/hologram-base.conf"
+content = """
+    [Time]
+    NTP=ptbtime1.ptb.de
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
+target = "/usr/lib/systemd/system/systemd-timesyncd.service"

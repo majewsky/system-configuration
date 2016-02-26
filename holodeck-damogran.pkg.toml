@@ -1,10 +1,10 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160222.1"
+version     = "20160226.1"
 description = "holodeck: services on Damogran"
 
 requires = [
-    "hologram-base",
+    "hologram-base-accessible",
     "hologram-multimedia-base",
     "hologram-damogran-dyndns",
     "hologram-damogran-audio",

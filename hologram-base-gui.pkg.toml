@@ -1,10 +1,10 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.0.8"
+version     = "1.0.9"
 description = "hologram: base GUI installation"
 
 requires = [
-    "hologram-base",
+    "hologram-base-accessible",
     "hologram-multimedia-base",
     "xorg-server",
     # assorted GUI apps
