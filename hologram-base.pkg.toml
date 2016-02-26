@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160226.1"
+version = "20160226.2"
 description = "hologram: base installation"
 
 requires = [
@@ -175,32 +175,32 @@ target = "/usr/lib/systemd/system/systemd-networkd.service"
 [[directory]]
 path  = "/home/stefan"
 mode  = "0700"
-owner = "stefan"
-group = "users"
+owner = 1001 # stefan
+group = 100  # users
 
 [[directory]]
 path  = "/home/stefan/.ssh"
 mode  = "0700"
-owner = "stefan"
-group = "users"
+owner = 1001 # stefan
+group = 100  # users
 
 # development environment bootstrapping
 [[directory]]
 path  = "/home/stefan.devenv"
 mode  = "0700"
-owner = "stefan"
-group = "users"
+owner = 1001 # stefan
+group = 100  # users
 
 [[directory]]
 path  = "/home/stefan.devenv/build"
-owner = "stefan"
-group = "users"
+owner = 1001 # stefan
+group = 100  # users
 
 [[file]]
 path  = "/home/stefan.devenv/bootstrap.sh"
 mode  = "0755"
-owner = "stefan"
-group = "users"
+owner = 1001 # stefan
+group = 100  # users
 content = """
     #!/bin/sh
     set -e
