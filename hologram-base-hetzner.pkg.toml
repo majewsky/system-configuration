@@ -1,0 +1,37 @@
+[package]
+name        = "hologram-base-hetzner"
+version     = "1.0.1"
+description = "hologram: configuration for my servers hosted by hetzner.de"
+
+requires = [
+    "hologram-base",
+]
+
+# authorized SSH keys
+[[file]]
+path    = "/usr/share/holo/ssh-keys/stefan/hetzner.pub"
+content = """
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC35KpWLuaB6Tf/rpm4ofIhfoBxYxsTxo/WWFZvvM7XSQmn1Z99AbidZvQZnc3kRmS3epo42oGjTLVmnEWKt2RcDNgxfbR8jZ5CYmy2ZQUYBM/S63dG1b4msRUIdlP3oBWqk2393/ZDMt54F8voN6e5kk7K+Sca4JxZGRzTp6xVW2DExKioK/AFwxqBHuBRJ0Nr725nI4h1wGz6ZdxKbDS3rTiPIe9bjrt97e4XaqUlQKVi6MiMfr8TBCWXQkPcahYIuHsn6MBhTSv6/lr5IDzKhwBE1ZC8muNxbsCfUxG6VeNKD9q5cnQ3fSZOpWvjMaWdng4Wa2EHk98PDHKLIEL/doeEfmR7SwsLDk6vM8YOPVj51C4C2KWzm6ZCnRzfBNrX9+SmiELKeJ35Qwg25P5wUWWmL+EgmR8CXZyHlBeqc9V1LDP0Ou0e+/6RqyOhC+58jTp+FCy8ohNtrsANDhDK+9bHKQWfmDmPQw0TOJiKjxIfwye/qF7tZZf9KJE9fb7lBbh8hHfDSOMiALsgR6Bzaw2vGCIJ8hWjZCTQ8xljiE+edsSYkyf/Hfnyvlc8pNMDXp4iHx/47NT+geVwhxpVBYjE0+lmvZdX6WFCF1yP5DPjEI1tkWQxyDbY8YLMl7mAl9n2q+46V3AbuRWPBm8s+ev2BcYTR5wYWmC6BXSZpw== stefan@krikkit
+"""
+
+# systemd-timesyncd
+[[file]]
+path    = "/etc/systemd/timesyncd.conf.d/hetzner.conf"
+content = """
+    [Time]
+    NTP=ntp1.hetzner.de ntp2.hetzner.com ntp3.hetzner.net
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
+target = "/usr/lib/systemd/system/systemd-timesyncd.service"
+
+# pacman: put the Hetzner mirror in front
+[[file]]
+path    = "/usr/share/holo/files/50-hetzner/etc/pacman.d/mirrorlist.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    echo 'Server = http://mirror.hetzner.de/archlinux/$repo/os/$arch'
+    cat
+"""
