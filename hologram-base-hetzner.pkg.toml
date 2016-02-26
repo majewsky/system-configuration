@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-hetzner"
-version     = "1.0.3"
+version     = "1.0.4"
 description = "hologram: configuration for my servers hosted by hetzner.de"
 
 requires = [
@@ -13,6 +13,7 @@ requires = [
 path    = "/usr/share/holo/ssh-keys/stefan/hetzner.pub"
 content = """
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC35KpWLuaB6Tf/rpm4ofIhfoBxYxsTxo/WWFZvvM7XSQmn1Z99AbidZvQZnc3kRmS3epo42oGjTLVmnEWKt2RcDNgxfbR8jZ5CYmy2ZQUYBM/S63dG1b4msRUIdlP3oBWqk2393/ZDMt54F8voN6e5kk7K+Sca4JxZGRzTp6xVW2DExKioK/AFwxqBHuBRJ0Nr725nI4h1wGz6ZdxKbDS3rTiPIe9bjrt97e4XaqUlQKVi6MiMfr8TBCWXQkPcahYIuHsn6MBhTSv6/lr5IDzKhwBE1ZC8muNxbsCfUxG6VeNKD9q5cnQ3fSZOpWvjMaWdng4Wa2EHk98PDHKLIEL/doeEfmR7SwsLDk6vM8YOPVj51C4C2KWzm6ZCnRzfBNrX9+SmiELKeJ35Qwg25P5wUWWmL+EgmR8CXZyHlBeqc9V1LDP0Ou0e+/6RqyOhC+58jTp+FCy8ohNtrsANDhDK+9bHKQWfmDmPQw0TOJiKjxIfwye/qF7tZZf9KJE9fb7lBbh8hHfDSOMiALsgR6Bzaw2vGCIJ8hWjZCTQ8xljiE+edsSYkyf/Hfnyvlc8pNMDXp4iHx/47NT+geVwhxpVBYjE0+lmvZdX6WFCF1yP5DPjEI1tkWQxyDbY8YLMl7mAl9n2q+46V3AbuRWPBm8s+ev2BcYTR5wYWmC6BXSZpw== stefan@krikkit
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1oM/869b9UCtbfGZv0jGcRUWTXVliS0QbzjOrVXNHWdP8M7WembEmYsAwxMeYCzIJJHdcdR4T833Rsr9rdPlOM3Lr9cuSSI8yqF4AUxtfh0jzPDfvIfuzqzrAjeg2bmwmYbkO5gbC9i8Zm8beSGkJwIFlc0dkHDJCaDefg45VJe4uDtLobpembzj+WEfd58z8bFqduBPPjIpx2bRHj9RVse7s+6ZLlEWxEdjLlfUHPXiIZoWVShimxPPB3PxfHj6qKzATeehYqRC3wUB/yCgGL8n24bAeusnZ2svUl1qUN99Wo8fLkyFtLtrfPAXacRTxc5rnIhvJCBOJ9yGMrMSiHqxaafcrKB6TxX8tj51hWjEsc7NtbJHGrirW/GUKN6Ycfx+gjc/2W+k15SyxsG4C1uO5TSgjo9Oh1FwRKX3HQ1uLw5CvjvcflFCW4+7xux9RXIzo94qf8NQCJ5RLzoppnJfb88ZG0KoL/qn47PjWA4Ue0KipKtaxbLysegd3iZcWfMJsxHv/vJiIyjYitAIc1DuTnqcHqp9Nk1HAKhVwH1/JJ4i0eWlf6b3XxyS9qs6DUWG9kURWwj3ylTvBLzd4Uu3Bl2E3n5jco/AeYd36dzwegow2vjZPuqLB5g0RC2TlGyWsMP/mx3qu5JCCsN6bLaZt3tCoXW7/nDxdT294+Q== stefan@arcturus
 """
 
 # systemd-timesyncd
