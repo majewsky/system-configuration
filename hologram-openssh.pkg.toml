@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-openssh"
-version     = "1.4.0"
+version     = "1.4.1"
 description = "hologram: hardened OpenSSH server"
 requires    = [
     "holo>=0.10",
@@ -60,9 +60,6 @@ content = """
 """
 
 # disable weak host keys by placing invalid symlinks at their location
-# (TODO: broken! empty files are unpacked instead! fix with:
-#   for file in ssh_host_{,dsa_,ecdsa_}key{,.pub}; do ln -fs $file /etc/ssh/$file; done
-# )
 [[symlink]]
 path   = "/etc/ssh/ssh_host_key"
 target = "ssh_host_key"
