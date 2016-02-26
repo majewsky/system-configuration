@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160226.2"
+version = "20160226.3"
 description = "hologram: base installation"
 
 requires = [
@@ -170,6 +170,9 @@ content = """
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/systemd-networkd.service"
 target = "/usr/lib/systemd/system/systemd-networkd.service"
+[[symlink]]
+path   = "/etc/systemd/system/sockets.target.wants/systemd-networkd.socket"
+target = "/usr/lib/systemd/system/systemd-networkd.socket"
 
 # home directory including SSH keys
 [[directory]]
