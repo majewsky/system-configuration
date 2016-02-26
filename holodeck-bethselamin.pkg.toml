@@ -1,10 +1,11 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.0.2"
+version     = "1.0.3"
 description = "holodeck: services on Bethselamin"
 
 requires = [
     "hologram-base-hetzner",
+    "ferm",
 ]
 
 ################################################################################
@@ -40,3 +41,43 @@ content = """
 [[symlink]]
 path   = "/usr/share/holo/files/50-hetzner-vars/etc/systemd/network/50-hetzner.network.holoscript"
 target = "/my/variables"
+
+################################################################################
+# firewall
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/ferm.service"
+target = "/usr/lib/systemd/system/ferm.service"
+
+[[file]]
+path    = "/usr/share/holo/files/50-hetzner/etc/ferm.conf"
+content = """
+    table filter {
+        chain INPUT {
+            policy DROP;
+
+            # connection tracking
+            mod state state INVALID DROP;
+            mod state state (ESTABLISHED RELATED) ACCEPT;
+
+            # allow local connections
+            interface lo ACCEPT;
+
+            # respond to ping
+            proto icmp icmp-type echo-request ACCEPT;
+
+            # allow SSH, HTTP, HTTPS
+            proto tcp dport ssh ACCEPT;
+            proto tcp dport http ACCEPT;
+            proto tcp dport https ACCEPT;
+
+            # the rest is dropped by the above policy
+        }
+
+        # outgoing connections are not limited
+        chain OUTPUT policy ACCEPT;
+
+        # this is not a router
+        chain FORWARD policy DROP;
+    }
+"""
