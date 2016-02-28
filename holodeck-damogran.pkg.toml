@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160226.1"
+version     = "20160228.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -414,21 +414,6 @@ target = "/usr/lib/systemd/system/adblock-sync.timer"
 [[file]]
 path    = "/etc/nginx/sites-enabled/damogran.conf"
 content = """
-    server {
-        server_name repo.holocm.org;
-        include     /etc/nginx/server-baseline-http.inc;
-    }
-
-    server {
-        server_name todolist.holocm.org;
-        include     /etc/nginx/server-baseline-http.inc;
-    }
-
-    server {
-        server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-        include     /etc/nginx/server-baseline-http.inc;
-    }
-
     server {
         server_name repo.holocm.org;
         include     /etc/nginx/server-baseline-https.inc;

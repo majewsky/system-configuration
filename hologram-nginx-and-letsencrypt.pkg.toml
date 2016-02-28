@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx-and-letsencrypt"
-version     = "1.0.3"
+version     = "1.1.0"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -15,26 +15,6 @@ definitionFile = "/usr/share/holo/users-groups/10-letsencrypt.toml"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/nginx.service"
 target = "/usr/lib/systemd/system/nginx.service"
-
-[[file]]
-path    = "/etc/nginx/server-baseline-http.inc"
-content = """
-    # This include file sets up a redirect from http:// to https:// for the
-    # "server" directive into which it is included. Use like this:
-    #
-    #       server_name foo.bar;
-    #       include     /etc/nginx/server-baseline-http.inc;
-    #
-    listen 80;
-
-    location / {
-        return 301 https://$host$request_uri;
-    }
-
-    location /.well-known/acme-challenge/ {
-        root /srv/letsencrypt;
-    }
-"""
 
 [[file]]
 path    = "/etc/nginx/server-baseline-https.inc"
@@ -102,6 +82,19 @@ content = """
 
         sendfile on;
         keepalive_timeout 65;
+
+        server {
+            listen 80 default_server;
+
+            # forward all HTTP requests to HTTPS...
+            location / {
+                return 301 https://$host$request_uri;
+            }
+            # ...except for ACME challenges
+            location /.well-known/acme-challenge/ {
+                root /srv/letsencrypt;
+            }
+        }
 
         include /etc/nginx/sites-enabled/*.conf;
     }
