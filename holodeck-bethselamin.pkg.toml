@@ -1,16 +1,20 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.1.1"
+version     = "1.2.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
     "hologram-base-hetzner",
     "ferm",
+    "grub",
     # web services
     "hologram-nginx-and-letsencrypt",
     "gogs",
-    "sqlite",
+    "sqlite", # for gogs
+    "todolist",
 ]
+
+definitionFile = "/usr/share/holo/users-groups/50-damogran.toml"
 
 ################################################################################
 # identity
@@ -111,3 +115,62 @@ content = '''
         }
     }
 '''
+
+################################################################################
+# web services: todolist
+
+[[file]]
+path    = "/etc/nginx/sites-enabled/todolist.conf"
+content = '''
+    server {
+        server_name todolist.bethselamin.de;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
+
+        ssl_certificate     /etc/letsencrypt/live/todolist.bethselamin.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/todolist.bethselamin.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/todolist.bethselamin.de/chain.pem;
+
+        location / {
+            proxy_pass http://localhost:8113;
+            proxy_set_header Authorization $http_authorization;
+            proxy_pass_header Authorization;
+        }
+    }
+
+'''
+
+[[group]]
+name   = "todolist"
+system = true
+
+[[user]]
+name   = "todolist"
+group  = "todolist"
+system = true
+home   = "/var/lib/todolist"
+
+[[directory]]
+path  = "/var/lib/todolist"
+owner = "todolist"
+group = "todolist"
+
+[[file]]
+path    = "/usr/lib/systemd/system/todolist.service"
+content = """
+    [Unit]
+    Description=Minimalistic web-based todolist app
+
+    [Service]
+    ExecStart=/usr/bin/todolist -port 8113
+    WorkingDirectory=/var/lib/todolist
+    User=todolist
+
+    [Install]
+    WantedBy=multi-user.target
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/todolist.service"
+target = "/usr/lib/systemd/system/todolist.service"

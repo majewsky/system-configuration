@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx-and-letsencrypt"
-version     = "1.1.0"
+version     = "1.1.1"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -137,6 +137,11 @@ owner = "letsencrypt"
 group = "letsencrypt"
 
 # filesystem location for the webroot challenge method
+[[directory]]
+path = "/srv/letsencrypt/.well-known"
+mode  = "0750"
+owner = "letsencrypt"
+group = "letsencrypt"
 [[directory]]
 path = "/srv/letsencrypt/.well-known/acme-challenge"
 mode  = "0750"
