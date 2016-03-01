@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx-and-letsencrypt"
-version     = "1.1.2"
+version     = "1.1.3"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -34,7 +34,11 @@ content = """
     #
     #     add_header Content-Security-Policy "default-src 'self'" always;
     #
+
+    # IPv4
     listen 443 ssl;
+    # IPv6
+    listen [::]:443 ssl;
 
     ssl on;
     ssl_session_timeout 1d;
@@ -84,7 +88,10 @@ content = """
         keepalive_timeout 65;
 
         server {
+            # IPv4
             listen 80 default_server;
+            # IPv6
+            listen [::]:80 default_server;
 
             # forward all HTTP requests to HTTPS...
             location / {
