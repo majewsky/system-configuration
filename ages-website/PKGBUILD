@@ -1,6 +1,6 @@
 pkgname=ages-website
 pkgver=20160301
-pkgrel=1
+pkgrel=2
 pkgdesc='Contents for AGeS website'
 arch=('any')
 url='https://www.ages-skripte.org'
@@ -11,6 +11,6 @@ md5sums=('SKIP')
 
 package() {
     cd "${srcdir}"
-    install -d -m 0644 "${pkgdir}/usr/share/ages-website/"
+    install -d -m 0755 "${pkgdir}/usr/share/ages-website/"
     cp -R ages-website/ "${pkgdir}/usr/share/"
 }
