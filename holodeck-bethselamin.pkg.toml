@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.2.2"
+version     = "1.3.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -9,6 +9,7 @@ requires = [
     "grub",
     # web services
     "hologram-nginx-and-letsencrypt",
+    "ages-website",
     "gogs",
     "sqlite", # for gogs
     "todolist",
@@ -174,3 +175,36 @@ content = """
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/todolist.service"
 target = "/usr/lib/systemd/system/todolist.service"
+
+################################################################################
+# web services: ages-skripte.org
+
+[[file]]
+path    = "/etc/nginx/sites-enabled/ages-website.conf"
+content = '''
+    # redirect ages-skripte.org (without www) to www.ages-skripte.org
+    server {
+        server_name ages-skripte.org;
+        listen 80;
+        location / {
+            return 301 https://www.ages-skripte.org$request_uri;
+        }
+    }
+
+    server {
+        server_name www.ages-skripte.org;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
+
+        ssl_certificate     /etc/letsencrypt/live/www.ages-skripte.org/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/www.ages-skripte.org/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/www.ages-skripte.org/chain.pem;
+
+        location / {
+            root /usr/share/ages-website/;
+        }
+    }
+
+'''
+
