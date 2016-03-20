@@ -32,6 +32,7 @@ build-packages: package-gnaural package-gnaural-presets
 build-packages: package-gogs
 #build-packages: package-otf-titillium # disabled because this is not yet transferred to AUR4, it seems
 build-packages: package-otf-titillium-selfpackaged
+build-packages: package-pwget
 build-packages: package-ripit
 build-packages: package-screen-message
 build-packages: package-todolist # self-built
