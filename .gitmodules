@@ -28,9 +28,6 @@
 [submodule "ttf-montserrat"]
 	path = ttf-montserrat
 	url = https://aur.archlinux.org/ttf-montserrat.git/
-[submodule "arduino"]
-	path = arduino
-	url = https://aur.archlinux.org/arduino.git/
 [submodule "gogs"]
 	path = gogs
 	url = https://aur.archlinux.org/gogs.git
