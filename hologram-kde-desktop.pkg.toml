@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop"
-version     = "1.0.5"
+version     = "1.0.6"
 description = "hologram: GUI installation with KDE Plasma desktop"
 
 requires = [
