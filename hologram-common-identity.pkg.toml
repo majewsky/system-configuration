@@ -1,0 +1,25 @@
+[package]
+name        = "hologram-common-identity"
+version     = "1.0"
+description = "hologram: common identity settings"
+
+requires = [
+    "pacman",
+]
+
+# makepkg
+[[file]]
+path    = "/usr/share/holo/files/00-base/etc/makepkg.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    sed '
+        # enable package signing
+        /^BUILDENV=/s/!sign/sign/
+        # use my package signing key
+        s/^#GPGKEY=.*/GPGKEY="0xF7A9C9DC4631BD1A"/
+        # report myself as the packager
+        s/^#PACKAGER=.*/PACKAGER="Stefan Majewsky <holo-pacman@posteo.de>"/
+    '
+"""
+

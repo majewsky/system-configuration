@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20160209.1"
+version     = "20160405.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -9,6 +9,7 @@ requires    = [
     "hologram-games",
     "hologram-dtp",
     "hologram-remount-efivarfs",
+    "hologram-common-identity",
     # hardware support
     "intel-ucode",
     "xf86-video-intel",
@@ -18,7 +19,6 @@ requires    = [
     "kdeconnect",
     "libreoffice-still",
     "mpd",
-    "openvpn",
     "plasma-nm",
     "skype",
     "lib32-libcanberra", # optional dep for Skype
