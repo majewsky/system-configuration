@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.4.1"
+version     = "1.4.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -84,6 +84,7 @@ content = """
 
             # allow Mumble on non-standard port
             proto tcp dport 64001 ACCEPT;
+            proto udp dport 64001 ACCEPT;
 
             # the rest is dropped by the above policy
         }
@@ -227,6 +228,8 @@ content = '''
     #!/bin/sh
     grep -o '/etc/letsencrypt/live/[^/]\+' /etc/murmur.ini | cut -d/ -f5 | sort -u
 '''
+
+# TODO: add "murmurd -ini /etc/murmur.ini -supw <password>" to setupScript to set the super-user password (problem: cannot interpolate /my/variables into setupScript)
 
 [[file]]
 path    = "/usr/share/holo/files/50-bethselamin/etc/murmur.ini"
