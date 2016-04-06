@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.4.2"
+version     = "1.4.3"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -241,8 +241,8 @@ content = '''
     uname=murmur
     dbus=system
 
-    # connection
-    port=64001      # non-standard (historical)
+    # connection (non-standard port for historical reasons)
+    port=64001
     sslCert=/etc/letsencrypt/live/${MURMUR_DOMAIN}/fullchain.pem
     sslKey=/etc/letsencrypt/live/${MURMUR_DOMAIN}/privkey.pem
     # SSL cipher suite from https://wiki.mozilla.org/Security/Server_Side_TLS
