@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.4.3"
+version     = "1.4.4"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -192,6 +192,8 @@ content = '''
     server {
         server_name ages-skripte.org;
         listen 80;
+        listen [::]:80;
+
         location / {
             return 301 https://www.ages-skripte.org$request_uri;
         }
