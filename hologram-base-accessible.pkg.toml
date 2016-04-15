@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -17,6 +17,14 @@ setupScript = """
 """
 
 # TODO: use holo-ssh-keys
+
+# systemd: don't block for 90s when a service does not shut down in a timely fashion
+[[file]]
+path    = "/etc/systemd/system.conf.d/hologram-base.conf"
+content = """
+    [Manager]
+    DefaultTimeoutStopSec=15s
+"""
 
 # systemd-journald
 [[file]]
