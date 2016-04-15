@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.0.9"
+version     = "1.0.10"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -36,7 +36,9 @@ requires = [
     "gstreamer0.10-ffmpeg",
     "human-icon-theme",
     # font packages
+    "adobe-source-code-pro-fonts",
     "adobe-source-sans-pro-fonts",
+    "adobe-source-serif-pro-fonts",
     "cantarell-fonts",
     "otf-titillium",
     "ttf-bitstream-vera",
