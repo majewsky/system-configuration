@@ -1,9 +1,10 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.1.3"
+version     = "1.2.0"
 description = "hologram: compilers and development tools"
 
 requires = [
+    "group:base-devel",
     "apitrace",
     "arch-install-scripts",
     "automoc4",

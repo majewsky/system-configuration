@@ -1,11 +1,10 @@
 [package]
 name    = "hologram-base"
-version = "20160405.1"
+version = "20160415.1"
 description = "hologram: base installation"
 
 requires = [
     "group:base", "except:netctl",
-    "group:base-devel",
     "hologram-disable-cacert",
     "hologram-openssh",
     # assorted CLI tools
