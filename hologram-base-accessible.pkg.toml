@@ -1,10 +1,29 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.0.1"
+version     = "1.0.4"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
     "hologram-base",
+    "group:base", "except:netctl",
+    # assorted CLI tools
+    "acpi",
+    "dosfstools",     # mkfs.vfat
+    "hdparm",
+    "inotify-tools",
+    "irssi",
+    "iw",
+    "optipng",
+    "pacgraph",
+    "p7zip",
+    "pwget",
+    "smartmontools",
+    "sshfs",
+    "unrar",
+    "unzip",
+    "yaourt",
+    "whois",
+    "zip",
 ]
 
 definitionFile = "/usr/share/holo/users-groups/00-base.toml"

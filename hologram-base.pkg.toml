@@ -1,52 +1,47 @@
 [package]
 name    = "hologram-base"
-version = "20160415.1"
+version = "20160425.3"
 description = "hologram: base installation"
 
 requires = [
-    "group:base", "except:netctl",
     "hologram-disable-cacert",
     "hologram-openssh",
+    # group:base, but remove the stuff that I don't usually need on remote systems
+    "group:base",
+    "except:inetutils",
+    "except:jfsutils",
+    "except:licenses",
+    "except:lvm2",
+    "except:mdadm",
+    "except:nano",
+    "except:netctl",
+    "except:pciutils",
+    "except:pcmciautils",
+    "except:reiserfsprogs",
+    "except:sysfsutils",
+    "except:systemd-sysvcompat", "systemd",
+    "except:usbutils",
+    "except:xfsprogs",
     # assorted CLI tools
     "ack",
-    "acpi",
-    "atop",
     "dnsutils",
-    "dosfstools",     # mkfs.vfat
     "git",
     "gptfdisk",
-    "hdparm",
     "htop",
-    "inotify-tools",
-    "iperf",
-    "irssi",
-    "iw",
     "lsof",
-    "neovim",
     "net-tools",      # netstat
     "nmap",           # ncat
-    "optipng",
-    "pacgraph",
     "pwgen",
-    "pwget",
-    "p7zip",
-    "smartmontools",
     "rsync",
     "screen",
     "strace",
-    "sshfs",
     "sudo",
     "tcpdump",
     "traceroute",
     "tree",
     "units",
-    "unrar",
-    "unzip",
-    "vim-minimal",
+    "vim",
     "wget",
-    "whois",
-    "yaourt",
-    "zip",
     "zsh",
 ]
 
