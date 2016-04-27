@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160425.3"
+version = "20160427.4"
 description = "hologram: base installation"
 
 requires = [
@@ -103,6 +103,12 @@ path    = "/usr/share/holo/files/00-base/etc/pacman.conf.holoscript"
 mode    = "0755"
 content = '''
     #!/bin/sh
+
+    # skip installation of translations
+    echo '[options]'
+    echo 'NoExtract = usr/share/locale/*/LC_MESSAGES'
+    echo 'NoExtract = usr/share/locale/*/LC_MESSAGES/*'
+
     sed '
         # enable additional options
         s/^#\(Color\|VerbosePkgLists\)$/\1/
