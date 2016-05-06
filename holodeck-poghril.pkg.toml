@@ -1,0 +1,50 @@
+[package]
+name        = "holodeck-poghril"
+version     = "20160506.2"
+description = "holodeck: services on Poghril"
+
+requires = [
+    "hologram-base",
+]
+
+################################################################################
+# identity
+
+[[file]]
+path    = "/etc/hostname"
+content = "poghril"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = """
+    export PRETTYPROMPT_COMMONUSER=stefan
+    export PRETTYPROMPT_HOSTCOLOR='0;35'
+"""
+
+################################################################################
+# filesystem
+
+[[file]]
+path    = "/etc/fstab.local"
+content = "/dev/xvda  /  ext4  defaults,barrier=0  1  1"
+
+################################################################################
+# network interface configuration (the hoster's installer generated netctl
+# configs, which I upgraded to systemd-networkd)
+
+[[file]]
+path    = "/etc/systemd/network/50-ispone.network"
+content = """
+    [Match]
+    Name=en*
+
+    [Network]
+    Address=${POGHRIL_IP4ADDR}/32
+    Peer=172.16.147.1/32
+
+    [Route]
+    Gateway=172.16.147.1
+"""
+[[symlink]]
+path   = "/usr/share/holo/files/50-poghril-vars/etc/systemd/network/50-ispone.network.holoscript"
+target = "/my/variables"
