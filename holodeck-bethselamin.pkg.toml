@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.4.4"
+version     = "1.4.5"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -122,6 +122,17 @@ content = '''
         }
     }
 '''
+
+[[user]]
+name  = "gogsbackup"
+group = "gogs"
+home  = "/var/lib/gogsbackup"
+
+[[file]]
+path    = "/usr/share/holo/ssh-keys/gogsbackup/poghril.pub"
+content = """
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOyRBBYtfw4DfLrm5ippryole6Wx7phg7RsqSZEfww4+d/IXTL+hB8rNuvRXefXWcyB8UQxWy5q/wHa+Y1VxzYEXoISuOg5wmP7CkZ4KLerM4Eu7vz0FlIWtXPIN/Z39wPa/cTywFlsiNyHtG4NYCMxIS381jygYgMUOjwdbbb47y4z7LUEnNcRAqOYwaujFcgaKm41QgNTeaHcNx/n+LGN2eBupdrXBZj008phqJU959ERtIk1EflFkT2c14TOYggcITYgmua5W2YSYc3XzpBabfNACNv5UD/sr6FpxFN6lUbD76KSeSWtvhUGRbQX5ERUn+dy3nPV9vS4r/5Ww8dOJi2LOo2hyNPwXF2fsVWayZSbIeo57iDqrX203YOA61m1IDCLLyqNzGH5sLg0KLt7P4Y/lcZuN6u7mCgdUzCXbR9B0cg9LJpvh6BQvdh0dllDzaKVtNJ/CYZFlacMNL9wNF4cbW6lEjiWeztGZwvsYTDODPqXkc5c1SwT1EUH5H0OhIxrvkEbKP3WHrgtWUYL0cjdC5WuWLhas/JMsRIfB3eHRhWbgRhPXQTvBhbzS+Hor8vY1Xhmx/+wK1OOvK4hMrSAzIODscWX5d4RU0vU2KdTq/kB9VgJz1Ez+52hgYPsrNL0CI4wy5JWxl4UxH0duYGBlyeSGBn8CF7YEbq1Q== gogsbackup@poghril
+"""
 
 ################################################################################
 # web services: todolist
