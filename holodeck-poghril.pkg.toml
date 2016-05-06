@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20160506.13"
+version     = "20160506.14"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -35,6 +35,7 @@ content = """
 path    = "/usr/share/holo/ssh-keys/stefan/poghril.pub"
 content = """
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDAYA5hHcedKygolVOQ2PL+NFRhsHLKjhJf4wBf9RZbldCiPlB//4Zd8eqWcG0momVo8v8wPJNj2/X+Yt8yUGgePP0Ydh2pMukXgS+UgysRteMjM39it5QV7IinlBn+pm8tAHMarwUTDN4fvEfl7dCEZZY+bpehDCKNL0dkLYpYURORAUtTxJluRwPPUdHiExKWY2Obhuk0xvcC8/ElHiNj1FO0RFH1G+gnP9Xey0mKRzUzU8CMpRD69fNhUNsh/vfOEIE1Z18yb/pPfvGtbleh8tYX7dAAo80qcRvun9x0PHbCIXGwD2cZ8ra9AU0kAjwQbBcw/fT3wLOHQBrkbhHFFdb2mJ7ZneYg5/NKHyIzdRPtSmy4ItgIFmiEPnYNbwur/Bq9rIiaBp0pX2QO8gvD6UAe4c5ByyZCVXhneZEdfXXu+8X+B13nly1XUZKOUdGhmAF7ZMZboqbC/kgbqOX+J1inf328yUqFGObfL7kFvoro4LTKT+L9sS59hlcKbvNf3Vdj37T4QORWk/AdyXrKGlejcJTUkVY1pOlp3dv1LVAx2wto/fXv/X4BmeLFoRbLY9fKrz6uTRw9X/l3aD1U+jGFQxyswpUOnGizAIAqKaWM+yKjtfYBVSuZ9msojE+lri/WS6jx6tOca5aRyFeqhcbG6oJYr3M5GQfFYdtczQ== stefan@krikkit
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDF8t7PbrvA3wYF9c9nyrX6sE5AXFbAiaafCZskmZIC7Q1lDGdlaOFQ71CW9L3zSgMhI51OYvA0i02FgGTC3jnu7r80r4d/isKJSCSPPTkSVeoyeQZvGSOu6wBnSmq3YWs3Z4TBUE9RPuWTkrB+GOxPpwsK1l/wFzlbJsWm4oUcCH53br//X1QWWilFORVP5eTJUDGxh94mvpM7SSmospNzpvO1DlpUcMWHwUCu3YWrRpvqI6d74igshX5bObUB7vvtJhT9o1y1g3Oxi8NpPa2L8EgCBKlP27oCIO6pZRQi/g95k4DaPWzATVkAnLy9j4h0vEJ60CEtmHhEXnQrAm4Ihyj8SPjEsHP20ZYSyPcB28d10lkN4R7H7ADZ21M/U3lBKpBsKUnoRNnskrOEgOA7WYYnT0t5QfjXeecikPFgKPUynL3E0D7AquXUdMiBJHouQX/mqBgKdtA5jzZHYXP55MyMBG/T1kh2CFaoMiqaeAeE7c9QoyRxmSnblPo6v55omLJKEsYGJlIW8OReD8YPNBEnv25ZykU1CGoeiDDGZPMOtPs5sIG0oPFmkIPL710F1Q8EPHUM07cCelorRcS5YahEj7AB4gCuNoWoPlo04bi4jsDUFhZ+Kx0zXymipp4P6fVWPiCT79DOFdqc8dcuqlIU4gmByDlI5DMOVDhWvQ== stefan@arcturus
 """
 
 ################################################################################
