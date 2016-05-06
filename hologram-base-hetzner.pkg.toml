@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-hetzner"
-version     = "1.0.4"
+version     = "1.0.5"
 description = "hologram: configuration for my servers hosted by hetzner.de"
 
 requires = [
@@ -87,4 +87,17 @@ content = """
     net.ipv6.conf.all.accept_redirects=0
     net.ipv6.conf.all.forwarding=0
     vm.swappiness=0
+"""
+
+[[file]]
+path    = "/usr/share/holo/files/50-hetzner/etc/resolv.conf.holoscript"
+content = """
+    ### Hetzner Online GmbH installimage
+    # nameserver config
+    nameserver 213.133.100.100
+    nameserver 213.133.99.99
+    nameserver 213.133.98.98
+    nameserver 2a01:4f8:0:a0a1::add:1010
+    nameserver 2a01:4f8:0:a102::add:9999
+    nameserver 2a01:4f8:0:a111::add:9898
 """
