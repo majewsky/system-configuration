@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160427.4"
+version = "20160513.1"
 description = "hologram: base installation"
 
 requires = [
@@ -19,7 +19,6 @@ requires = [
     "except:pcmciautils",
     "except:reiserfsprogs",
     "except:sysfsutils",
-    "except:systemd-sysvcompat", "systemd",
     "except:usbutils",
     "except:xfsprogs",
     # assorted CLI tools
