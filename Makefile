@@ -12,10 +12,10 @@ create-repo: build-holograms build-packages
 	@ln -sf holograms.db repo/holograms.files
 
 pull-repo:
-	@rsync -vau --delete damogran:/raid/web/static/repo/ $(THIS_DIRECTORY)/repo/
+	@rsync -vau --delete-delay damogran:/raid/web/static/repo/ $(THIS_DIRECTORY)/repo/
 
 push-repo: create-repo
-	@rsync -vau --delete $(THIS_DIRECTORY)/repo/ damogran:/raid/web/static/repo/
+	@rsync -vau --delete-delay $(THIS_DIRECTORY)/repo/ damogran:/raid/web/static/repo/
 
 ################################################################################
 # compile holograms
