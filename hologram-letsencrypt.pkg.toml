@@ -1,10 +1,10 @@
 [package]
 name        = "hologram-letsencrypt"
-version     = "1.2.1"
+version     = "1.2.3"
 description = "Pluggable letsencrypt-based certificate auto-issuance"
 
 requires       = [
-    "letsencrypt >= 0.5.0",         # version requirement for new --quiet flag
+    "certbot",
     "webserver-for-acme-challenge", # virtual package
 ]
 definitionFile = "/usr/share/holo/users-groups/10-letsencrypt.toml"
@@ -74,7 +74,7 @@ content = '''
         "$collector"
     done | sort -u | while read domain; do
         echo ">> domain: $domain"
-        letsencrypt certonly --quiet --non-interactive --agree-tos --keep-until-expiring --webroot -w /srv/letsencrypt/ -d "$domain"
+        certbot certonly --quiet --non-interactive --agree-tos --keep-until-expiring --webroot -w /srv/letsencrypt/ -d "$domain"
     done
 '''
 
