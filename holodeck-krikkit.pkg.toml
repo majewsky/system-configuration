@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20160405.1"
+version     = "20160622.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -20,9 +20,8 @@ requires    = [
     "libreoffice-still",
     "mpd",
     "plasma-nm",
-    "skype",
-    "lib32-libcanberra", # optional dep for Skype
     "virtualbox",
+    "linux-headers", # for virtualbox-host-dkms
 ]
 
 definitionFile = "/usr/share/holo/users-groups/50-krikkit.toml"

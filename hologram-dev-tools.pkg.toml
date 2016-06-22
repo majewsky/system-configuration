@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.2.1"
+version     = "1.2.2"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -8,6 +8,7 @@ requires = [
     "apitrace",
     "arch-install-scripts",
     "automoc4",
+    "cabal-install",
     "cmake",
     "cloc",
     "cpanminus",
@@ -18,6 +19,7 @@ requires = [
     "go-tools",
     "hlint",
     "holo-build",
+    "jq",
     "perl-ipc-system-simple", # required for build_package.pl in this repo
     "perl-term-readkey",      # required for "interactive.singlekey" config of Git
     "pkgbuild-introspection",

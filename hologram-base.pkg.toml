@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160513.1"
+version = "20160622.1"
 description = "hologram: base installation"
 
 requires = [
@@ -27,6 +27,7 @@ requires = [
     "git",
     "gptfdisk",
     "htop",
+    "inxi",
     "lsof",
     "net-tools",      # netstat
     "nmap",           # ncat
