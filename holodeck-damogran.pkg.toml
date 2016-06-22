@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160320.1"
+version     = "20160603.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -434,7 +434,7 @@ content = """
         server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
         include     /etc/nginx/server-baseline-https.inc;
 
-        add_header Content-Security-Policy "default-src 'self'" always;
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
 
         ssl_certificate     /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/privkey.pem;
