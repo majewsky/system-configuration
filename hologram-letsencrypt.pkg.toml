@@ -1,13 +1,12 @@
 [package]
 name        = "hologram-letsencrypt"
-version     = "1.2.3"
+version     = "1.2.4"
 description = "Pluggable letsencrypt-based certificate auto-issuance"
 
 requires       = [
     "certbot",
     "webserver-for-acme-challenge", # virtual package
 ]
-definitionFile = "/usr/share/holo/users-groups/10-letsencrypt.toml"
 
 ################################################################################
 # run letsencrypt under restricted user

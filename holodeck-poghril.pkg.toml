@@ -1,14 +1,12 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20160511.1"
+version     = "20160706.1"
 description = "holodeck: services on Poghril"
 
 requires = [
     "hologram-base",
     "ferm",
 ]
-
-definitionFile = "/usr/share/holo/users-groups/50-poghril.toml"
 
 setupScript = '''
     if [ ! -f /var/lib/gogsbackup/.ssh/id_rsa.pub ]; then

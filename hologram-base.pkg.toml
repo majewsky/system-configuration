@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160622.1"
+version = "20160706.1"
 description = "hologram: base installation"
 
 requires = [
@@ -45,7 +45,6 @@ requires = [
     "zsh",
 ]
 
-definitionFile = "/usr/share/holo/users-groups/00-base.toml"
 setupScript    = "locale-gen"
 
 # entities

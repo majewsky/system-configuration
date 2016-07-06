@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.4.5"
+version     = "1.4.6"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -16,8 +16,6 @@ requires = [
     # additional services
     "murmur",
 ]
-
-definitionFile = "/usr/share/holo/users-groups/50-bethselamin.toml"
 
 ################################################################################
 # identity

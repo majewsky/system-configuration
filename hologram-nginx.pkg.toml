@@ -1,15 +1,12 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.3.2"
+version     = "1.3.3"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
     "hologram-letsencrypt",
 ]
 provides    = [ "webserver-for-acme-challenge" ]
-replaces    = [ "hologram-nginx-and-letsencrypt" ]
-
-definitionFile = "/usr/share/holo/users-groups/10-letsencrypt.toml"
 
 ################################################################################
 # nginx baseline configuration
