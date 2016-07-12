@@ -8,15 +8,6 @@ requires = [
     "ferm",
 ]
 
-setupScript = '''
-    if [ ! -f /var/lib/gogsbackup/.ssh/id_rsa.pub ]; then
-        echo "Generating SSH key for gogsbackup user..."
-        sudo -u gogsbackup -g gogsbackup ssh-keygen -t rsa -b 4096 -f /var/lib/gogsbackup/.ssh/id_rsa -N ""
-    fi
-    # mkinitcpio.conf is being modified by this package
-    mkinitcpio -p linux
-'''
-
 ################################################################################
 # identity
 
@@ -48,6 +39,10 @@ content = """
     #!/bin/bash
     sed 's/^MODULES=.*$/MODULES="xen_blkfront"/'
 """
+
+[[action]]
+on     = "setup"
+script = "mkinitcpio -p linux"
 
 ################################################################################
 # filesystem
@@ -126,67 +121,3 @@ content = """
         chain FORWARD policy DROP;
     }
 """
-
-################################################################################
-# backup of Gogs on Bethselamin
-
-[[group]]
-name   = "gogsbackup"
-system = true
-
-[[user]]
-name   = "gogsbackup"
-group  = "gogsbackup"
-system = true
-home   = "/var/lib/gogsbackup"
-shell  = "/usr/bin/nologin"
-
-[[directory]]
-path  = "/var/lib/gogsbackup"
-owner = "gogsbackup"
-group = "gogsbackup"
-mode  = "0700"
-
-[[directory]]
-path  = "/var/lib/gogsbackup/.ssh"
-owner = "gogsbackup"
-group = "gogsbackup"
-mode  = "0700"
-
-[[directory]]
-path  = "/srv/gogs"
-owner = "gogsbackup"
-group = "gogsbackup"
-mode  = "0750"
-
-[[file]]
-path    = "/usr/lib/systemd/system/gogsbackup.service"
-content = """
-    [Unit]
-    Description=Automatic backup of git.bethselamin.de
-    After=network-online.target
-    Requires=network-online.target
-
-    [Service]
-    Type=oneshot
-    ExecStart=/usr/bin/rsync -raHAPSEX --delete bethselamin.de:/srv/gogs/ /srv/gogs/
-    User=gogsbackup
-    Group=gogsbackup
-"""
-
-[[file]]
-path    = "/usr/lib/systemd/system/gogsbackup.timer"
-content = """
-    [Unit]
-    Description=Daily backup of git.bethselamin.de
-
-    [Timer]
-    OnCalendar=daily
-
-    [Install]
-    WantedBy=timers.target
-"""
-
-[[symlink]]
-path   = "/etc/systemd/system/timers.target.wants/gogsbackup.timer"
-target = "/usr/lib/systemd/system/gogsbackup.timer"
