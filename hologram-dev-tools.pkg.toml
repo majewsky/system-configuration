@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.2.3"
+version     = "1.2.4"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -9,6 +9,7 @@ requires = [
     "arch-install-scripts",
     "automoc4",
     "cabal-install",
+    "cargo",
     "cmake",
     "cloc",
     "cpanminus",
