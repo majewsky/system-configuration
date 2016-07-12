@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.2.2"
+version     = "1.2.3"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -23,6 +23,7 @@ requires = [
     "perl-ipc-system-simple", # required for build_package.pl in this repo
     "perl-term-readkey",      # required for "interactive.singlekey" config of Git
     "pkgbuild-introspection",
+    "python-jinja",           # required for github:fsfw-dresden/homepage-build
     "rust",
     "sloccount",
     "valgrind",
