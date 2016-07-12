@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.6.0"
+version     = "1.6.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -298,6 +298,8 @@ content = '''
 
         location / {
             root /data/repo.holocm.org/;
+            index index.html index.htm;
+            autoindex on;
         }
     }
 '''

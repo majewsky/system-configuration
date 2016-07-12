@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160706.1"
+version = "20160712.1"
 description = "hologram: base installation"
 
 requires = [
@@ -124,11 +124,8 @@ content = '''
     # add holograms repo
     echo
     echo '[holograms]'
-    echo 'Server = https://static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/repo'
+    echo 'Server = https://repo.holocm.org/archlinux/personal'
 '''
-[[symlink]]
-path   = "/usr/share/holo/files/99-variables/etc/pacman.conf.holoscript"
-target = "/my/variables"
 
 [[file]]
 path    = "/usr/share/holo/files/00-base/etc/pacman.d/mirrorlist.holoscript"
