@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160712.3"
+version     = "20160712.4"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -409,27 +409,9 @@ target = "/usr/lib/systemd/system/adblock-sync.timer"
 ################################################################################
 # public web server
 
-# TODO: split further
 [[file]]
 path    = "/etc/nginx/sites-enabled/damogran.conf"
 content = """
-    server {
-        server_name repo.holocm.org;
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header Content-Security-Policy "default-src 'self'" always;
-
-        ssl_certificate     /etc/letsencrypt/live/repo.holocm.org/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/repo.holocm.org/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/repo.holocm.org/chain.pem;
-
-        location / {
-            root  /srv/http/repo.holocm.org;
-            index index.html index.htm;
-            autoindex on;
-        }
-    }
-
     server {
         server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
         include     /etc/nginx/server-baseline-https.inc;
