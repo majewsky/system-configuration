@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.4.6"
+version     = "1.5.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -98,6 +98,144 @@ content = """
 ################################################################################
 # web services: gogs
 
+[[directory]]
+path    = "/etc/gogs"
+user    = "gogs"
+group   = "gogs"
+mode    = "0700"
+
+[[file]]
+path    = "/etc/gogs/app.ini"
+content = '''
+    APP_NAME = Bethselamin
+    RUN_USER = gogs
+    RUN_MODE = prod
+
+    [repository]
+    ROOT        = /data/gogs/repo
+    SCRIPT_TYPE = bash
+
+    [server]
+    PROTOCOL   = http
+    DOMAIN     = git.bethselamin.de
+    ROOT_URL   = https://git.bethselamin.de/
+    HTTP_ADDR  =
+    HTTP_PORT  = 3000
+    SSH_DOMAIN = git.bethselamin.de
+    SSH_PORT   = 22
+    SSH_LISTEN_PORT  = 22
+    STATIC_ROOT_PATH = /usr/share/themes/gogs/default
+
+    [ssh.minimum_key_sizes]
+    ; reject insecure keys
+    DSA     = -1
+    ECDSA   = -1
+    ED25519 = 256
+    RSA     = 4096
+
+    [database]
+    DB_TYPE = sqlite3
+    PATH    = /data/gogs/sqlite.db
+
+    [security]
+    INSTALL_LOCK         = true
+    SECRET_KEY           = %SECRET%
+    LOGIN_REMEMBER_DAYS  = 1
+    COOKIE_USERNAME      = gogs_user
+    COOKIE_REMEMBER_NAME = gogs_remember
+
+    [service]
+    DISABLE_REGISTRATION = true
+    REQUIRE_SIGNIN_VIEW  = true
+    ENABLE_NOTIFY_MAIL   = false
+
+    [mailer]
+    ENABLED = false
+
+    [cache]
+    ADAPTER = memory
+
+    [session]
+    PROVIDER = memory
+
+    [picture]
+    AVATAR_UPLOAD_PATH = /data/gogs/avatars
+    DISABLE_GRAVATAR = true
+
+    [attachment]
+    ENABLE = true
+    PATH = /data/gogs/attachments
+    ALLOWED_TYPES = image/jpeg|image/png
+
+    [log]
+    ; this should not be required with MODE=console, but is needed apparently because Gogs is stupid enough to choose /usr/share/gogs/log without hand-holding
+    ROOT_PATH = /var/log/gogs
+    MODE = console
+    LEVEL = Info
+
+    [cron]
+    ENABLED = true
+    RUN_AT_START = false
+
+    [cron.update_mirrors]
+    SCHEDULE = @every 1h
+
+    [cron.repo_health_check]
+    SCHEDULE = @every 24h
+    TIMEOUT = 60s
+
+    [cron.check_repo_stats]
+    RUN_AT_START = true
+    SCHEDULE = @every 24h
+
+    [git]
+    MAX_GIT_DIFF_LINES = 10000
+
+    [git.timeout]
+    MIGRATE = 600
+    MIRROR  = 300
+    CLONE   = 300
+    PULL    = 300
+
+    [i18n]
+    LANGS = en-US,de-DE
+    NAMES = English,Deutsch
+
+    [i18n.datelang]
+    en-US = en
+    de-DE = de
+
+    [other]
+    SHOW_FOOTER_BRANDING = false
+    SHOW_FOOTER_VERSION  = false
+'''
+
+[[file]]
+path    = "/usr/share/holo/files/50-bethselamin/etc/gogs/app.ini.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    set -e
+    mkdir -p /var/lib/gogs
+    test -f /var/lib/gogs/secret || pwgen 20 1 > /var/lib/gogs/secret
+    sed s/%SECRET%/"$(cat /var/lib/gogs/secret)"/
+'''
+
+[[directory]]
+path = "/data/gogs"
+user = "gogs"
+group = "gogs"
+mode = "0700"
+
+[[file]]
+path    = "/etc/systemd/system/gogs.service.d/paths.conf"
+content = '''
+    [Service]
+    WorkingDirectory=/data/gogs/
+    ExecStart=
+    ExecStart=/usr/share/gogs/gogs web --config /etc/gogs/app.ini
+'''
+
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/gogs.service"
 target = "/usr/lib/systemd/system/gogs.service"
@@ -121,13 +259,16 @@ content = '''
     }
 '''
 
+################################################################################
+# backup for gogs
+
 [[user]]
-name  = "gogsbackup"
+name  = "backup"
 group = "gogs"
-home  = "/var/lib/gogsbackup"
+home  = "/var/lib/backupuser"
 
 [[file]]
-path    = "/usr/share/holo/ssh-keys/gogsbackup/poghril.pub"
+path    = "/usr/share/holo/ssh-keys/backup/poghril.pub"
 content = """
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOyRBBYtfw4DfLrm5ippryole6Wx7phg7RsqSZEfww4+d/IXTL+hB8rNuvRXefXWcyB8UQxWy5q/wHa+Y1VxzYEXoISuOg5wmP7CkZ4KLerM4Eu7vz0FlIWtXPIN/Z39wPa/cTywFlsiNyHtG4NYCMxIS381jygYgMUOjwdbbb47y4z7LUEnNcRAqOYwaujFcgaKm41QgNTeaHcNx/n+LGN2eBupdrXBZj008phqJU959ERtIk1EflFkT2c14TOYggcITYgmua5W2YSYc3XzpBabfNACNv5UD/sr6FpxFN6lUbD76KSeSWtvhUGRbQX5ERUn+dy3nPV9vS4r/5Ww8dOJi2LOo2hyNPwXF2fsVWayZSbIeo57iDqrX203YOA61m1IDCLLyqNzGH5sLg0KLt7P4Y/lcZuN6u7mCgdUzCXbR9B0cg9LJpvh6BQvdh0dllDzaKVtNJ/CYZFlacMNL9wNF4cbW6lEjiWeztGZwvsYTDODPqXkc5c1SwT1EUH5H0OhIxrvkEbKP3WHrgtWUYL0cjdC5WuWLhas/JMsRIfB3eHRhWbgRhPXQTvBhbzS+Hor8vY1Xhmx/+wK1OOvK4hMrSAzIODscWX5d4RU0vU2KdTq/kB9VgJz1Ez+52hgYPsrNL0CI4wy5JWxl4UxH0duYGBlyeSGBn8CF7YEbq1Q== gogsbackup@poghril
 """
