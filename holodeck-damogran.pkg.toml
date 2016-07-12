@@ -197,7 +197,7 @@ content = """
     -A TCP -i ${DAMOGRAN_IFACE_WLAN} -p tcp -m tcp --dport 6600 -j ACCEPT
     -A TCP -i ${DAMOGRAN_IFACE_LAN} -p tcp -m tcp --dport 6600 -j ACCEPT
     # allow public Minecraft
-    -A TCP -p tcp -m tcp --dport 25565 -j ACCEPT
+    # -A TCP -p tcp -m tcp --dport 25565 -j ACCEPT
 
     # allow intranet DNS
     -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --dport 53 -j ACCEPT

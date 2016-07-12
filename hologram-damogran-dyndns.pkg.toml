@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "2.1.2"
+version     = "2.1.3"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
 requires    = ["gandi-dyndns>=2015.12.26"]
 
@@ -10,8 +10,7 @@ content = """
     {
       "api_key": "${GANDI_APIKEY}",
       "domains": {
-        "${DAMOGRAN_HTTP_PRIVATE_DOMAIN}": ["damogran","static"],
-        "holocm.org": ["repo"]
+        "${DAMOGRAN_HTTP_PRIVATE_DOMAIN}": ["damogran","static"]
       }
     }
 """
