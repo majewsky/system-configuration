@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160712.1"
+version = "20160713.1"
 description = "hologram: base installation"
 
 requires = [
@@ -45,8 +45,6 @@ requires = [
     "zsh",
 ]
 
-setupScript    = "locale-gen"
-
 # entities
 [[group]]
 name    = "sudo"
@@ -74,6 +72,10 @@ content = """
     de_DE.UTF-8 UTF-8
     en_US.UTF-8 UTF-8
 """
+
+[[action]]
+on     = "setup"
+script = "locale-gen"
 
 [[symlink]]
 path   = "/etc/localtime"

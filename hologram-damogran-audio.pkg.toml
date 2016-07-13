@@ -1,15 +1,12 @@
 [package]
 name        = "hologram-damogran-audio"
-version     = "1.3.1"
+version     = "1.3.2"
 description = "hologram: PulseAudio and MPD service for Damogran"
 requires    = [
     "mpd",
     "pulseaudio",
     "pulseaudio-zeroconf",
 ]
-
-# we place various stuff in /home/pulse; fix ownership in one step
-setupScript = "chown -R pulse:pulse /home/pulse"
 
 # create "pulse" user and group, with a lingering user session that ensures
 # that services come up automatically on boot
@@ -26,7 +23,10 @@ groups  = ["audio"]
 [[directory]]
 path = "/home/pulse"
 mode = "0700"
-# owner and group are set in one step in the custom setupScript above
+# we place various stuff in here; set ownership in one step
+[[action]]
+on     = "setup"
+script = "chown -R pulse:pulse /home/pulse"
 
 [[file]]
 path        = "/var/lib/systemd/linger/pulse"

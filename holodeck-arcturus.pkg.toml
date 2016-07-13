@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20160712.1"
+version     = "20160713.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -23,9 +23,6 @@ requires = [
     # additional apps
     "kdeconnect",
 ]
-
-# setup script is required because mkinitcpio.conf is being modified by this package
-setupScript = "mkinitcpio -p linux"
 
 # identity
 
@@ -72,6 +69,10 @@ content = """
         s/^HOOKS=.*$/HOOKS="base udev autodetect modconf block keymap keyboard encrypt filesystems fsck"/
     '
 """
+
+[[action]]
+on     = "setup"
+script = "mkinitcpio -p linux"
 
 # network setup: systemd-networkd
 
