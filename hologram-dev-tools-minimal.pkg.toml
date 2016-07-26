@@ -1,0 +1,15 @@
+[package]
+name        = "hologram-dev-tools-minimal"
+version     = "1.0.0"
+description = "hologram: compilers and development tools (variant for space-constrained systems)"
+
+requires = [
+    "group:base-devel",
+    "cloc",
+    "cpanminus",
+    "go",
+    "go-tools",
+    "holo-build",
+    "jq",
+    "perl-term-readkey", # required for "interactive.singlekey" config of Git
+]

@@ -1,28 +1,21 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.2.4"
+version     = "1.3.0"
 description = "hologram: compilers and development tools"
 
 requires = [
-    "group:base-devel",
+    "hologram-dev-tools-minimal",
     "apitrace",
     "arch-install-scripts",
     "automoc4",
     "cabal-install",
     "cargo",
     "cmake",
-    "cloc",
-    "cpanminus",
     "doxygen",
     "gdb",
     "ghc",
-    "go",
-    "go-tools",
     "hlint",
-    "holo-build",
-    "jq",
     "perl-ipc-system-simple", # required for build_package.pl in this repo
-    "perl-term-readkey",      # required for "interactive.singlekey" config of Git
     "pkgbuild-introspection",
     "python-jinja",           # required for github:fsfw-dresden/homepage-build
     "rust",
