@@ -31,3 +31,6 @@
 [submodule "gogs"]
 	path = gogs
 	url = https://aur.archlinux.org/gogs.git
+[submodule "glide"]
+	path = glide
+	url = https://aur.archlinux.org/glide.git/

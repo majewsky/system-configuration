@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.6.1"
+version     = "1.6.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -124,6 +124,7 @@ content = '''
     SSH_DOMAIN = git.bethselamin.de
     SSH_PORT   = 22
     SSH_LISTEN_PORT  = 22
+    APP_DATA_PATH    = /data/gogs
     STATIC_ROOT_PATH = /usr/share/themes/gogs/default
 
     [ssh.minimum_key_sizes]
@@ -190,6 +191,8 @@ content = '''
 
     [git]
     MAX_GIT_DIFF_LINES = 10000
+    MAX_GIT_DIFF_LINE_CHARACTERS = 500
+    MAX_GIT_DIFF_FILES = 100
 
     [git.timeout]
     MIGRATE = 600
@@ -208,6 +211,9 @@ content = '''
     [other]
     SHOW_FOOTER_BRANDING = false
     SHOW_FOOTER_VERSION  = false
+
+    [api]
+    MAX_RESPONSE_ITEMS = 50
 '''
 
 [[file]]

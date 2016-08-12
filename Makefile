@@ -47,6 +47,7 @@ build-packages: package-vimprobable2
 build-packages: package-yaourt
 
 # These are dependencies between these packages.
+package-gogs: package-glide
 package-gnaural-presets: package-gnaural
 package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
