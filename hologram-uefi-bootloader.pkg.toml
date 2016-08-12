@@ -10,7 +10,7 @@ requires    = [
     "hologram-remount-efivarfs", # life insurance
 ]
 
-# TODO: add `on = "install"` to holo-build to do all of this automatically
+# TODO: add `on = "install"` to holo-build to do this automatically
 [[action]]
 on     = "setup"
 script = '''

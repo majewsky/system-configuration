@@ -1,13 +1,13 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20160812.1"
+version     = "20160812.2"
 description = "holodeck: services on Arcturus"
 
 requires = [
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",
-    "hologram-uefi-bootloader",
+    "hologram-uefi-bootloader-with-luks",
     "hologram-common-identity",
     "hologram-dtp",
     # support for Intel CPU/GPU
@@ -36,31 +36,6 @@ content = """
     export PRETTYPROMPT_COMMONUSER=stefan
     export PRETTYPROMPT_HOSTCOLOR='0;37'
 """
-
-# boot loader (systemd-boot with encrypted root filesystem)
-
-[[file]]
-path    = "/usr/share/holo/files/50-arcturus/boot/loader/entries/arch.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    sed '/options/s+root=PARTUUID=\${PARTUUID}+cryptdevice=PARTUUID=${PARTUUID}:root:allow-discards root=/dev/mapper/root+'
-'''
-
-[[file]]
-path    = "/usr/share/holo/files/50-arcturus/etc/mkinitcpio.conf.holoscript"
-mode    = "0755"
-content = """
-    #!/bin/bash
-    sed '
-        s/^MODULES=""$/MODULES="amdgpu"/
-        s/^HOOKS=.*$/HOOKS="base udev autodetect modconf block keymap keyboard encrypt filesystems fsck"/
-    '
-"""
-
-[[action]]
-on     = "setup"
-script = "mkinitcpio -p linux"
 
 # network setup: systemd-networkd
 
