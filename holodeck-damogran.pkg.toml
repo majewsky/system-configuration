@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160713.1"
+version     = "20160812.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -8,9 +8,7 @@ requires = [
     "hologram-multimedia-base",
     "hologram-damogran-dyndns",
     "hologram-damogran-audio",
-    "hologram-remount-efivarfs",
-    # boot loader (no intel-ucode since Damogran has an AMD CPU and chipset)
-    "gummiboot",
+    "hologram-uefi-bootloader",
     # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)
     "dnsmasq",
     "hostapd",
@@ -37,28 +35,6 @@ content = """
 export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;35'
 """
-
-################################################################################
-# boot loader (systemd-boot)
-
-[[file]]
-path    = "/boot/loader/loader.conf"
-content = """
-    default arch
-    timeout 1
-"""
-
-[[file]]
-path    = "/boot/loader/entries/arch.conf"
-content = """
-    title     Arch Linux
-    linux     /vmlinuz-linux
-    initrd    /initramfs-linux.img
-    options   root=PARTUUID=${DAMOGRAN_ROOT_PARTUUID} rw
-"""
-[[symlink]]
-path   = "/usr/share/holo/files/50-damogran-vars/boot/loader/entries/arch.conf.holoscript"
-target = "/my/variables"
 
 ################################################################################
 # network setup: systemd-{networkd,resolved} to configure interfaces and upstream DNS

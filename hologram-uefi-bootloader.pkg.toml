@@ -1,0 +1,58 @@
+[package]
+name        = "hologram-uefi-bootloader"
+version     = "1.0.3"
+description = "hologram: UEFI bootloader using systemd-boot"
+
+requires    = [
+    "systemd",                   # for bootctl
+    "util-linux",                # for blkid
+    "hologram-remount-efivarfs", # life insurance
+]
+
+# TODO: add `on = "install"` to holo-build to do all of this automatically
+[[action]]
+on     = "setup"
+script = '''
+    echo 'If this package is installed for the first time, run `bootctl install`.'
+    echo 'You might need to `mount -o remount,rw /sys/firmware/efi/efivars` first.'
+'''
+
+[[file]]
+path    = "/boot/loader/loader.conf"
+content = """
+    default arch
+    timeout 1
+"""
+
+[[file]]
+path    = "/boot/loader/entries/arch.conf"
+content = """
+    title     Arch Linux
+    linux     /vmlinuz-linux
+    initrd    /initramfs-linux.img
+    options   root=PARTUUID=${PARTUUID} rw
+"""
+
+# This interpolation happens very late because other holograms might want to
+# use the "${PARTUUID}" placeholder when rewriting the bootloader entry.
+# See e.g. hologram-uefi-bootloader-with-luks.
+[[file]]
+path    = "/usr/share/holo/files/99-root-partuuid/boot/loader/entries/arch.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/bash
+
+    ROOTDEVICE="$(mount | grep 'on / ' | cut -d' ' -f1)"
+    if [ "$ROOTDEVICE" == "" ]; then
+        echo "ERROR: cannot find root filesystem" >&2
+        exit 1
+    fi
+
+    PARTUUID="$(blkid -s PARTUUID -o value "$ROOTDEVICE")"
+    if [ "$PARTUUID" == "" ]; then
+        echo "ERROR: cannot find partition UUID" >&2
+        exit 1
+    fi
+
+    sed 's/\${PARTUUID}/'"$PARTUUID"'/g'
+'''
