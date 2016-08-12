@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-intel-ucode"
-version     = "1.0.1"
+version     = "1.0.2"
 description = "hologram: deploy intel-ucode during UEFI boot sequence"
 
 requires    = [
@@ -12,5 +12,6 @@ requires    = [
 path    = "/usr/share/holo/files/10-intel-ucode/boot/loader/entries/arch.conf.holoscript"
 mode    = "0755"
 content = '''
+    #!/bin/sh
     sed '/^initrd/i\initrd    /intel-ucode.img'
 '''
