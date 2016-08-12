@@ -1,17 +1,17 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20160713.1"
+version     = "20160812.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",
-    "hologram-remount-efivarfs",
+    "hologram-uefi-bootloader",
     "hologram-common-identity",
     "hologram-dtp",
     # support for Intel CPU/GPU
-    "intel-ucode",
+    "hologram-intel-ucode",
     "xf86-video-intel",
     "libva-intel-driver",
     # support for AMD GPU
@@ -40,24 +40,12 @@ content = """
 # boot loader (systemd-boot with encrypted root filesystem)
 
 [[file]]
-path    = "/boot/loader/loader.conf"
-content = """
-    default arch
-    timeout 2
-"""
-
-[[file]]
-path    = "/boot/loader/entries/arch.conf"
-content = """
-    title     Arch Linux
-    linux     /vmlinuz-linux
-    initrd    /intel-ucode.img
-    initrd    /initramfs-linux.img
-    options   cryptdevice=PARTUUID=${ARCTURUS_ROOT_PARTUUID}:root:allow-discards root=/dev/mapper/root rw
-"""
-[[symlink]]
-path   = "/usr/share/holo/files/50-arcturus-vars/boot/loader/entries/arch.conf.holoscript"
-target = "/my/variables"
+path    = "/usr/share/holo/files/50-arcturus/boot/loader/entries/arch.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    sed '/options/s+root=PARTUUID=\${PARTUUID}+cryptdevice=PARTUUID=${PARTUUID}:root:allow-discards root=/dev/mapper/root+'
+'''
 
 [[file]]
 path    = "/usr/share/holo/files/50-arcturus/etc/mkinitcpio.conf.holoscript"
