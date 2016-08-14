@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160812.1"
+version     = "20160814.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -401,8 +401,9 @@ content = """
         ssl_trusted_certificate /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/chain.pem;
 
         location / {
-            root  /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-            index index.html index.htm;
+            root    /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
+            index   index.html index.htm;
+            charset utf-8;
         }
     }
 """
