@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.6.2"
+version     = "1.7.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -14,6 +14,7 @@ requires = [
     "sqlite", # for gogs
     "todolist",
     # additional services
+    "hologram-bethselamin-prosody",
     "murmur",
 ]
 

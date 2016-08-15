@@ -1,0 +1,62 @@
+[package]
+name        = "hologram-bethselamin-prosody"
+version     = "0.1.0"
+description = "hologram: Prosody on Bethselamin"
+
+requires = [
+    "prosody",
+    "lua51-sec",  # TLS encryption support
+    "lua51-zlib", # compression support
+]
+
+# TODO: check server with IM Observatory (https://xmpp.net/list.php)
+
+[[file]]
+path    = "/usr/share/holo/files/50-bethselamin/etc/prosody/prosody.cfg.lua"
+content = '''
+    daemonize = true;
+    pidfile   = "/run/prosody/prosody.pid";
+    log       = { "*syslog"; };
+
+    c2s_require_encryption = true;
+    s2s_require_encryption = true;
+    s2s_secure_auth        = true;
+    authentication = "internal_hashed";
+
+    admins = { "stefan@bethselamin.de" };
+
+    modules_disabled = {};
+    modules_enabled  = {
+        -- user-facing features
+        "roster"; "private"; "vcard";
+        -- all the crypto
+        "saslauth"; "tls";
+        -- s2s dialback support
+        "dialback";
+        -- service discovery
+        "disco";
+        -- POSIX functionality
+        "posix";
+        -- registration is disabled, but this allows users to change their password
+    };
+    allow_registration = false;
+
+    VirtualHost "bethselamin.de"
+        ssl = {
+            key = "/etc/letsencrypt/live/bethselamin.de/privkey.pem";
+            certificate = "/etc/letsencrypt/live/bethselamin.de/fullchain.pem";
+        };
+
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/prosody.service"
+target = "/usr/lib/systemd/system/prosody.service"
+
+[[file]]
+path = "/etc/letsencrypt-allofthem/prosody.sh"
+mode = "0755"
+content = '''
+    #!/bin/sh
+    grep -o '/etc/letsencrypt/live/[^/]\+' /etc/prosody/prosody.cfg.lua | cut -d/ -f5 | sort -u
+'''
