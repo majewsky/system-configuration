@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-prosody"
-version     = "0.1.0"
+version     = "0.1.1"
 description = "hologram: Prosody on Bethselamin"
 
 requires = [
@@ -38,13 +38,14 @@ content = '''
         -- POSIX functionality
         "posix";
         -- registration is disabled, but this allows users to change their password
+        "register";
     };
     allow_registration = false;
 
     VirtualHost "bethselamin.de"
         ssl = {
-            key = "/etc/letsencrypt/live/bethselamin.de/privkey.pem";
-            certificate = "/etc/letsencrypt/live/bethselamin.de/fullchain.pem";
+            key = "/etc/prosody/certs/bethselamin.de.key";
+            certificate = "/etc/prosody/certs/bethselamin.de.crt";
         };
 
 '''
@@ -54,9 +55,20 @@ path   = "/etc/systemd/system/multi-user.target.wants/prosody.service"
 target = "/usr/lib/systemd/system/prosody.service"
 
 [[file]]
-path = "/etc/letsencrypt-allofthem/prosody.sh"
-mode = "0755"
+path    = "/etc/letsencrypt-allofthem/prosody.sh"
+mode    = "0755"
 content = '''
     #!/bin/sh
-    grep -o '/etc/letsencrypt/live/[^/]\+' /etc/prosody/prosody.cfg.lua | cut -d/ -f5 | sort -u
+    grep -o '/etc/letsencrypt/live/[^/]\+' /etc/letsencrypt-allofthem/then/prosody.sh | cut -d/ -f5 | sort -u
+'''
+
+[[file]]
+path    = "/etc/letsencrypt-allofthem/then/prosody.sh"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    cp /etc/letsencrypt/live/bethselamin.de/privkey.pem /etc/prosody/certs/bethselamin.de.key
+    cp /etc/letsencrypt/live/bethselamin.de/fullchain.pem /etc/prosody/certs/bethselamin.de.crt
+    chown prosody:prosody /etc/prosody/certs/*
+    chmod 0400 /etc/prosody/certs/*
 '''
