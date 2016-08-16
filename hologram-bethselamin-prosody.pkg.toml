@@ -9,8 +9,6 @@ requires = [
     "lua51-zlib", # compression support
 ]
 
-# TODO: check server with IM Observatory (https://xmpp.net/list.php)
-
 [[file]]
 path    = "/usr/share/holo/files/50-bethselamin/etc/prosody/prosody.cfg.lua"
 content = '''
