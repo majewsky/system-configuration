@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.7.1"
+version     = "1.7.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -272,9 +272,12 @@ content = '''
 ################################################################################
 # backup for /data
 
+# TODO: move /var/lib/prosody to /data to be included in backup
+
 [[user]]
 name  = "backup"
 group = "gogs"
+groups = ["prosody"]
 home  = "/var/lib/backupuser"
 
 [[file]]
