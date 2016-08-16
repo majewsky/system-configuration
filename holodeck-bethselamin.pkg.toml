@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.7.0"
+version     = "1.7.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -80,6 +80,9 @@ content = """
             proto tcp dport ssh ACCEPT;
             proto tcp dport http ACCEPT;
             proto tcp dport https ACCEPT;
+            # allow XMPP
+            proto tcp dport xmpp-client ACCEPT;
+            proto tcp dport xmpp-server ACCEPT;
 
             # allow Mumble on non-standard port
             proto tcp dport 64001 ACCEPT;
