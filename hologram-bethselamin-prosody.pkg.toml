@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-prosody"
-version     = "0.1.1"
+version     = "0.1.2"
 description = "hologram: Prosody on Bethselamin"
 
 requires = [
@@ -27,6 +27,8 @@ content = '''
 
     modules_disabled = {};
     modules_enabled  = {
+        -- POSIX functionality (needs to be first to get the rest of the startup in syslog)
+        "posix";
         -- user-facing features
         "roster"; "private"; "vcard";
         -- all the crypto
@@ -35,10 +37,10 @@ content = '''
         "dialback";
         -- service discovery
         "disco";
-        -- POSIX functionality
-        "posix";
         -- registration is disabled, but this allows users to change their password
         "register";
+        -- this is apparently needed for Conversations to work
+        "ping";
     };
     allow_registration = false;
 
