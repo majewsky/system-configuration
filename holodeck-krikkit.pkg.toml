@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20160706.1"
+version     = "20160818.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -52,6 +52,9 @@ Section "InputClass"
     Option "PalmDetect" "on"
     Option "PalmMinWidth" "4"
     Option "PalmMinZ" "1"
+    Option "TapButton1" "1"
+    Option "TapButton2" "2"
+    Option "TapButton3" "3"
 EndSection
 """
 
