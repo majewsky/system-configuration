@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-games"
-version     = "1.1.0"
+version     = "1.1.1"
 description = "hologram: games selection"
 
 requires = [
@@ -12,6 +12,7 @@ requires = [
     "lib32-libpulse",
     # assorted games
     "hedgewars",
+    "kdegames-ksudoku",
     "openttd",
     "openttd-opengfx",
     "openttd-opensfx",

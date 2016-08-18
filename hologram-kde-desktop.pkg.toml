@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop"
-version     = "1.0.10"
+version     = "1.0.11"
 description = "hologram: GUI installation with KDE Plasma desktop"
 
 requires = [
@@ -20,6 +20,7 @@ requires = [
     "filelight",
     "kcharselect",
     "kcolorchooser",
+    "kdebase-kdialog",
     "kdeutils-kgpg",
     "kid3",
     "kmix",
