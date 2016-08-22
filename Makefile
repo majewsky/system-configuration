@@ -12,10 +12,10 @@ create-repo: build-holograms build-packages
 	@ln -sf holograms.db repo/holograms.files
 
 pull-repo:
-	@rsync -vau --delete-delay --progress bethselamin:/data/repo.holocm.org/archlinux/personal/ $(THIS_DIRECTORY)/repo/
+	@rsync -vau --delete-delay --progress bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/ $(THIS_DIRECTORY)/repo/
 
 push-repo: create-repo
-	@rsync -vau --delete-delay --progress $(THIS_DIRECTORY)/repo/ bethselamin:/data/repo.holocm.org/archlinux/personal/
+	@rsync -vau --delete-delay --progress $(THIS_DIRECTORY)/repo/ bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/
 
 ################################################################################
 # compile holograms

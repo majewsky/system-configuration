@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160814.1"
+version     = "20160822.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -383,34 +383,6 @@ content = """
 [[symlink]]
 path   = "/etc/systemd/system/timers.target.wants/adblock-sync.timer"
 target = "/usr/lib/systemd/system/adblock-sync.timer"
-
-################################################################################
-# public web server
-
-[[file]]
-path    = "/etc/nginx/sites-enabled/damogran.conf"
-content = """
-    server {
-        server_name static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
-
-        ssl_certificate     /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN}/chain.pem;
-
-        location / {
-            root    /srv/http/static.${DAMOGRAN_HTTP_PRIVATE_DOMAIN};
-            index   index.html index.htm;
-            charset utf-8;
-        }
-    }
-"""
-
-[[symlink]]
-path   = "/usr/share/holo/files/50-damogran-vars/etc/nginx/sites-enabled/damogran.conf.holoscript"
-target = "/my/variables"
 
 ################################################################################
 # public web server: letsencrypt integration

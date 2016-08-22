@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.3.3"
+version     = "1.4.0"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -126,4 +126,46 @@ mode = "0755"
 content = '''
     #!/bin/sh
     find /etc/nginx/sites-{available,enabled} -name \*.conf -exec cat {} + | grep -o '/etc/letsencrypt/live/[^/]\+' | cut -d/ -f5 | sort -u
+'''
+
+################################################################################
+# auto-generation of nginx virtual hosts for static domains below /data/static-web
+
+[[directory]]
+path  = "/data/static-web"
+mode  = "0755"
+user  = "http"
+group = "http"
+
+[[file]]
+path    = "/etc/nginx/sites-enabled/static-web.conf"
+content = """
+    server {
+        server_name $host;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        # CSP includes unsafe-inline to allow <style> tags in hand-written HTML
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always;
+
+        ssl_certificate     /etc/letsencrypt/live/$host/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/$host/chain.pem;
+
+        location / {
+            root    /data/static-web/$host;
+            index   index.html index.htm;
+            charset utf-8;
+        }
+    }
+"""
+
+[[file]]
+path    = "/usr/share/holo/files/20-nginx/etc/nginx/sites-enabled/static-web.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    CONFIG="$(cat)"
+    find /data/static-web -mindepth 1 -maxdepth 1 \( -type l -o -type d \) -exec basename {} \; | while read DOMAIN; do
+        echo "$CONFIG" | sed s/\$host/"$DOMAIN"/g
+    done
 '''
