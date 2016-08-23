@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-prosody"
-version     = "0.1.2"
+version     = "1.0.1"
 description = "hologram: Prosody on Bethselamin"
 
 requires = [
@@ -8,6 +8,10 @@ requires = [
     "lua51-sec",  # TLS encryption support
     "lua51-zlib", # compression support
 ]
+
+# make sure that ca-certificates-cacert is installed, for remote servers that are CAcert-signed
+provides  = [ "a-decision-regarding-cacert" ]
+conflicts = [ "hologram-disable-cacert" ]
 
 [[file]]
 path    = "/usr/share/holo/files/50-bethselamin/etc/prosody/prosody.cfg.lua"
@@ -18,7 +22,7 @@ content = '''
 
     c2s_require_encryption = true;
     s2s_require_encryption = true;
-    s2s_secure_auth        = true;
+    s2s_secure_auth        = false; -- TODO: not all remotes are correctly signed
     authentication = "internal_hashed";
 
     admins = { "stefan@bethselamin.de" };

@@ -1,7 +1,6 @@
 [package]
 name        = "hologram-disable-cacert"
-version     = "1.0"
-release     = 2
+version     = "1.0.1"
 description = "Disable CACert root certificate"
-provides    = [ "ca-certificates-cacert" ]
+provides    = [ "ca-certificates-cacert", "a-decision-regarding-cacert" ]
 conflicts   = [ "ca-certificates-cacert" ]
