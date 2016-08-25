@@ -1,0 +1,25 @@
+pkgname=xmpp-bridge
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Connect command-line programs to XMPP"
+arch=('i686' 'x86_64')
+url='https://github.com/majewsky/xmpp-bridge'
+license=('GPL3')
+depends=('libstrophe')
+source=("https://github.com/majewsky/${pkgname}/archive/v${pkgver}.tar.gz")
+sha256sums=('b01f61ae06c01c9e2d3ee4fc202c2b1dc38c8de9eb5baab6d85180b1dfc2f171')
+
+prepare() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    sed -i 's/^LDFLAGS += \(.*\)$/LDFLAGS := \1 $(LDFLAGS)/' Makefile
+}
+
+build() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make install DESTDIR="${pkgdir}"
+}

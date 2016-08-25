@@ -44,6 +44,7 @@ build-packages: package-screen-message
 build-packages: package-todolist # self-built
 build-packages: package-ttf-montserrat
 build-packages: package-vimprobable2
+build-packages: package-xmpp-bridge
 build-packages: package-yaourt
 
 # These are dependencies between these packages.
