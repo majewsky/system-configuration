@@ -42,3 +42,5 @@ done
 
 # show update progress live to the user immediately
 yes 2>/dev/null | pacman -Su
+
+# TODO: offer to reboot or restart some service
