@@ -34,3 +34,6 @@
 [submodule "glide"]
 	path = glide
 	url = https://aur.archlinux.org/glide.git/
+[submodule "pipexec"]
+	path = pipexec
+	url = https://aur.archlinux.org/pipexec.git/
