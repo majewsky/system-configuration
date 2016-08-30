@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-automation"
-version     = "0.1.1"
+version     = "0.1.2"
 description = "hologram: infrastructure for dialog-based task automation and common tasks"
 
 requires = [

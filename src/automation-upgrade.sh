@@ -41,6 +41,6 @@ while true; do
 done
 
 # show update progress live to the user immediately
-yes 2>/dev/null | pacman -Su
+yes 2>/dev/null | pacman -Su | sed -n '/^:: Processing package changes/,$p'
 
 # TODO: offer to reboot or restart some service
