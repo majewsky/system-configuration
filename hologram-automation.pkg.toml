@@ -1,0 +1,60 @@
+[package]
+name        = "hologram-automation"
+version     = "0.1.0"
+description = "hologram: infrastructure for dialog-based task automation and common tasks"
+
+requires = [
+    "pipexec",
+    "xmpp-bridge",
+]
+
+[[file]]
+path = "/usr/bin/with-xmpp-bridge"
+mode = "0700"
+# TODO: should obtain a lock to ensure that only one process talks on XMPP at once
+# TODO: pipexec does not propagate a non-zero exit code from its children
+content = '''
+    #!/bin/bash
+    set -e
+    source /my/xmpp   # sets the environment variables for xmpp-bridge(1)
+    pipexec -- [ A "$@" ] [ B /usr/bin/peet 2 3 ] [ C /usr/bin/xmpp-bridge ] \
+        "{A:1>B:2}" "{A:2>B:3}" "{B:1>C:0}" "{C:1>A:0}"
+'''
+
+################################################################################
+# guided system upgrade task
+
+[[file]]
+path = "/usr/lib/automation/upgrade.sh"
+mode = "0755"
+contentFrom = "src/automation-upgrade.sh"
+
+[[file]]
+path = "/usr/lib/systemd/system/auto-upgrade.service"
+content = '''
+    [Unit]
+    Description=Guided automatic system upgrade
+    After=multi-user.target
+    Wants=multi-user.target
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/with-xmpp-bridge /usr/lib/automation/upgrade.sh
+'''
+
+[[file]]
+path = "/usr/lib/systemd/system/auto-upgrade.timer"
+content = '''
+    [Unit]
+    Description=Guided automatic system upgrade
+
+    [Timer]
+    OnCalendar=15:00:00
+
+    [Install]
+    WantedBy=timers.target
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/timers.target.wants/letsencrypt-allofthem.timer"
+target = "/usr/lib/systemd/system/letsencrypt-allofthem.timer"

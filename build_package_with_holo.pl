@@ -9,7 +9,7 @@ use autodie qw(:all);
 my $filename = shift @ARGV;
 
 # use holo-build to find the package file name
-open my $fh, '-|', 'sh', '-c', "holo-build --suggest-filename < $filename";
+open my $fh, '-|', 'sh', '-c', "holo-build --suggest-filename $filename";
 chomp(my $package_file = <$fh>);
 close($fh);
 
@@ -32,7 +32,7 @@ close($fh);
 # (we're running inside the repo directory, so auto-output is fine)
 
 if (not -f $package_file) {
-   system("holo-build <$filename");
+   system("holo-build $filename");
 }
 if ($sign and not -f "$package_file.sig") {
    system("gpg", "--detach-sign", "--use-agent", ($gpg_key ? ("-u", $gpg_key) : ()), "--no-armor", $package_file);
