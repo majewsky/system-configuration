@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-automation"
-version     = "0.2.0"
+version     = "0.3.0"
 description = "hologram: infrastructure for dialog-based task automation and common tasks"
 
 requires = [
@@ -22,7 +22,7 @@ content = '''
 '''
 
 ################################################################################
-# guided system upgrade task
+# task: guided system upgrade
 
 [[file]]
 path = "/usr/lib/automation/upgrade.sh"
@@ -58,3 +58,42 @@ content = '''
 [[symlink]]
 path   = "/etc/systemd/system/timers.target.wants/auto-upgrade.timer"
 target = "/usr/lib/systemd/system/auto-upgrade.timer"
+
+################################################################################
+# task: health check (periodically, and immediately after a reboot)
+
+[[file]]
+path = "/usr/lib/automation/health.sh"
+mode = "0755"
+contentFrom = "src/automation-health.sh"
+
+[[file]]
+path = "/usr/lib/systemd/system/auto-health.service"
+content = '''
+    [Unit]
+    Description=Automatic system health check
+    After=multi-user.target
+    Wants=multi-user.target
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/with-xmpp-bridge /usr/lib/automation/health.sh
+'''
+
+[[file]]
+path = "/usr/lib/systemd/system/auto-health.timer"
+content = '''
+    [Unit]
+    Description=Automatic system health check
+
+    [Timer]
+    OnStartupSec=1min
+    OnCalendar=17:00:00
+
+    [Install]
+    WantedBy=timers.target
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/timers.target.wants/auto-health.timer"
+target = "/usr/lib/systemd/system/auto-health.timer"

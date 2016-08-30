@@ -54,7 +54,10 @@ else
     exit 1
 fi
 
-# offer to reboot
+# this is always a good idea after upgrades
+systemctl daemon-reload
+
+# offer to reboot or restart services
 echo ':: What now? Choose a number:'
 echo ':: (1) nothing else'
 echo ':: (2) please reboot'
