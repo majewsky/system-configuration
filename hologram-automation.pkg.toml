@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-automation"
-version     = "0.3.0"
+version     = "0.3.2"
 description = "hologram: infrastructure for dialog-based task automation and common tasks"
 
 requires = [
@@ -16,6 +16,11 @@ mode = "0700"
 content = '''
     #!/bin/bash
     set -e
+
+    # ensure that only one XMPP user runs at a time
+    exec 9>/run/xmpp-bridge.lock
+    flock 9
+
     source /my/xmpp   # sets the environment variables for xmpp-bridge(1)
     pipexec -- [ A "$@" ] [ B /usr/bin/peet 2 3 ] [ C /usr/bin/xmpp-bridge ] \
         "{A:1>B:2}" "{A:2>B:3}" "{B:1>C:0}" "{C:1>A:0}"
