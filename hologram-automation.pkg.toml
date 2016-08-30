@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-automation"
-version     = "0.1.0"
+version     = "0.1.1"
 description = "hologram: infrastructure for dialog-based task automation and common tasks"
 
 requires = [
@@ -56,5 +56,5 @@ content = '''
 '''
 
 [[symlink]]
-path   = "/etc/systemd/system/timers.target.wants/letsencrypt-allofthem.timer"
-target = "/usr/lib/systemd/system/letsencrypt-allofthem.timer"
+path   = "/etc/systemd/system/timers.target.wants/auto-upgrade.timer"
+target = "/usr/lib/systemd/system/auto-upgrade.timer"
