@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20160818.1"
+version     = "20160901.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -19,7 +19,8 @@ requires    = [
     "kdeconnect",
     "libreoffice-still",
     "mpd",
-    "plasma-nm",
+    "plasma-nm",     # skipped in hologram-kde-desktop
+    "powerdevil",    # skipped in hologram-kde-desktop
     "virtualbox",
     "linux-headers", # for virtualbox-host-dkms
 ]
