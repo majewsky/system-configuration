@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160823.1"
+version = "20160902.1"
 description = "hologram: base installation"
 
 requires = [
@@ -171,6 +171,12 @@ owner = 1001 # stefan
 group = 100  # users
 
 # development environment bootstrapping
+[[directory]]
+path  = "/home/stefan.rtree"
+mode  = "0700"
+owner = 1001 # stefan
+group = 100  # users
+
 [[directory]]
 path  = "/home/stefan.devenv"
 mode  = "0700"
