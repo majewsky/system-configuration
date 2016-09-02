@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop"
-version     = "1.0.13"
+version     = "1.0.14"
 description = "hologram: GUI installation with KDE Plasma desktop"
 
 requires = [
@@ -35,7 +35,7 @@ requires = [
 # TODO: kwallet-pam
 
 [[file]]
-path    = "/etc/sddm.conf"
+path    = "/usr/share/holo/files/20-kde-desktop/etc/sddm.conf"
 content = """
     [Autologin]
     User=stefan
