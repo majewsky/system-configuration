@@ -1,0 +1,39 @@
+[package]
+name        = "hologram-kde-desktop-minimal"
+version     = "1.0.0"
+description = "hologram: GUI installation with KDE Plasma desktop (variant for space-constrained systems)"
+
+requires = [
+    "hologram-base-gui-minimal",
+    # display manager
+    "sddm",
+    # desktop
+    "group:plasma", "except:bluedevil", "except:plasma-nm", "except:ksshaskpass", "except:powerdevil",
+    "except:breeze-gtk", # hilariously broken with GTK 3.20 ATM
+    "gst-plugins-good",  # optional: for WebM support in qt5-webkit
+    # KDE 5 applications
+    "filelight",
+    "kcharselect",
+    "kcolorchooser",
+    "kmix",
+    "kolourpaint",
+    "konsole",
+    "kruler",
+    "spectacle",
+    "yakuake",
+]
+
+[[file]]
+path    = "/usr/share/holo/files/20-kde-desktop/etc/sddm.conf"
+content = """
+    [Autologin]
+    User=stefan
+    Session=plasma.desktop
+
+    [Theme]
+    Current=breeze
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/display-manager.service"
+target = "/usr/lib/systemd/system/sddm.service"

@@ -1,50 +1,23 @@
 [package]
 name        = "hologram-kde-desktop"
-version     = "1.0.14"
+version     = "1.0.15"
 description = "hologram: GUI installation with KDE Plasma desktop"
 
 requires = [
+    "hologram-kde-desktop-minimal",
     "hologram-base-gui",
-    # display manager
-    "sddm",
     # desktop
-    "group:plasma", "except:bluedevil", "except:plasma-nm", "except:ksshaskpass", "except:powerdevil",
-    "breeze-kde4",
-    "except:breeze-gtk", # hilariously broken with GTK 3.20 ATM
-    "gst-plugins-good",  # optional: for WebM support in qt5-webkit
-    "mariadb",           # optional: for Akonadi
-    # applications
+    "mariadb", # optional: for Akonadi
+    # KDE 5 applications
     "ark",
     "dolphin",
     "gwenview",
-    "filelight",
-    "kcharselect",
-    "kcolorchooser",
+    "kid3",
+    "kwalletmanager",
+    # KDE 4 applications
+    "breeze-kde4",
     "kdebase-kdialog",
     "kdeutils-kgpg",
-    "kid3",
-    "kmix",
-    "kolourpaint",
-    "konsole",
-    "kruler",
-    "kwalletmanager",
-    "spectacle",
-    "yakuake",
 ]
 
 # TODO: kwallet-pam
-
-[[file]]
-path    = "/usr/share/holo/files/20-kde-desktop/etc/sddm.conf"
-content = """
-    [Autologin]
-    User=stefan
-    Session=plasma.desktop
-
-    [Theme]
-    Current=breeze
-"""
-
-[[symlink]]
-path   = "/etc/systemd/system/display-manager.service"
-target = "/usr/lib/systemd/system/sddm.service"

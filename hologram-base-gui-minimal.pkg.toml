@@ -1,0 +1,33 @@
+[package]
+name        = "hologram-base-gui-minimal"
+version     = "1.0.0"
+description = "hologram: base GUI installation (variant for space-constrained systems)"
+
+requires = [
+    "hologram-base-accessible",
+    "xorg-server",
+    # assorted GUI apps
+    "group:xorg-apps",
+    "firefox",
+    "graphviz",
+    "gnuplot",
+    "gvim", # vim with X11 clipboard support
+    "inkscape",
+    "mupdf",
+    "qgit",
+    "screen-message",
+    "sxiv",
+    "xsel",
+    # helper packages
+    "aspell-de",  # to silence complaints in gitk about missing spell check dict
+    "human-icon-theme",
+    # font packages
+    "adobe-source-code-pro-fonts",
+    "adobe-source-sans-pro-fonts",
+    "adobe-source-serif-pro-fonts",
+    "ttf-bitstream-vera",
+    "ttf-dejavu",
+    "ttf-droid",
+    "ttf-freefont",
+    "ttf-liberation",
+]
