@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.8.0"
+version     = "1.8.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -115,9 +115,21 @@ content = '''
     RUN_USER = gogs
     RUN_MODE = prod
 
+    [markdown]
+    FILE_EXTENSIONS = .md,.markdown,.mdown,.mkd
+
     [repository]
     ROOT        = /data/gogs/repo
     SCRIPT_TYPE = bash
+    MIRROR_QUEUE_LENGTH = 1000
+    PULL_REQUEST_QUEUE_LENGTH = 1000
+
+    [repository.editor]
+    LINE_WRAP_EXTENSIONS = .txt,.md,.markdown,.mdown,.mkd,
+    PREVIEWABLE_FILE_MODES = markdown
+
+    [repository.upload]
+    ENABLED = false
 
     [server]
     PROTOCOL   = http
