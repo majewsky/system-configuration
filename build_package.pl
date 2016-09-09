@@ -13,7 +13,7 @@ my $package = shift @ARGV;
 my @deps = map { /^package-(.+)$/ ? $1 : () } @ARGV;
 
 ################################################################################
-# install missing dependencies
+# build package if it's not yet there
 
 sub version_of_aurpackage {
    my ($package) = @_;
@@ -50,6 +50,12 @@ sub file_for_aurpackage {
    return $package_file;
 }
 
+my $package_version = version_of_aurpackage($package);
+exit if file_for_aurpackage($package, $package_version, '-nodie');
+
+################################################################################
+# install missing dependencies
+
 # which dependencies are not yet satisfied?
 my @deps_with_versions = map { "$_=" . version_of_aurpackage($_) } map{$_} @deps;
 my @missing_deps = do { open my $fh, '-|', qw(pacman -T), @deps_with_versions; <$fh> };
@@ -70,13 +76,8 @@ for my $dep_with_version (@missing_deps) {
 system(qw(sudo pacman -U --asdeps), @dep_package_files) if @dep_package_files;
 
 ################################################################################
-# build package if it's not yet there
+# build package
 
-my $package_version = version_of_aurpackage($package);
-my $package_file = file_for_aurpackage($package, $package_version, '-nodie');
-
-unless ($package_file) {
-   # write the resulting package to the repo directory
-   local $ENV{PKGDEST} = getcwd() . '/../repo';
-   system qw(makepkg -s);
-}
+# write the resulting package to the repo directory
+local $ENV{PKGDEST} = getcwd() . '/../repo';
+system qw(makepkg -s);
