@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20160822.1"
+version     = "20160920.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -16,7 +16,7 @@ requires = [
     # public services
     "hologram-nginx",
     # intranet services
-    "jre7-openjdk-headless", # for Minecraft
+    "jre8-openjdk-headless", # for Minecraft
 ]
 
 # TODO: smartd to monitor RAID
