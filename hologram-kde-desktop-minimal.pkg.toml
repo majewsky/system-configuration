@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop-minimal"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: GUI installation with KDE Plasma desktop (variant for space-constrained systems)"
 
 requires = [
@@ -21,6 +21,8 @@ requires = [
     "kruler",
     "spectacle",
     "yakuake",
+    # development tools (for installation of devenv GUI parts)
+    "cmake",
 ]
 
 [[file]]
