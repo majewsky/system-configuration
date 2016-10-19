@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20160902.1"
+version = "20161019.1"
 description = "hologram: base installation"
 
 requires = [
@@ -134,8 +134,10 @@ path    = "/usr/share/holo/files/00-base/etc/pacman.d/mirrorlist.holoscript"
 mode    = "0755"
 content = """
     #!/bin/sh
-    # choose some German mirrors randomly (rankmirrors is better, but slows down `holo apply` too much)
-    sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d' | sort -R
+    # prefer my own mirror
+    echo 'Server=https://mirror.bethselamin.de/$repo/os/$arch'
+    # other German mirrors (no shuffling or ranking since this is only a fallback anyway)
+    sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d'
 """
 
 # sudo
