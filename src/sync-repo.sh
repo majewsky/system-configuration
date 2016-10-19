@@ -7,20 +7,17 @@
 # is run every minute. Performing a simple check via HTTP first can thus save a
 # lot of traffic.
 
-home="/srv"
+home="/data/archlinux-mirror"
 target="${home}/repo"
 tmp="${home}/tmp"
-lock='/tmp/mirrorsync.lck'
+lock='/run/mirrorsync.lck'
 # NOTE: You'll probably want to change this or remove the --bwlimit setting in
 # the rsync call below
 bwlimit=4096
 # NOTE: most people reading this very likely need to change this since
 # rsync.archlinux.org requires you to be a tier 1 mirror
-source='rsync://rsync.archlinux.org/ftp_tier1'
-lastupdate_url="http://rsync.archlinux.org/lastupdate"
-
-[ ! -d "${target}" ] && mkdir -p "${target}"
-[ ! -d "${tmp}" ] && mkdir -p "${tmp}"
+source='rsync://mirror.pseudoform.org/packages/'
+lastupdate_url="https://mirror.pseudoform.org/lastupdate"
 
 exec 9>"${lock}"
 flock -n 9 || exit
