@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-archlinux-mirror"
-version     = "0.1.0"
+version     = "0.1.3"
 description = "hologram: Arch Linux package mirror"
 
 requires = [ "hologram-nginx" ]
@@ -18,13 +18,18 @@ group  = "mirror"
 system = true
 
 [[directory]]
+path  = "/data/archlinux-mirror"
+owner = "mirror"
+group = "mirror"
+
+[[directory]]
 path  = "/data/archlinux-mirror/repo"
-user  = "mirror"
+owner = "mirror"
 group = "mirror"
 
 [[directory]]
 path  = "/data/archlinux-mirror/tmp"
-user  = "mirror"
+owner = "mirror"
 group = "mirror"
 
 [[file]]

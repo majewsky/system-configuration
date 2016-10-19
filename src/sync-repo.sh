@@ -10,7 +10,7 @@
 home="/data/archlinux-mirror"
 target="${home}/repo"
 tmp="${home}/tmp"
-lock='/run/mirrorsync.lck'
+lock="${home}/mirrorsync.lck"
 # NOTE: You'll probably want to change this or remove the --bwlimit setting in
 # the rsync call below
 bwlimit=4096
