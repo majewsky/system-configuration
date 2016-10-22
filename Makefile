@@ -33,6 +33,7 @@ build-holograms: $(HOLOBUILD_HOLOGRAMS)
 # These are the packages that I want.
 build-packages: package-ages-website
 build-packages: package-broadcom-wl-dkms
+build-packages: package-blog-generator
 build-packages: package-gandi-dyndns # this package is not hosted in the AUR
 build-packages: package-gnaural package-gnaural-presets
 build-packages: package-gogs

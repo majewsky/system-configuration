@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.8.1"
+version     = "1.9.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -13,6 +13,7 @@ requires = [
     "gogs",
     "sqlite", # for gogs
     "todolist",
+    "blog-generator",
     # additional services
     "hologram-bethselamin-prosody",
     "murmur",
@@ -401,6 +402,66 @@ content = '''
         }
     }
 
+'''
+
+################################################################################
+# web services: blog.bethselamin.de
+
+[[user]]
+name   = "blog"
+group  = "nobody"
+system = true
+
+[[directory]]
+path  = "/data/blog"
+owner = "blog"
+group = "nobody"
+
+[[directory]]
+path  = "/data/blog/output"
+owner = "blog"
+group = "nobody"
+
+[[symlink]]
+path   = "/data/static-web/blog.bethselamin.de"
+target = "/data/blog/output"
+
+[[file]]
+path    = "/usr/lib/blog-update.sh"
+mode    = "0755"
+content = '''
+    #!/bin/bash
+    cd /data/blog
+    if [ -d posts ]; then
+        git -C posts pull origin master
+    else
+        git clone https://github.com/majewsky/blog-data posts
+    fi
+    blog-generator
+'''
+
+[[file]]
+path = "/usr/lib/systemd/system/blog-update.service"
+content = '''
+    [Unit]
+    Description=Update blog.bethselamin.de
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/lib/blog-update.sh
+    User=blog
+    Group=nobody
+'''
+
+[[file]]
+path = "/usr/lib/systemd/system/blog-update.timer"
+content = '''
+    [Unit]
+    Description=Update blog.bethselamin.de every five minutes
+
+    [Timer]
+    OnStartupSec=2min
+    OnUnitInactiveSec=5min
 '''
 
 ################################################################################

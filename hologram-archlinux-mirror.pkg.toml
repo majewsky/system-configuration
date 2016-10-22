@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-archlinux-mirror"
-version     = "0.1.5"
+version     = "0.1.6"
 description = "hologram: Arch Linux package mirror"
 
 requires = [ "hologram-nginx" ]
@@ -49,6 +49,7 @@ content = '''
     Description=Sync Arch Linux package repo
 
     [Service]
+    Type=oneshot
     ExecStart=/usr/lib/archlinux-mirror/sync-repo.sh
     User=mirror
     Group=mirror
