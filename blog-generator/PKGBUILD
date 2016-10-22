@@ -1,6 +1,6 @@
 pkgname=blog-generator
-pkgver=20161021
-pkgrel=2
+pkgver=20161021.4
+pkgrel=1
 pkgdesc='Generator for my private blog'
 arch=('x86_64')
 _goget_url='github.com/majewsky/blog-generator'
@@ -11,6 +11,7 @@ makedepends=('go')
 source=()
 
 build() {
+    rm -rf -- "${srcdir}/bin" "${srcdir}/src"
     mkdir -p "${srcdir}/bin"
     env GOPATH="${srcdir}" GOBIN="${srcdir}/bin" go get "${_goget_url}"
 }
