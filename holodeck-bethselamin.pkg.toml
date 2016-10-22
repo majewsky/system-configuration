@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.9.2"
+version     = "1.9.3"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -275,6 +275,8 @@ content = '''
         ssl_certificate     /etc/letsencrypt/live/git.bethselamin.de/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/git.bethselamin.de/privkey.pem;
         ssl_trusted_certificate /etc/letsencrypt/live/git.bethselamin.de/chain.pem;
+
+        client_max_body_size 10m;
 
         location / {
             proxy_pass http://localhost:3000;
