@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.9.3"
+version     = "1.9.4"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -434,10 +434,10 @@ mode    = "0755"
 content = '''
     #!/bin/bash
     cd /data/blog
-    if [ -d posts ]; then
-        git -C posts pull origin master
+    if [ -d data ]; then
+        git -C data pull -q origin master
     else
-        git clone https://github.com/majewsky/blog-data posts
+        git clone https://github.com/majewsky/blog-data data
     fi
     blog-generator
 '''
