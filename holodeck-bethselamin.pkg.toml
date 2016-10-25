@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.9.4"
+version     = "1.9.5"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -412,6 +412,7 @@ content = '''
 [[user]]
 name   = "blog"
 group  = "nobody"
+home   = "/data/blog"
 system = true
 
 [[directory]]
