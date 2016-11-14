@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.9.5"
+version     = "1.10.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -430,6 +430,17 @@ path   = "/data/static-web/blog.bethselamin.de"
 target = "/data/blog/output"
 
 [[file]]
+path = "/etc/blog-generator.conf"
+content = '''
+    source-dir /data/blog/data
+    source-url https://github.com/majewsky/blog-data
+    target-dir /data/blog/output
+    target-url https://blog.bethselamin.de
+    page-name Stefan's Blog
+    page-desc Personal blog of Stefan Majewsky
+'''
+
+[[file]]
 path    = "/usr/lib/blog-update.sh"
 mode    = "0755"
 content = '''
@@ -440,7 +451,8 @@ content = '''
     else
         git clone https://github.com/majewsky/blog-data data
     fi
-    blog-generator
+    blog-generator /etc/blog-generator.conf
+    cp /data/blog/data/style.css /data/blog/output/style.css
 '''
 
 [[file]]
