@@ -1,0 +1,136 @@
+[package]
+name        = "hologram-munin-singlenode"
+version     = "1.0.0"
+description = "hologram: Munin on a single node"
+
+requires = [
+    "munin",
+    "munin-node",
+]
+
+################################################################################
+# configuration of master daemon
+
+[[directory]]
+path = "/data/munin/html"
+owner = "munin"
+group = "munin"
+
+[[file]]
+path    = "/usr/share/holo/files/40-munin-singlenode/etc/munin/munin.conf"
+content = '''
+    htmldir /data/munin/html
+    includedir /etc/munin/munin-conf.d
+    [%LOCAL_HOSTNAME%]
+    address [::1]
+'''
+
+[[file]]
+path    = "/usr/share/holo/files/40-munin-singlenode/etc/munin/munin.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    sed 's/%LOCAL_HOSTNAME%/'"$(cat /etc/hostname)"/
+'''
+
+################################################################################
+# periodic data collection
+
+[[file]]
+path = "/usr/lib/systemd/system/munin-cron.service"
+content = '''
+    [Unit]
+    Description=Survey monitored computers
+
+    [Service]
+    User=munin
+    ExecStart=/usr/bin/munin-cron
+'''
+
+[[file]]
+path    = "/usr/lib/systemd/system/munin-cron.timer"
+content = '''
+    [Unit]
+    Description=Survey monitored computers every five minutes
+
+    [Timer]
+    OnBootSec=1min
+    OnUnitActiveSec=5min
+
+    [Install]
+    WantedBy=timers.target
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/timers.target.wants/munin-cron.timer"
+target = "/usr/lib/systemd/system/munin-cron.timer"
+
+################################################################################
+# configuration of node daemon
+
+[[file]]
+path    = "/usr/share/holo/files/40-munin-singlenode/etc/munin/munin-node.conf"
+content = '''
+    log_level 4
+    log_file /var/log/munin/munin-node.log
+    pid_file /run/munin/munin-node.pid
+
+    background 1
+    setsid 1
+
+    user root
+    group root
+
+    ignore_file \.pac(save|new|orig)$
+
+    host [::1]
+    port 4949
+'''
+
+[[file]]
+path    = "/usr/share/holo/files/40-munin-singlenode/etc/munin/munin-node.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    cat
+    echo -n "host_name "
+    cat /etc/hostname
+'''
+
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/munin-node.service"
+target = "/usr/lib/systemd/system/munin-node.service"
+
+[[symlink]]
+path   = "/etc/munin/plugins/cpu"
+target = "/usr/lib/munin/plugins/cpu"
+
+[[symlink]]
+path   = "/etc/munin/plugins/df"
+target = "/usr/lib/munin/plugins/df"
+
+[[symlink]]
+path   = "/etc/munin/plugins/df_inode"
+target = "/usr/lib/munin/plugins/df_inode"
+
+[[action]]
+on     = "setup"
+script = '''
+    rm -f /etc/munin/plugins/if_*
+    tail -n+3 /proc/net/dev | cut -d: -f1 | grep -vw lo | while read iface; do
+        ln -s /usr/lib/munin/plugins/if_ /etc/munin/plugins/if_$iface
+    done
+'''
+
+[[symlink]]
+path   = "/etc/munin/plugins/load"
+target = "/usr/lib/munin/plugins/load"
+
+[[symlink]]
+path   = "/etc/munin/plugins/memory"
+target = "/usr/lib/munin/plugins/memory"
+
+[[symlink]]
+path   = "/etc/munin/plugins/netstat"
+target = "/usr/lib/munin/plugins/netstat"
