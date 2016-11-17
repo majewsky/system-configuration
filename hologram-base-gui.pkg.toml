@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.0.12"
+version     = "1.1.0"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -30,3 +30,8 @@ requires = [
     "ttf-oxygen",
     "ttf-ubuntu-font-family",
 ]
+
+[[file]]
+path = "/usr/bin/munin-for"
+mode = "0755"
+contentFrom = "src/munin-for"
