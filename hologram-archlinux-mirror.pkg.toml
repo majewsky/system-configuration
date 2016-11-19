@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-archlinux-mirror"
-version     = "0.1.6"
+version     = "1.0.0"
 description = "hologram: Arch Linux package mirror"
 
 requires = [ "hologram-nginx" ]
@@ -59,11 +59,11 @@ content = '''
 path    = "/usr/lib/systemd/system/archlinux-mirror-sync.timer"
 content = '''
     [Unit]
-    Description=Sync Arch Linux package repo every minute
+    Description=Sync Arch Linux package repo every quarter-hour
 
     [Timer]
     OnBootSec=120
-    OnUnitInactiveSec=60
+    OnUnitInactiveSec=900
 
     [Install]
     WantedBy=timers.target
