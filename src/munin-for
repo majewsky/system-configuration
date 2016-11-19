@@ -15,4 +15,4 @@ if [ ! -f "${MOUNTPOINT}/index.html" ]; then
     sshfs "${HOSTNAME}:/data/munin/html" "${MOUNTPOINT}"
 fi
 
-xdg-open "${MOUNTPOINT}/index.html"
+xdg-open "${MOUNTPOINT}/${HOSTNAME}/${HOSTNAME}/index.html"
