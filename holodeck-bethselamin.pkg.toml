@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.10.0"
+version     = "1.10.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -478,6 +478,10 @@ content = '''
     OnStartupSec=2min
     OnUnitInactiveSec=5min
 '''
+
+[[symlink]]
+path = "/etc/systemd/system/timers.target.wants/blog-update.timer"
+target = "/usr/lib/systemd/system/blog-update.timer"
 
 ################################################################################
 # misc. services: Mumble/Murmur
