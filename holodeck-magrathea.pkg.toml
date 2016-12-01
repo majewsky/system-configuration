@@ -1,0 +1,45 @@
+[package]
+name        = "holodeck-magrathea"
+version     = "0.0.2"
+description = "holodeck: services on Magrathea (traveling Minecraft LAN server)"
+
+requires = [
+    "hologram-base-accessible",
+    "hologram-uefi-bootloader",
+    # for Minecraft
+    "jre8-openjdk-headless",
+    # optional: tools for initial setup via Wifi
+    "dhcpcd",
+    "wpa_supplicant",
+]
+
+[[file]]
+path    = "/etc/hostname"
+content = "magrathea"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = """
+export PRETTYPROMPT_COMMONUSER=stefan
+export PRETTYPROMPT_HOSTCOLOR='0;31'
+"""
+
+# network setup: systemd-networkd and systemd-resolved
+
+[[file]]
+path    = "/etc/systemd/network/lan.network"
+content = """
+    [Match]
+    Name=en* wl*
+
+    [Network]
+    DHCP=yes
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
+target = "/usr/lib/systemd/system/systemd-resolved.service"
+
+[[symlink]]
+path   = "/usr/share/holo/files/50-magrathea/etc/resolv.conf"
+target = "/run/systemd/resolve/resolv.conf"
