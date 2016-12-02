@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20160812.2"
+version     = "20161202.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -12,10 +12,16 @@ requires = [
     "hologram-dtp",
     # support for Intel CPU/GPU
     "hologram-intel-ucode",
-    "xf86-video-intel",
-    "libva-intel-driver",
     # support for AMD GPU
     "xf86-video-amdgpu",
+    "vulkan-radeon",
+    "lib32-vulkan-radeon",
+    "vulkan-icd-loader",
+    "lib32-vulkan-icd-loader",
+    "mesa-libgl",
+    "lib32-mesa-libgl",
+    "mesa-vdpau",
+    "lib32-mesa-vdpau",
     # network setup
     "broadcom-wl-dkms", # closed source driver because Linux kernel does not support my Wifi module
     "linux-headers",    # optional dep for broadcom-wl-dkms
