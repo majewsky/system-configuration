@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20161202.1"
+version     = "20161202.2"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -287,6 +287,7 @@ content = """
     address=/damogran.local/10.0.0.1
     address=/arcturus.local/10.0.0.2
     address=/krikkit.local/10.0.0.3
+    address=/magrathea.local/10.0.0.42
     dnssec
     trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 
