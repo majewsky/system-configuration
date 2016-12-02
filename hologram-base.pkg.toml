@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20161019.1"
+version = "20161202.1"
 description = "hologram: base installation"
 
 requires = [
@@ -22,7 +22,6 @@ requires = [
     "except:usbutils",
     "except:xfsprogs",
     # assorted CLI tools
-    "ack",
     "dnsutils",
     "git",
     "gptfdisk",
@@ -32,6 +31,7 @@ requires = [
     "net-tools",      # netstat
     "nmap",           # ncat
     "pwgen",
+    "ripgrep",
     "rsync",
     "screen",
     "strace",
