@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-archlinux-mirror"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: Arch Linux package mirror"
 
 requires = [ "hologram-nginx" ]

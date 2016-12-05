@@ -38,6 +38,7 @@ rsync -rtlvH --safe-links --delete-after --progress -h ${QUIET} --timeout=600 --
 	--exclude='/other' \
 	--exclude='/sources' \
 	--exclude='/iso' \
+	--exclude='.autoindex' \
 	${source} \
 	"${target}"
 
