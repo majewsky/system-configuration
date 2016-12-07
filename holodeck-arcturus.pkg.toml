@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20161202.1"
+version     = "20161207.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -10,6 +10,7 @@ requires = [
     "hologram-uefi-bootloader-with-luks",
     "hologram-common-identity",
     "hologram-dtp",
+    "hologram-automation",
     # support for Intel CPU/GPU
     "hologram-intel-ucode",
     # support for AMD GPU

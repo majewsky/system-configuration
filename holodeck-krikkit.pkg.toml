@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20161202.1"
+version     = "20161207.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -10,6 +10,7 @@ requires    = [
     "hologram-dtp",
     "hologram-remount-efivarfs",
     "hologram-common-identity",
+    "hologram-automation",
     # hardware support
     "intel-ucode",
     "xf86-input-synaptics",
