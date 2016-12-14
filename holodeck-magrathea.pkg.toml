@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-magrathea"
-version     = "0.0.2"
+version     = "1.0.0"
 description = "holodeck: services on Magrathea (traveling Minecraft LAN server)"
 
 requires = [
@@ -30,10 +30,19 @@ export PRETTYPROMPT_HOSTCOLOR='0;31'
 path    = "/etc/systemd/network/lan.network"
 content = """
     [Match]
-    Name=en* wl*
+    Name=en*
 
     [Network]
     DHCP=yes
+
+    [Address]
+    Address=10.0.0.42/24
+
+    [Address]
+    Address=192.168.0.42/24
+
+    [Address]
+    Address=192.168.1.42/24
 """
 
 [[symlink]]

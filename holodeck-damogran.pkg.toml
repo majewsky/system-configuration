@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20161207.1"
+version     = "20161214.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -281,7 +281,6 @@ content = """
     dhcp-range=10.0.1.100,10.0.1.199,12h
     # assign a static IP address to Krikkit
     dhcp-host=${KRIKKIT_MACADDR_LAN},10.0.0.3
-    dhcp-host=${MAGRATHEA_MACADDR_LAN},10.0.0.42
 
     # obtain upstream DNS from systemd-resolved
     resolv-file=/run/systemd/resolve/resolv.conf
