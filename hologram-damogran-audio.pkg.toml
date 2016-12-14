@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-audio"
-version     = "1.4.0"
+version     = "1.4.1"
 description = "hologram: PulseAudio and MPD service for Damogran"
 requires    = [
     "mpd",
@@ -64,37 +64,6 @@ content = """
 """
 
 # start MPD as a user service, too
-
-[[file]]
-path    = "/usr/lib/systemd/user/mpd.service"
-content = '''
-    [Unit]
-    Description=Music Player Daemon
-    After=network.target sound.target
-
-    [Service]
-    ExecStart=/usr/bin/mpd --no-daemon
-
-    # allow MPD to use real-time priority 50
-    LimitRTPRIO=50
-    LimitRTTIME=infinity
-
-    # disallow writing to /usr, /bin, /sbin, ...
-    ProtectSystem=yes
-
-    # more paranoid security settings
-    NoNewPrivileges=yes
-    ProtectKernelTunables=yes
-    ProtectControlGroups=yes
-    ProtectKernelModules=yes
-    # AF_NETLINK is required by libsmbclient, or it will exit() .. *sigh*
-    RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
-    RestrictNamespaces=yes
-
-    [Install]
-    WantedBy=default.target
-    Also=mpd.socket
-'''
 
 [[symlink]]
 path   = "/home/pulse/.config/systemd/user/default.target.wants/mpd.service"
