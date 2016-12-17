@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop"
-version     = "1.0.15"
+version     = "1.0.16"
 description = "hologram: GUI installation with KDE Plasma desktop"
 
 requires = [
@@ -12,12 +12,12 @@ requires = [
     "ark",
     "dolphin",
     "gwenview",
+    "kdialog",
+    "kgpg",
     "kid3",
     "kwalletmanager",
     # KDE 4 applications
     "breeze-kde4",
-    "kdebase-kdialog",
-    "kdeutils-kgpg",
 ]
 
 # TODO: kwallet-pam
