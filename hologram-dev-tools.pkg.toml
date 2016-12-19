@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.3.2"
+version     = "1.3.3"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -22,3 +22,7 @@ requires = [
     "sloccount",
     "valgrind",
 ]
+
+[[user]]
+name   = "stefan"
+groups = ["docker"]
