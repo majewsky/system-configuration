@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20161202.1"
+version = "20170116.1"
 description = "hologram: base installation"
 
 requires = [
@@ -158,6 +158,18 @@ target = "/usr/lib/systemd/system/systemd-networkd.service"
 [[symlink]]
 path   = "/etc/systemd/system/sockets.target.wants/systemd-networkd.socket"
 target = "/usr/lib/systemd/system/systemd-networkd.socket"
+
+# systemd-timesyncd
+[[file]]
+path    = "/etc/systemd/timesyncd.conf.d/hologram-base.conf"
+content = """
+    [Time]
+    FallbackNTP=ptbtime1.ptb.de
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
+target = "/usr/lib/systemd/system/systemd-timesyncd.service"
 
 # home directory including SSH keys
 [[directory]]

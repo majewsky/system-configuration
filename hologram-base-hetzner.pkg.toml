@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-hetzner"
-version     = "1.0.6"
+version     = "1.1.0"
 description = "hologram: configuration for my servers hosted by hetzner.de"
 
 requires = [
@@ -23,10 +23,6 @@ content = """
     [Time]
     NTP=ntp1.hetzner.de ntp2.hetzner.com ntp3.hetzner.net
 """
-
-[[symlink]]
-path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
-target = "/usr/lib/systemd/system/systemd-timesyncd.service"
 
 # pacman: put the Hetzner mirror in front
 [[file]]

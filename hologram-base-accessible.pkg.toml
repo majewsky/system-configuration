@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.1.0"
+version     = "1.2.0"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -54,15 +54,3 @@ content = """
     TTYPath=/dev/tty12
     MaxLevelConsole=info
 """
-
-# systemd-timesyncd
-[[file]]
-path    = "/etc/systemd/timesyncd.conf.d/hologram-base.conf"
-content = """
-    [Time]
-    NTP=ptbtime1.ptb.de
-"""
-
-[[symlink]]
-path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
-target = "/usr/lib/systemd/system/systemd-timesyncd.service"
