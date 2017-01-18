@@ -1,12 +1,19 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.4.1"
+version     = "1.4.2"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
     "hologram-letsencrypt",
+    "logrotate",
 ]
 provides    = [ "webserver-for-acme-challenge" ]
+
+# skip nginx logs in logrotate (since we disable logging to files anyway, there
+# will just be useless errors)
+[[file]]
+path = "/usr/share/holo/files/20-nginx/etc/logrotate.d/nginx"
+contentFrom = "/dev/null"
 
 ################################################################################
 # nginx baseline configuration
