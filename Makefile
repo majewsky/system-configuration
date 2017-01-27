@@ -41,6 +41,7 @@ build-packages: package-gogs
 build-packages: package-otf-titillium-selfpackaged
 build-packages: package-pipexec
 build-packages: package-pwget
+build-packages: package-quickstart
 build-packages: package-ripit
 build-packages: package-screen-message
 build-packages: package-todolist # self-built
