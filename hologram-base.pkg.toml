@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170116.1"
+version = "20170127.1"
 description = "hologram: base installation"
 
 requires = [
@@ -186,33 +186,24 @@ group = 100  # users
 
 # development environment bootstrapping
 [[directory]]
-path  = "/home/stefan.rtree"
+path  = "/x/bin"
 mode  = "0700"
 owner = 1001 # stefan
 group = 100  # users
 
 [[directory]]
-path  = "/home/stefan.devenv"
+path  = "/x/src"
 mode  = "0700"
 owner = 1001 # stefan
 group = 100  # users
 
 [[directory]]
-path  = "/home/stefan.devenv/build"
+path = "/x/build"
+mode  = "0700"
 owner = 1001 # stefan
 group = 100  # users
 
 [[file]]
-path  = "/home/stefan.devenv/bootstrap.sh"
-mode  = "0755"
-owner = 1001 # stefan
-group = 100  # users
-content = """
-    #!/bin/sh
-    set -e
-    if [ ! -d /home/stefan.devenv/repo/.git ]; then
-        git clone https://github.com/majewsky/devenv.git /home/stefan.devenv/repo
-    fi
-    cd /home/stefan.devenv/repo
-    ./setup.sh install-core
-"""
+path = "/usr/bin/bootstrap-devenv"
+mode = "0755"
+contentFrom = "src/bootstrap-devenv.sh"
