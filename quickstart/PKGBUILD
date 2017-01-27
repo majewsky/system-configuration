@@ -1,5 +1,5 @@
 pkgname=quickstart
-pkgver=1.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc='My custom launcher'
 arch=('x86_64')

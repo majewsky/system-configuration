@@ -19,7 +19,7 @@ Entry::Entry(const QString& declaration)
 }
 
 QVector<Entry> Entry::list() {
-    QFile file(QDir::home().filePath(".devenv/quickstartrc"));
+    QFile file(QDir::home().filePath(".quickstartrc"));
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(0,
             QStringLiteral("quickstart"),
