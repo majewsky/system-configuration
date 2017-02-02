@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-magrathea"
-version     = "1.1.1"
+version     = "1.2.0"
 description = "holodeck: services on Magrathea (traveling Minecraft LAN server)"
 
 requires = [
@@ -22,6 +22,16 @@ path    = "/etc/profile.d/prettyprompt.sh"
 content = """
 export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;31'
+"""
+
+# boot: add "nomodeset" kernel parameter (tty1 stays all black without this)
+
+[[file]]
+path    = "/usr/share/holo/files/50-magrathea/boot/loader/entries/arch.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sed -f
+    /^options/s/$/ nomodeset/
 """
 
 # network setup: systemd-networkd and systemd-resolved
