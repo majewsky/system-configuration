@@ -35,7 +35,6 @@ build-packages: package-ages-website
 build-packages: package-broadcom-wl-dkms
 build-packages: package-blog-generator
 build-packages: package-gandi-dyndns # this package is not hosted in the AUR
-build-packages: package-gnaural package-gnaural-presets
 build-packages: package-gogs
 #build-packages: package-otf-titillium # disabled because this is not yet transferred to AUR4, it seems
 build-packages: package-otf-titillium-selfpackaged
@@ -52,7 +51,6 @@ build-packages: package-yaourt
 
 # These are dependencies between these packages.
 package-gogs: package-glide
-package-gnaural-presets: package-gnaural
 package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
 

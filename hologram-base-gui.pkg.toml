@@ -1,15 +1,12 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.1.1"
+version     = "1.2.0"
 description = "hologram: base GUI installation"
 
 requires = [
     "hologram-base-gui-minimal",
     "hologram-multimedia-base",
     # assorted GUI apps
-    "cutegram",
-    "gnaural",
-    "gnaural-presets",
     "mesa-demos",
     "mumble",
     "paprefs",
@@ -17,10 +14,7 @@ requires = [
     "pidgin-otr", # includes pidgin
     "thunderbird",
     "tk", # for gitk and git-gui
-    "vimprobable2",
     "vlc",
-    # helper packages
-    "gstreamer0.10-ffmpeg",
     # font packages
     "cantarell-fonts",
     "otf-titillium",

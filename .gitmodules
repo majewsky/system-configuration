@@ -19,12 +19,6 @@
 [submodule "broadcom-wl-dkms"]
 	path = broadcom-wl-dkms
 	url = https://aur.archlinux.org/broadcom-wl-dkms.git/
-[submodule "gnaural"]
-	path = gnaural
-	url = https://aur.archlinux.org/gnaural.git
-[submodule "gnaural-presets"]
-	path = gnaural-presets
-	url = https://aur.archlinux.org/gnaural-presets.git
 [submodule "ttf-montserrat"]
 	path = ttf-montserrat
 	url = https://aur.archlinux.org/ttf-montserrat.git/
