@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.2.0"
+version     = "1.2.1"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -21,7 +21,6 @@ requires = [
     "ttf-freefont",
     "ttf-linux-libertine",
     "ttf-montserrat",
-    "ttf-oxygen",
     "ttf-ubuntu-font-family",
 ]
 
