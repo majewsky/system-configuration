@@ -11,7 +11,6 @@ requires = [
 [[file]]
 path = "/usr/bin/with-xmpp-bridge"
 mode = "0700"
-# TODO: should obtain a lock to ensure that only one process talks on XMPP at once
 # TODO: pipexec does not propagate a non-zero exit code from its children
 content = '''
     #!/bin/bash

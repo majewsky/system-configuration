@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20161214.1"
+version     = "20170215.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -17,12 +17,9 @@ requires = [
     "iptables",
     # public services
     "hologram-nginx",
-    # intranet services
-    "jre8-openjdk-headless", # for Minecraft
 ]
 
 # TODO: smartd to monitor RAID
-# TODO: setup for Minecraft server
 
 ################################################################################
 # identity
