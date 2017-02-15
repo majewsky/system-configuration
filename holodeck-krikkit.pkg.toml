@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20170215.1"
+version     = "20170215.4"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -62,16 +62,6 @@ Section "InputClass"
     Option "TapButton1" "1"
     Option "TapButton2" "2"
     Option "TapButton3" "3"
-EndSection
-"""
-
-# Xorg: set display size manually because detection apparently does not work
-[[file]]
-path    = "/etc/X11/xorg.conf.d/90-screen-size.conf"
-content = """
-Section "Monitor"
-    Identifier  "Monitor0"
-    DisplaySize 280 160 # in millimeters
 EndSection
 """
 
