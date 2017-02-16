@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.11.0"
+version     = "1.11.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -454,7 +454,7 @@ content = '''
         git clone https://github.com/majewsky/blog-data data
     fi
     blog-generator /etc/blog-generator.conf
-    cp /data/blog/data/style.css /data/blog/output/style.css
+    rsync -au --delete-delay /data/blog/data/assets/ /data/blog/output/assets/
 '''
 
 [[file]]
