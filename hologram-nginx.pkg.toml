@@ -1,13 +1,12 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.4.2"
+version     = "1.5.0"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
     "hologram-letsencrypt",
     "logrotate",
 ]
-provides    = [ "webserver-for-acme-challenge" ]
 
 # skip nginx logs in logrotate (since we disable logging to files anyway, there
 # will just be useless errors)
@@ -95,22 +94,6 @@ content = """
         access_log off;
 
         include /etc/nginx/sites-enabled/*.conf;
-
-        server {
-            # IPv4
-            listen 80 default_server;
-            # IPv6
-            listen [::]:80 default_server;
-
-            # forward all HTTP requests to HTTPS...
-            location / {
-                return 301 https://$host$request_uri;
-            }
-            # ...except for ACME challenges
-            location /.well-known/acme-challenge/ {
-                root /srv/letsencrypt;
-            }
-        }
     }
 """
 
@@ -122,17 +105,20 @@ path = "/etc/nginx/sites-enabled"
 
 # all domains mentioned in /etc/nginx/sites-enabled and
 # /etc/nginx/sites-available are relevant for letsencrypt-allofthem
-#
-# TODO: There's a small ugliness here. letsencrypt-allofthem needs nginx for
-# the webroot challenge, but nginx won't start if its certs are missing. As a
-# workaround, move all offending server configs from sites-enabled
-# sites-available temporarily.
 [[file]]
 path = "/etc/letsencrypt-allofthem/nginx.sh"
 mode = "0755"
 content = '''
     #!/bin/sh
     find /etc/nginx/sites-{available,enabled} -name \*.conf -exec cat {} + | grep -o '/etc/letsencrypt/live/[^/]\+' | cut -d/ -f5 | sort -u
+'''
+
+[[file]]
+path = "/etc/letsencrypt-allofthem/then/nginx.sh"
+mode = "0755"
+content = '''
+    #!/bin/sh
+    systemctl reload-or-restart nginx.service
 '''
 
 ################################################################################
