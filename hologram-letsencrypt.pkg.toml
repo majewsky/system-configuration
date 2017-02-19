@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-letsencrypt"
-version     = "1.4.0"
+version     = "1.4.2"
 description = "Pluggable letsencrypt-based certificate auto-issuance"
 
 requires = [
@@ -65,6 +65,7 @@ content = '''
     #!/bin/sed -f
     /^Description=/ s+=.*+=HTTP server for HTTPS upgrade and ACME challenges+
     /^ExecStart=/   s+=.*+=/usr/bin/nginx -c /usr/share/letsencrypt-allofthem/nginx.conf -g 'pid /run/nginx-for-letsencrypt.pid; error_log stderr;'+
+    /^PIDFile=/     s+=.*+=/run/nginx-for-letsencrypt.pid+
 '''
 
 ################################################################################
@@ -79,6 +80,11 @@ name   = "letsencrypt"
 group  = "letsencrypt"
 system = true
 home   = "/var/lib/letsencrypt"
+
+# nginx needs to be able to read the acme-challenge directory
+[[user]]
+name   = "http"
+groups = ["letsencrypt"]
 
 # fix UID/GID on directories provided by letsencrypt package
 [[directory]]
