@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-letsencrypt"
-version     = "1.4.2"
+version     = "1.4.5"
 description = "Pluggable letsencrypt-based certificate auto-issuance"
 
 requires = [
@@ -47,25 +47,25 @@ content = """
     }
 """
 
-[[symlink]]
-path   = "/etc/systemd/system/nginx-for-letsencrypt.service"
-target = "/usr/lib/systemd/system/nginx.service"
+[[file]]
+path = "/etc/systemd/system/nginx-for-letsencrypt.service"
+contentFrom = "/dev/null" # initially empty, will be rendered by holoscript below
 
 # I tried to add a drop-in into
 # /etc/systemd/system/nginx-for-letsencrypt.service.d/ to modify the default
 # nginx.service to reference the custom nginx.conf from above, but apparently
 # if you symlink one unit to another one, it will only use the drop-ins for the
-# target unit. Therefore, use a holoscript to modify the unit (this also
-# materializes the symlink into a regular file so that nginx.service remains
-# unchanged).
+# target unit. Therefore, use a holoscript to render the unit.
 [[file]]
 path    = "/usr/share/holo/files/10-letsencrypt/etc/systemd/system/nginx-for-letsencrypt.service.holoscript"
 mode    = "0755"
 content = '''
-    #!/bin/sed -f
-    /^Description=/ s+=.*+=HTTP server for HTTPS upgrade and ACME challenges+
-    /^ExecStart=/   s+=.*+=/usr/bin/nginx -c /usr/share/letsencrypt-allofthem/nginx.conf -g 'pid /run/nginx-for-letsencrypt.pid; error_log stderr;'+
-    /^PIDFile=/     s+=.*+=/run/nginx-for-letsencrypt.pid+
+    #!/bin/bash
+    cat /usr/lib/systemd/system/nginx.service | sed "
+        /^Description=/ s+=.*+=HTTP server for HTTPS upgrade and ACME challenges+
+        /^ExecStart=/   s+=.*+=/usr/bin/nginx -c /usr/share/letsencrypt-allofthem/nginx.conf -g 'pid /run/nginx-for-letsencrypt.pid; error_log stderr;'+
+        /^PIDFile=/     s+=.*+=/run/nginx-for-letsencrypt.pid+
+    "
 '''
 
 ################################################################################
