@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-letsencrypt"
-version     = "1.4.5"
+version     = "1.4.6"
 description = "Pluggable letsencrypt-based certificate auto-issuance"
 
 requires = [
@@ -67,6 +67,12 @@ content = '''
         /^PIDFile=/     s+=.*+=/run/nginx-for-letsencrypt.pid+
     "
 '''
+
+# nginx-for-letsencrypt.service needs to be running all the time for the
+# HTTP->HTTPS upgrading to work
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/nginx-for-letsencrypt.service"
+target = "/etc/systemd/system/nginx-for-letsencrypt.service"
 
 ################################################################################
 # run letsencrypt under restricted user
