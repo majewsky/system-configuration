@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.12.0"
+version     = "1.12.3"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -16,6 +16,7 @@ requires = [
     "sqlite", # for gogs
     "todolist",
     "blog-generator",
+    "hookserve",
     # additional services
     "hologram-bethselamin-prosody",
     "murmur",
@@ -447,20 +448,52 @@ content = '''
     Group=nobody
 '''
 
-[[file]]
-path = "/usr/lib/systemd/system/blog-update.timer"
-content = '''
-    [Unit]
-    Description=Update blog.bethselamin.de every five minutes
+################################################################################
+# web services: hook.bethselamin.de
 
-    [Timer]
-    OnStartupSec=2min
-    OnUnitInactiveSec=5min
+[[file]]
+path    = "/etc/nginx/sites-enabled/hook.conf"
+content = '''
+    server {
+        server_name hook.bethselamin.de;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
+
+        ssl_certificate     /etc/letsencrypt/live/hook.bethselamin.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/hook.bethselamin.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/hook.bethselamin.de/chain.pem;
+
+        location / {
+            proxy_pass http://localhost:8114;
+        }
+    }
 '''
 
+[[file]]
+path = "/usr/lib/bethselamin/hookserve.sh"
+mode = "0755"
+contentFrom = "src/bethselamin-hookserve.sh"
+
+[[file]]
+path    = "/usr/lib/systemd/system/hookserve.service"
+content = '''
+    [Unit]
+    Description=React to Github events pushed to hook.bethselamin.de
+
+    [Service]
+    ExecStart=/usr/bin/hookserve --port=8114 --secret=${HOOK_BETHSELAMIN_SECRET} /usr/lib/bethselamin/hookserve.sh
+
+    [Install]
+    WantedBy=multi-user.target
+'''
 [[symlink]]
-path = "/etc/systemd/system/timers.target.wants/blog-update.timer"
-target = "/usr/lib/systemd/system/blog-update.timer"
+path   = "/usr/share/holo/files/50-bethselamin-vars/usr/lib/systemd/system/hookserve.service.holoscript"
+target = "/my/variables"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/hookserve.service"
+target = "/usr/lib/systemd/system/hookserve.service"
 
 ################################################################################
 # misc. services: Mumble/Murmur

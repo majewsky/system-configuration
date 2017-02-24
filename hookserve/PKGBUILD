@@ -1,0 +1,22 @@
+pkgname=hookserve
+pkgver=20170224.1
+pkgrel=1
+pkgdesc='Generator for my private blog'
+arch=('x86_64')
+_goget_url='github.com/phayes/hookserve'
+url="https://${_goget_url}"
+license=('custom:BSD')
+depends=()
+makedepends=('go')
+source=()
+
+build() {
+    rm -rf -- "${srcdir}/bin" "${srcdir}/src"
+    mkdir -p "${srcdir}/bin"
+    env GOPATH="${srcdir}" GOBIN="${srcdir}/bin" go get "${_goget_url}/util/hookserve"
+}
+
+package() {
+    install -D -m 0755 "${srcdir}/bin/hookserve"                "${pkgdir}/usr/bin/hookserve"
+    install -D -m 0644 "${srcdir}/src/${_goget_url}/LICENSE.md" "${pkgdir}/usr/share/licenses/hookserve/LICENSE.md"
+}
