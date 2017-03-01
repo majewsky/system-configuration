@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.5.0"
+version     = "1.6.0"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -41,9 +41,9 @@ content = """
     #
 
     # IPv4
-    listen 443 ssl;
+    listen 443 ssl http2;
     # IPv6
-    listen [::]:443 ssl;
+    listen [::]:443 ssl http2;
 
     ssl on;
     ssl_session_timeout 1d;
