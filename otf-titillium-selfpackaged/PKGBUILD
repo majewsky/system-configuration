@@ -1,18 +1,16 @@
 pkgname=otf-titillium-selfpackaged
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Titillium font"
 arch=(any)
-license='custom:SIL Open Font License'
+license=('custom:SIL Open Font License')
 provides=('otf-titillium')
 conflicts=('otf-titillium')
 depends=('fontconfig' 'xorg-font-utils')
 source=('Titillium.zip')
 md5sums=('b2d081ab0da4071e289c87b88693fd7b')
-install=otf-titillium-selfpackaged.install
 
 package() {
-    install -d "$pkgdir/usr/share/fonts/OTF"
-    install -D -m644 "$srcdir/"*.otf "$pkgdir/usr/share/fonts/OTF/"
+    install -D -m644 -t "$pkgdir/usr/share/fonts/OTF/" "$srcdir/"*.otf
     install -D -m644 "$srcdir/SIL Open Font License.txt" "$pkgdir/usr/share/licenses/$pkgname/OpenFontLicense.txt"
 }

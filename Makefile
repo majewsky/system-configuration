@@ -34,17 +34,16 @@ build-holograms: $(HOLOBUILD_HOLOGRAMS)
 build-packages: package-ages-website
 build-packages: package-broadcom-wl-dkms
 build-packages: package-blog-generator
-build-packages: package-gandi-dyndns # this package is not hosted in the AUR
+build-packages: package-gandi-dyndns
 build-packages: package-gogs
 build-packages: package-hookserve
-#build-packages: package-otf-titillium # disabled because this is not yet transferred to AUR4, it seems
-build-packages: package-otf-titillium-selfpackaged
+build-packages: package-otf-titillium-selfpackaged # otf-titillium not yet on AUR 4
 build-packages: package-pipexec
 build-packages: package-pwget
 build-packages: package-quickstart
 build-packages: package-ripit
 build-packages: package-screen-message
-build-packages: package-todolist # self-built
+build-packages: package-todolist
 build-packages: package-ttf-montserrat
 build-packages: package-vimprobable2
 build-packages: package-xmpp-bridge
