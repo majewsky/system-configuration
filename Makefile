@@ -1,5 +1,3 @@
-THIS_DIRECTORY := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
 # The build process has two steps:
 # 1. build all holograms and packages and copy them into there
 # 2. make a pacman repo in the repo/ subdirectory
@@ -12,10 +10,10 @@ create-repo: build-holograms build-packages
 	@ln -sf holograms.db repo/holograms.files
 
 pull-repo:
-	@rsync -vau --delete-delay --progress bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/ $(THIS_DIRECTORY)/repo/
+	@rsync -vau --delete-delay --progress bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/ $(CURDIR)/repo/
 
 push-repo: create-repo
-	@rsync -vau --delete-delay --progress $(THIS_DIRECTORY)/repo/ bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/
+	@rsync -vau --delete-delay --progress $(CURDIR)/repo/ bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/
 
 ################################################################################
 # compile holograms
@@ -31,23 +29,7 @@ build-holograms: $(HOLOBUILD_HOLOGRAMS)
 # compile AUR packages
 
 # These are the packages that I want.
-build-packages: package-ages-website
-build-packages: package-broadcom-wl-dkms
-build-packages: package-blog-generator
-build-packages: package-gandi-dyndns
-build-packages: package-gogs
-build-packages: package-hookserve
-build-packages: package-otf-titillium-selfpackaged # otf-titillium not yet on AUR 4
-build-packages: package-pipexec
-build-packages: package-pwget
-build-packages: package-quickstart
-build-packages: package-ripit
-build-packages: package-screen-message
-build-packages: package-todolist
-build-packages: package-ttf-montserrat
-build-packages: package-vimprobable2
-build-packages: package-xmpp-bridge
-build-packages: package-yaourt
+build-packages: $(patsubst %/PKGBUILD,package-%,$(wildcard */PKGBUILD))
 
 # These are dependencies between these packages.
 package-gogs: package-glide
@@ -55,5 +37,8 @@ package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
 
 # the build rule for all packages
-package-%:
+package-%: %/.SRCINFO
 	@cd $* && perl ../build_package.pl $* $^
+
+%/.SRCINFO: %/PKGBUILD
+	@cd $* && mksrcinfo

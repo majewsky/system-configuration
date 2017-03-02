@@ -19,17 +19,16 @@ sub version_of_aurpackage {
    my ($package) = @_;
    my ($epoch, $pkgver, $pkgrel);
 
-   # read the .SRCINFO (for AUR packages) or the PKGBUILD (for holograms) of the $package
-   my $filename = (-f "../$package/.SRCINFO") ? "../$package/.SRCINFO" : "../$package/PKGBUILD";
-   open my $fh, '<', $filename;
+   # read the .SRCINFO of the $package
+   open my $fh, '<', "../$package/.SRCINFO";
    while (<$fh>) {
-      if (/^\s*pkgver\s*=\s*['"]?(.+?)['"]?\s*$/) {
+      if (/^\s*pkgver = (.+?)$/) {
          $pkgver = $1;
       }
-      elsif (/^\s*pkgrel\s*=\s*['"]?(.+?)['"]?\s*$/) {
+      elsif (/^\s*pkgrel = (.+?)$/) {
          $pkgrel = $1;
       }
-      elsif (/^\s*epoch\s*=\s*['"]?(.+?)['"]?\s*$/) {
+      elsif (/^\s*epoch = (.+?)$/) {
          $epoch = $1;
       }
    }
