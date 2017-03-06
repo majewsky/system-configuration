@@ -19,10 +19,8 @@ push-repo: all
 
 HOLOBUILD_HOLOGRAMS = $(patsubst %.pkg.toml,%-pkg-toml,$(wildcard holo*.pkg.toml*))
 
-build-holograms: $(HOLOBUILD_HOLOGRAMS)
-
-%-pkg-toml: %.pkg.toml
-	@cd repo && perl ../build_package_with_holo.pl ../$<
+build-holograms:
+	cd repo && perl ../build-holograms.pl ../*.pkg.toml
 
 ################################################################################
 # compile AUR packages
@@ -37,7 +35,7 @@ package-yaourt: package-package-query
 
 # the build rule for all packages
 package-%: %/.SRCINFO
-	@cd $* && perl ../build_package.pl $* $^
+	cd $* && perl ../build_package.pl $* $^
 
 %/.SRCINFO: %/PKGBUILD
 	@cd $* && mksrcinfo
