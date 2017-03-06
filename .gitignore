@@ -6,15 +6,10 @@
 *.log.*
 *.sig
 
-# AUR metadata
-.AURINFO
-
 pkg/
 src/
 !/src
 
-.env
-build/
 repo/*.pkg.tar.xz
 repo/holograms.db*
 repo/holograms.files*

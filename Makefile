@@ -1,18 +1,17 @@
 # The build process has two steps:
 # 1. build all holograms and packages and copy them into there
 # 2. make a pacman repo in the repo/ subdirectory
-all: build-holograms build-packages create-repo
+all: build-holograms build-packages
 
-create-repo: build-holograms build-packages
-	@cd repo && perl ../prune_repo.pl
-	@repo-add -n repo/holograms.db.tar.xz repo/*.pkg.tar.xz
-	@rm -f repo/holograms.db.tar.xz.old
-	@ln -sf holograms.db repo/holograms.files
+restart-repo:
+	rm -f repo/holograms.{db,files}.tar.xz
+	repo-add repo/holograms.db.tar.xz repo/*.pkg.tar.xz
+	rm -f repo/holograms.{db,files}.tar.xz.old
 
 pull-repo:
 	@rsync -vau --delete-delay --progress bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/ $(CURDIR)/repo/
 
-push-repo: create-repo
+push-repo: all
 	@rsync -vau --delete-delay --progress $(CURDIR)/repo/ bethselamin:/data/static-web/repo.holocm.org/archlinux/personal/
 
 ################################################################################

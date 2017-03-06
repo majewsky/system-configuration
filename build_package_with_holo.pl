@@ -31,9 +31,16 @@ close($fh);
 #
 # (we're running inside the repo directory, so auto-output is fine)
 
+my $just_created = 0;
+
 if (not -f $package_file) {
    system("holo-build $filename");
+   $just_created = 1;
 }
 if ($sign and not -f "$package_file.sig") {
    system("gpg", "--detach-sign", "--use-agent", ($gpg_key ? ("-u", $gpg_key) : ()), "--no-armor", $package_file);
+   $just_created = 1;
+}
+if ($just_created) {
+   system qw(repo-add -R -n holograms.db.tar.xz), $package_file;
 }

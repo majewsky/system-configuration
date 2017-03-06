@@ -80,3 +80,6 @@ system(qw(sudo pacman -U --asdeps), @dep_package_files) if @dep_package_files;
 # write the resulting package to the repo directory
 local $ENV{PKGDEST} = getcwd() . '/../repo';
 system qw(makepkg -s);
+
+# add it to the repo metadata
+system qw(repo-add -n ../repo/holograms.db.tar.xz), file_for_aurpackage($package, $package_version);
