@@ -29,7 +29,6 @@ build-holograms:
 build-packages: $(patsubst %/PKGBUILD,package-%,$(wildcard */PKGBUILD))
 
 # These are dependencies between these packages.
-package-gogs: package-glide
 package-ripit: package-perl-mp3-tag
 package-yaourt: package-package-query
 

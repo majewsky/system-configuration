@@ -22,12 +22,9 @@
 [submodule "ttf-montserrat"]
 	path = ttf-montserrat
 	url = https://aur.archlinux.org/ttf-montserrat.git/
-[submodule "gogs"]
-	path = gogs
-	url = https://aur.archlinux.org/gogs.git
-[submodule "glide"]
-	path = glide
-	url = https://aur.archlinux.org/glide.git/
 [submodule "pipexec"]
 	path = pipexec
 	url = https://aur.archlinux.org/pipexec.git/
+[submodule "gitea"]
+	path = gitea
+	url = https://aur.archlinux.org/gitea.git
