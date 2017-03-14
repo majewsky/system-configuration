@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20170215.1"
+version     = "20170314.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -488,7 +488,7 @@ content = """
 
     [Service]
     Type=oneshot
-    ExecStart=/usr/bin/rsync -raHAPSEX --delete backup@bethselamin.de:/data/ /raid/backup-bethselamin/data/
+    ExecStart=/usr/bin/rsync -raHAPSEX --exclude gitea/sessions/ --delete backup@bethselamin.de:/data/ /raid/backup-bethselamin/data/
     User=bethselaminbackup
     Group=bethselaminbackup
 """
