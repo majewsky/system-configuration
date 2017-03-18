@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-synapse"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: Matrix Synapse server on Bethselamin"
 requires    = [ "matrix-synapse" ]
 
@@ -202,14 +202,14 @@ content = '''
 path    = "/etc/nginx/sites-enabled/synapse.conf"
 content = '''
     server {
-        server_name hook.bethselamin.de;
+        server_name bethselamin.de;
         include     /etc/nginx/server-baseline-https.inc;
 
         add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
 
-        ssl_certificate     /etc/letsencrypt/live/hook.bethselamin.de/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/hook.bethselamin.de/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/hook.bethselamin.de/chain.pem;
+        ssl_certificate     /etc/letsencrypt/live/bethselamin.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/bethselamin.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/bethselamin.de/chain.pem;
 
         location /_matrix {
             proxy_pass http://127.0.0.1:8008;
@@ -227,6 +227,6 @@ path    = "/etc/letsencrypt-allofthem/then/synapse.sh"
 mode    = "0755"
 content = '''
   #!/bin/sh
-  cp /etc/letsencrypt/live/hook.bethselamin.de/fullchain.pem /var/lib/synapse/cert.pem
-  cp /etc/letsencrypt/live/hook.bethselamin.de/privkey.pem   /var/lib/synapse/key.pem
+  cp /etc/letsencrypt/live/bethselamin.de/fullchain.pem /var/lib/synapse/cert.pem
+  cp /etc/letsencrypt/live/bethselamin.de/privkey.pem   /var/lib/synapse/key.pem
 '''
