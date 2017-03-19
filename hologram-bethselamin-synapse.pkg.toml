@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-synapse"
-version     = "1.0.1"
+version     = "1.0.2"
 description = "hologram: Matrix Synapse server on Bethselamin"
 requires    = [ "matrix-synapse" ]
 
@@ -55,7 +55,7 @@ content = '''
 
   listeners:
     - port: 8448
-      bind_addresses: [ '0.0.0.0', '::' ]
+      bind_addresses: [ '::' ]
       type: http
       tls: true
       x_forwarded: false
