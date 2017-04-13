@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.6.0"
+version     = "1.7.0"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -149,6 +149,7 @@ content = """
             index   index.html index.htm;
             charset utf-8;
             autoindex on;
+            error_page 404 /404.html;
         }
     }
 """
@@ -160,10 +161,14 @@ content = '''
     #!/bin/sh
     CONFIG="$(cat)"
     find /data/static-web -mindepth 1 -maxdepth 1 \( -type l -o -type d \) -exec basename {} \; | while read DOMAIN; do
-        if [ -f "/data/static-web/${DOMAIN}/.autoindex" ]; then
-            echo "$CONFIG" | sed s/\$host/"$DOMAIN"/g
+        echo "$CONFIG" | sed s/\$host/"$DOMAIN"/g | ( if [ -f "/data/static-web/${DOMAIN}/.autoindex" ]; then
+            cat
         else
-            echo "$CONFIG" | sed s/\$host/"$DOMAIN"/g | sed /autoindex/d
-        fi
+            sed /autoindex/d
+        fi ) | ( if [ -f "/data/static-web/${DOMAIN}/404.html" ]; then
+            cat
+        else
+            sed /404.html/d
+        fi )
     done
 '''
