@@ -16,9 +16,6 @@
 [submodule "vimprobable2"]
 	path = vimprobable2
 	url = https://aur.archlinux.org/vimprobable2.git/
-[submodule "broadcom-wl-dkms"]
-	path = broadcom-wl-dkms
-	url = https://aur.archlinux.org/broadcom-wl-dkms.git/
 [submodule "ttf-montserrat"]
 	path = ttf-montserrat
 	url = https://aur.archlinux.org/ttf-montserrat.git/
