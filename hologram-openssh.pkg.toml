@@ -14,6 +14,10 @@ target = "/usr/lib/systemd/system/sshd.service"
 
 # extend the default SSH configuration with recommendations from
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
+#
+# XXX WARNING: There's a typo in here; it should be "ed25519" instead of "ed22519".
+# I will fix this when I rotate SSH keys the next time.
+# Ref: https://github.com/majewsky/system-configuration/issues/3
 [[file]]
 path   = "/usr/share/holo/files/10-openssh/etc/ssh/sshd_config.holoscript"
 mode   = "0755"
