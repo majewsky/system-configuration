@@ -1,5 +1,5 @@
 pkgname=xmpp-bridge
-pkgver=0.5.0
+pkgver=0.6.0
 pkgrel=1
 pkgdesc="Connect command-line programs to XMPP"
 arch=('i686' 'x86_64')
@@ -7,7 +7,7 @@ url='https://github.com/majewsky/xmpp-bridge'
 license=('GPL3')
 depends=('libstrophe')
 source=("https://github.com/majewsky/${pkgname}/archive/v${pkgver}.tar.gz")
-sha256sums=('5911bf70f7c9cc716b926fd788e188e81e91aae0b224e6bd584aaf7a154300bb')
+sha256sums=('26f8244ba98f485a47a2715d83a81f0d048258f5299b3149c1debf8cab9121e5')
 
 build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
