@@ -34,8 +34,6 @@ while true; do
             ;;
         2)
             echo ':: Okay. I will stop, and this job will show up in `systemctl --failed`.'
-            # TODO The second half is not true. pipexec swallows the exit
-            # code; see https://github.com/flonatel/pipexec/issues/11
             exit 1
             ;;
         *)
