@@ -1,5 +1,5 @@
 pkgname='pwget'
-pkgver=1.1
+pkgver=1.2
 pkgrel=1
 pkgdesc='Stateless password manager with support for password revocation'
 arch=('i686' 'x86_64')
@@ -8,8 +8,8 @@ license=('GPL3')
 depends=('openssl')
 makedepends=('go')
 source=("https://github.com/majewsky/${pkgname}/archive/v${pkgver}.tar.gz")
-md5sums=('30bf20588e48281517b236e8b181a903')
-sha256sums=('c5de74d5e0312f969b8dfc47c19b5e15b4553443ad5f2ff5b9c6c1aa99d61829')
+md5sums=('55e4388af9293fbda4b9dde23bc4cfb7')
+sha256sums=('0a866c820f1f2ef922b8dbf85c90d3c90a8de4ae158dc3b9e284bfad75abc2fb')
 
 build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
