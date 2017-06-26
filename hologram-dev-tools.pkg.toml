@@ -1,23 +1,19 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.3.3"
+version     = "1.3.4"
 description = "hologram: compilers and development tools"
 
 requires = [
     "hologram-dev-tools-minimal",
     "apitrace",
     "arch-install-scripts",
-    "cabal-install",
     "cargo",
     "cmake",
     "docker",                 # NOTE: not enabled (as in "systemctl enable") by default to avoid confusion with networking and stuff
     "doxygen",
     "gdb",
-    "ghc",
-    "hlint",
     "perl-ipc-system-simple", # required for build_package.pl in this repo
     "pkgbuild-introspection",
-    "python-jinja",           # required for github:fsfw-dresden/homepage-build
     "rust",
     "sloccount",
     "valgrind",
