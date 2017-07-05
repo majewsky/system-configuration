@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.7.0"
+version     = "1.7.2"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -150,6 +150,8 @@ content = """
             charset utf-8;
             autoindex on;
             error_page 404 /404.html;
+            gzip on;
+            gzip_types text/plain text/css application/javascript; # text/html is always implied
         }
     }
 """
