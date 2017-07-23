@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170505.1"
+version = "20170723.1"
 description = "hologram: base installation"
 
 requires = [
@@ -21,6 +21,8 @@ requires = [
     "except:sysfsutils",
     "except:usbutils",
     "except:xfsprogs",
+    # configuration management
+    "replicator",
     # assorted CLI tools
     "dnsutils",
     "git",
