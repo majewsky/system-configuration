@@ -1,11 +1,13 @@
 [package]
 name    = "hologram-base"
-version = "20170723.1"
+version = "20170724.1"
 description = "hologram: base installation"
 
 requires = [
     "hologram-openssh",
     "a-decision-regarding-cacert", # usually provided by hologram-disable-cacert
+    "hologram-secrets",            # provided by hologram-secrets-empty from this repo during
+                                   # installation, then by the host's custom secrets package
     # group:base, but remove the stuff that I don't usually need on remote systems
     "group:base",
     "except:inetutils",
