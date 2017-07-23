@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.14.0"
+version     = "1.14.3"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -17,6 +17,8 @@ requires = [
     "todolist",
     "blog-generator",
     "hookserve",
+    "hugo", # for vt6.io
+    "make", # for vt6.io
     # additional services
     "hologram-bethselamin-synapse",
     "hologram-bethselamin-prosody",
@@ -393,7 +395,7 @@ path   = "/data/static-web/www.ages-skripte.org"
 target = "/usr/share/ages-website"
 
 ################################################################################
-# web services: blog.bethselamin.de
+# web services: blog.bethselamin.de and vt6.io
 
 [[user]]
 name   = "blog"
@@ -431,6 +433,7 @@ path    = "/usr/lib/blog-update.sh"
 mode    = "0755"
 content = '''
     #!/bin/bash
+    set -euo pipefail
     cd /data/blog
     if [ -d data ]; then
         git -C data pull -q origin master
@@ -453,6 +456,70 @@ content = '''
     User=blog
     Group=nobody
 '''
+
+[[directory]]
+path  = "/data/vt6"
+owner = "blog"
+group = "nobody"
+
+[[directory]]
+path  = "/data/vt6/output"
+owner = "blog"
+group = "nobody"
+
+[[symlink]]
+path   = "/data/static-web/vt6.io"
+target = "/data/vt6/output"
+
+[[file]]
+path    = "/usr/lib/vt6-update.sh"
+mode    = "0755"
+content = '''
+    #!/bin/bash
+    set -euo pipefail
+    cd /data/vt6
+    if [ -d data ]; then
+        git -C data pull -q origin master
+    else
+        git clone https://github.com/vt6/vt6 data
+    fi
+    cd /data/vt6/data
+    make website
+    rsync -au --delete-delay /data/vt6/data/website/public/ /data/vt6/output/
+'''
+
+[[file]]
+path = "/usr/lib/systemd/system/vt6-update.service"
+content = '''
+    [Unit]
+    Description=Update vt6.io
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/lib/vt6-update.sh
+    User=blog
+    Group=nobody
+'''
+
+[[file]]
+path    = "/etc/nginx/sites-enabled/www-vt6-io.conf"
+content = '''
+    server {
+        server_name www.vt6.io;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self'" always;
+
+        ssl_certificate     /etc/letsencrypt/live/www.vt6.io/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/www.vt6.io/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/www.vt6.io/chain.pem;
+
+        location / {
+            return 301 https://vt6.io$request_uri;
+        }
+    }
+'''
+
 
 ################################################################################
 # web services: hook.bethselamin.de
