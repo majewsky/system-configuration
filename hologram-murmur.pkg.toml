@@ -1,0 +1,119 @@
+[package]
+name        = "hologram-murmur"
+version     = "1.0.0"
+description = "hologram: Mumble server using uMurmur"
+
+requires = [
+  "hologram-letsencrypt",
+  "replicator",
+  "umurmur",
+]
+
+[[directory]]
+path  = "/data/murmur"
+owner = "umurmur"
+group = "umurmur"
+
+[[file]]
+path    = "/etc/letsencrypt-allofthem/murmur.sh"
+mode    = "0755"
+content = '''
+  #!/bin/sh
+  echo "{{.Vars.murmur.domain}}"
+'''
+
+[[symlink]]
+path = "/usr/share/holo/files/50-bethselamin-vars/etc/letsencrypt-allofthem/murmur.sh.holoscript"
+target = "/usr/bin/replicator"
+
+[[file]]
+path    = "/etc/letsencrypt-allofthem/then/murmur.sh"
+mode    = "0755"
+content = '''
+  #!/bin/sh
+  cd /etc/letsencrypt/live/"{{.Vars.murmur.domain}}"
+  install -D -m 0600 -o umurmur -g umurmur fullchain.pem /etc/umurmur/tls.crt
+  install -D -m 0600 -o umurmur -g umurmur privkey.pem /etc/umurmur/tls.key
+  systemctl restart umurmur
+'''
+
+[[symlink]]
+path = "/usr/share/holo/files/50-bethselamin-vars/etc/letsencrypt-allofthem/then/murmur.sh.holoscript"
+target = "/usr/bin/replicator"
+
+# reference: https://github.com/umurmur/umurmur/wiki/Configuration
+# TODO: use replicator(1), esp. to configure channels
+# TODO: double-check reference for missing config options
+[[file]]
+path    = "/usr/share/holo/files/50-bethselamin/etc/umurmur/umurmur.conf"
+content = '''
+  max_bandwidth = 48000;
+  welcometext   = "{{ .Vars.murmur.motd | default "Welcome to uMurmur!" }}";
+  certificate   = "/etc/umurmur/tls.crt";
+  private_key   = "/etc/umurmur/tls.key";
+  ca_path       = "/etc/ssl/certs/";
+
+  {{ if .Vars.murmur.password -}}
+  password          = "{{ .Vars.murmur.password }}";
+  {{ end -}}
+  allow_textmessage = true;
+  opus_threshold    = 100;
+  show_addresses    = false;
+  max_users         = 20;
+  {{- if .Vars.murmur.admin_pw }}
+  admin_password    = "{{ .Vars.murmur.admin_pw }}";
+  ban_length        = 0;
+  enable_ban        = true;
+  banfile           = "/data/murmur/banfile.txt";
+  sync_banfile      = true;
+  {{- end }}
+
+  bindport  = {{ .Vars.murmur.port | default 64738 }};
+  bindport6 = {{ .Vars.murmur.port | default 64738 }};
+
+  channels = (
+    {
+      name = "Root";
+      parent = "";
+      description = "Root channel. No entry.";
+      noenter = true;
+    }
+    ,{
+      name = "Lobby";
+      parent = "Root";
+      description = "Lobby channel (default).";
+    }
+    {{- if .Vars.murmur.channel }}{{ range .Vars.murmur.channel }}
+    ,{
+      name = "{{.name}}";
+      parent = "Lobby";
+      password = "{{.password}}";
+    }
+    {{- end }}{{ end }}
+  );
+
+  default_channel = "Lobby";
+
+  username  = "umurmur";
+  groupname = "umurmur";
+'''
+
+[[symlink]]
+path   = "/usr/share/holo/files/50-bethselamin-vars/etc/umurmur/umurmur.conf.holoscript"
+target = "/usr/bin/replicator"
+
+# the systemd unit from the package has User=umurmur and Group=umurmur, which
+# breaks because uMurmur wants to adjust its scheduling priority during
+# startup. Privileges are therefore dropped after startup (see config).
+[[file]]
+path = "/etc/systemd/system/umurmur.service.d/start-as-root.conf"
+content = '''
+  [Service]
+  User=root
+  Group=root
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/umurmur.service"
+target = "/usr/lib/systemd/system/umurmur.service"
+
