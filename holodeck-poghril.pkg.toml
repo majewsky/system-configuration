@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20161207.1"
+version     = "20170725.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -9,6 +9,7 @@ requires = [
     "hologram-munin-singlenode",
     "ferm",
     "hologram-archlinux-mirror",
+    "hologram-murmur",
 ]
 
 ################################################################################
@@ -109,10 +110,12 @@ content = """
             # respond to ping
             proto icmp icmp-type echo-request ACCEPT;
 
-            # allow SSH, HTTP, HTTPS
+            # allow SSH, HTTP, HTTPS, Mumble
             proto tcp dport ssh ACCEPT;
             proto tcp dport http ACCEPT;
             proto tcp dport https ACCEPT;
+            proto tcp dport 64738 ACCEPT;
+            proto udp dport 64738 ACCEPT;
 
             # the rest is dropped by the above policy
         }
