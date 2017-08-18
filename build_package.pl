@@ -10,7 +10,7 @@ use Cwd;
 my $package = shift @ARGV;
 # dependencies are given in @ARGV as Makefile targets, e.g. "package-yaourt"
 # for the package "yaourt", so strip these "package-" prefixes
-my @deps = map { /^package-(.+)$/ ? $1 : () } @ARGV;
+my @deps = map { /^package-(.+)$/ ? $1 : () } grep { !/\.SRCINFO/ } @ARGV;
 
 ################################################################################
 # build package if it's not yet there
