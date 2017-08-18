@@ -19,6 +19,3 @@
 [submodule "ttf-montserrat"]
 	path = ttf-montserrat
 	url = https://aur.archlinux.org/ttf-montserrat.git/
-[submodule "gitea"]
-	path = gitea
-	url = https://aur.archlinux.org/gitea.git
