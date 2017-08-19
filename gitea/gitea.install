@@ -1,9 +1,19 @@
 # arg 1:  the new package version
 post_install() {
+  post_upgrade
   printf "==> To use gitea with openssh:\n"
   printf "    You may want to\n"
   printf "    usermod -d /var/lib/gitea/repos git\n"
   printf "==> To use gitea as SSH server on 22:\n"
   printf "    You may want to\n"
   printf "    setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/gitea\n"
+}
+
+post_upgrade() {
+  # The user "git" does not have a fixed user ID. If ownership were set during
+  # package(), the package would record the user ID of the "git" user on the
+  # system building the package, which may refer to a different user where the
+  # package is installed.
+  chown -R git:git /var/lib/gitea /var/log/gitea
+  chown -R root:git /etc/gitea
 }

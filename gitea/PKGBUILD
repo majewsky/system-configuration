@@ -36,14 +36,13 @@ build() {
 }
 
 package() {
-  # FIXME: "git" does not have a fixed user ID.
-  install -o git -g git -d -m 750 "${pkgdir}/var/lib/gitea/"
-  install -o git -g git -d -m 750 "${pkgdir}/var/lib/gitea/"{repos,tmp,attachments,data,indexer,conf}
-  install -o git -g git -d -m 750 "${pkgdir}/var/log/gitea/"
-  install -o root -g git -d -m 775 "${pkgdir}/etc/gitea/"
+  install -d -m 750 "${pkgdir}/var/lib/gitea/"
+  install -d -m 750 "${pkgdir}/var/lib/gitea/"{repos,tmp,attachments,data,indexer,conf}
+  install -d -m 750 "${pkgdir}/var/log/gitea/"
+  install -d -m 775 "${pkgdir}/etc/gitea/"
 
   install -Dm755 "${srcdir}/src/code.gitea.io/${pkgname}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
   install -Dm644 "${srcdir}/gitea.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
   install -Dm644 "${srcdir}/src/code.gitea.io/${pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-  install -o root -g git -Dm644 "${srcdir}/app.ini" "${pkgdir}/etc/gitea/app.ini"
+  install -Dm644 "${srcdir}/app.ini" "${pkgdir}/etc/gitea/app.ini"
 }
