@@ -13,3 +13,5 @@ src/
 repo/*.pkg.tar.xz
 repo/holograms.db*
 repo/holograms.files*
+
+/.vendor-cache

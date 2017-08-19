@@ -38,3 +38,7 @@ package-%: %/.SRCINFO
 
 %/.SRCINFO: %/PKGBUILD
 	@cd $* && mksrcinfo
+
+# This updates all PKGBUILDs that are vendored into this repo from the AUR.
+vendor:
+	@bash vendor.sh
