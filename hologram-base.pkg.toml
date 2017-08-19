@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170724.1"
+version = "20170819.1"
 description = "hologram: base installation"
 
 requires = [
@@ -28,6 +28,7 @@ requires = [
     # assorted CLI tools
     "dnsutils",
     "git",
+    "gofu",
     "gptfdisk",
     "htop",
     "inxi",

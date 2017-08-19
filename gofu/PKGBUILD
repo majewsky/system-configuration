@@ -1,0 +1,23 @@
+pkgname=gofu
+_commit="a3aab9b7ca"
+pkgver="20180819.g${_commit}"
+pkgrel=1
+pkgdesc='Collection of Go utilities'
+arch=('x86_64')
+_goget_url='github.com/majewsky/gofu'
+url="https://${_goget_url}"
+license=('GPL3')
+depends=()
+makedepends=('go')
+source=("gofu::git+https://${_goget_url}#commit=${_commit}")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/gofu"
+  make
+}
+
+package() {
+  cd "${srcdir}/gofu"
+  make install DESTDIR="${pkgdir}"
+}
