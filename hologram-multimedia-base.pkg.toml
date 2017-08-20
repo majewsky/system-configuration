@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.3"
+version     = "1.0.4"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -12,6 +12,7 @@ requires = [
     # clients
     "mpc",
     "mpv",
+    "mpv-mpris",
     "ncmpcpp",
     # tools
     "mp3splt", # contains oggsplt

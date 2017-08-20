@@ -2,7 +2,8 @@
 set -euo pipefail
 cd "$(readlink -f "$(dirname "$0")")"
 
-for TARGET_DIR in gitea package-query perl-mp3-tag ripit screen-message ttf-montserrat vimprobable2 yaourt; do
+for TARGET_DIR in gitea mpv-mpris package-query perl-mp3-tag ripit screen-message ttf-montserrat vimprobable2 yaourt; do
+  mkdir -p "${TARGET_DIR}"
   SOURCE_DIR=".vendor-cache/${TARGET_DIR}"
 
   if [ -d "${SOURCE_DIR}" ]; then
