@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20170215.4"
+version     = "20170821.3"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -13,6 +13,7 @@ requires    = [
     "hologram-automation",
     # hardware support
     "intel-ucode",
+    "wpa_supplicant",
     "xf86-input-synaptics",
     # support for Intel GPU
     "xf86-video-intel",
@@ -25,7 +26,6 @@ requires    = [
     "kdeconnect",
     "libreoffice-still",
     "mpd",
-    "plasma-nm",     # skipped in hologram-kde-desktop
     "powerdevil",    # skipped in hologram-kde-desktop
     "virtualbox",
     "linux-headers", # for virtualbox-host-dkms
@@ -65,16 +65,43 @@ Section "InputClass"
 EndSection
 """
 
-# enable NetworkManager.service
+# network setup: systemd-networkd
+[[file]]
+path    = "/etc/systemd/network/dhcp.network"
+content = """
+    [Match]
+    Name=wl* en*
+
+    [Network]
+    Description=Use DHCP on physical interfaces
+    DHCP=yes
+"""
+
+# network setup: systemd-resolved
 [[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
-target = "/usr/lib/systemd/system/NetworkManager.service"
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
+target = "/usr/lib/systemd/system/systemd-resolved.service"
+
 [[symlink]]
-path   = "/etc/systemd/system/dbus-org.freedesktop.NetworkManager.service"
-target = "/usr/lib/systemd/system/NetworkManager.service"
+path   = "/usr/share/holo/files/50-arcturus/etc/resolv.conf"
+target = "/run/systemd/resolve/resolv.conf"
+
+# network setup: wpa_supplicant
+[[file]]
+path = "/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
+contentFrom = "/dev/null"
+[[file]]
+path    = "/usr/share/holo/files/50-krikkit/etc/wpa_supplicant/wpa_supplicant-wlan0.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    cat /home/stefan/.wpa_supplicant.conf
+    cat /etc/wpa_supplicant/wpa_supplicant.conf
+'''
+
 [[symlink]]
-path   = "/etc/systemd/system/dbus-org.freedesktop.nm-dispatcher.service"
-target = "/usr/lib/systemd/system/NetworkManager-dispatcher.service"
+path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlan0.service"
+target = "/usr/lib/systemd/system/wpa_supplicant@.service"
 
 # /etc/pulse/default.pa: disable corking which would mute MPD while Mumble or Skype are running
 [[file]]
