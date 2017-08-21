@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20170821.3"
+version     = "20170821.4"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -75,6 +75,9 @@ content = """
     [Network]
     Description=Use DHCP on physical interfaces
     DHCP=yes
+
+    [DHCP]
+    UseDomains=true
 """
 
 # network setup: systemd-resolved
