@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.4"
+version     = "1.0.5"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -37,3 +37,12 @@ target = "/usr/lib/systemd/system/avahi-daemon.service"
 [[symlink]]
 path   = "/etc/systemd/system/sockets.target.wants/avahi-daemon.socket"
 target = "/usr/lib/systemd/system/avahi-daemon.socket"
+
+[[file]]
+path = "/etc/mpv/mpv.conf"
+content = '''
+    # never display album covers
+    no-audio-display
+    # always start fullscreen by default
+    fs
+'''
