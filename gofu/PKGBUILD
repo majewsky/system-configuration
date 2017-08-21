@@ -1,7 +1,7 @@
 pkgname=gofu
-_commit="b017ff3fbf"
+_commit="4599d09dc2"
 epoch=1
-pkgver="20170819.2.g${_commit}"
+pkgver="20170819.3.g${_commit}"
 pkgrel=1
 pkgdesc='Collection of Go utilities'
 arch=('x86_64')
