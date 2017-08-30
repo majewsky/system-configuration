@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170819.1"
+version = "20170830.1"
 description = "hologram: base installation"
 
 requires = [
@@ -178,6 +178,16 @@ content = """
 [[symlink]]
 path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
 target = "/usr/lib/systemd/system/systemd-timesyncd.service"
+
+# git is stupid and wants a name/email even when only pulling, even on servers
+
+[[file]]
+path = "/etc/gitconfig"
+content = '''
+    [user]
+    name = Fake
+    email = fake@example.com
+'''
 
 # home directory including SSH keys
 [[directory]]
