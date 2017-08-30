@@ -11,7 +11,7 @@ depends=(
     'systemd'
 )
 source=(
-    "git+https://github.com/majewsky/gandi-dyndns.git#commit=${_commit}"
+    "git+https://github.com/jasontbradshaw/gandi-dyndns.git#commit=${_commit}"
     'gandi-dyndns.service'
     'wrapper.sh'
 )
