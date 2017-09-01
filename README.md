@@ -30,6 +30,8 @@ found in the AUR, but development happens here first usually.
 
 Hologram packages are built with [holo-build](https://github.com/holocm/holo-build).
 
+The package repository is built with [art](https://github.com/majewsky/art).
+
 ## Shared pieces
 
 **TODO:** This list is awfully out-of-date.
@@ -59,54 +61,3 @@ Hologram packages are built with [holo-build](https://github.com/holocm/holo-bui
   publishing needs.
 
 * [hologram-games](hologram-games) contains a selection of games.
-
-## Holograms for Damogran
-
-Damogran is my home server. Its [holodeck](holodeck-damogran) contains, among
-other things, the following holograms:
-
-* [hologram-damogran-audio](hologram-damogran-audio) contains the audio
-  setup for Damogran (intranet-widely accessible PulseAudio and MPD).
-
-* [hologram-damogran-dyndns](hologram-damogran-dyndns) contains the DynDNS
-  setup for Damogran.
-
-## Holograms for Arcturus
-
-Arcturus is my desktop PC. Its [holodeck](holodeck-arcturus) mostly configures
-the boot sequence and networking, but there are two extra holograms:
-
-* [hologram-catalyst](hologram-catalyst) installs the AMD Catalyst driver. It
-  requires...
-
-* [hologram-catalyst-repo](hologram-catalyst-repo) sets up the Catalyst package
-  repository. It needs to be separate from hologram-catalyst since we need to
-  download the Catalyst packages while installing the hologram-catalyst.
-
-# How to build
-
-Every subfolder (i.e. each hologram and holodeck) has a simple Makefile so that
-`make` builds the package. The top-level directory has a Makefile with targets
-for all the subdirectories, and a default target that builds all of them and
-collects the resulting packages in a pacman repo in the `repo` subdirectory:
-
-    make all                # default: build all packages and compile a pacman repo
-    make hologram-base      # build just that package, identical to `make -C hologram-base`
-
-Some holograms include sensible information that has been left out of this
-public repo. This information is in my private clones of this repo only, in the
-top-level directory of the repo in a `.env` file. The
-[`env.example`](env.example) file shows which environment variables are
-expected to be defined by `.env`.
-
-## AUR
-
-Some holograms reference packages from the AUR. These packages are included in
-here as submodules (thanks to AUR4 being based on Git repositories), and can
-individually be built with make targets of the form:
-
-    make package-yaourt     # build the package yaourt and all of its dependencies
-
-THe default target includes these package targets, so after `make all`, all
-holodecks, holograms and included AUR packages will be present in the `repo`
-subdirectory.
