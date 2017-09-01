@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(readlink -f "$(dirname "$0")")"
 
-for TARGET_DIR in gitea mpv-mpris package-query perl-mp3-tag ripit screen-message ttf-montserrat yaourt; do
+vendor() {
   mkdir -p "${TARGET_DIR}"
   SOURCE_DIR=".vendor-cache/${TARGET_DIR}"
 
@@ -15,4 +15,16 @@ for TARGET_DIR in gitea mpv-mpris package-query perl-mp3-tag ripit screen-messag
   git clean -dXf "${TARGET_DIR}"
   git ls-files -- "${TARGET_DIR}" | xargs -r rm
   git -C "${SOURCE_DIR}" archive --prefix="${TARGET_DIR}/" origin/master | tar xf -
-done
+}
+
+if [ $# -eq 0 ]; then
+  # default: vendor all packages
+  for TARGET_DIR in gitea mpv-mpris package-query perl-mp3-tag ripit screen-message ttf-montserrat yaourt; do
+    vendor "${TARGET_DIR}"
+  done
+else
+  # if args given: vendor only these packages
+  for TARGET_DIR in "$@"; do
+    vendor "${TARGET_DIR}"
+  done
+fi
