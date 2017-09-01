@@ -19,7 +19,7 @@ vendor() {
 
 if [ $# -eq 0 ]; then
   # default: vendor all packages
-  for TARGET_DIR in gitea mpv-mpris package-query perl-mp3-tag ripit screen-message ttf-montserrat yaourt; do
+  for TARGET_DIR in art gitea mpv-mpris package-query perl-mp3-tag ripit screen-message ttf-montserrat yaourt; do
     vendor "${TARGET_DIR}"
   done
 else
