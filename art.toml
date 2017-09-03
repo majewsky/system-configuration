@@ -1,6 +1,6 @@
 [[source]]
-path = "."
+path = "/x/src/github.com/majewsky/system-configuration"
 
 [target]
-path = "./repo"
+path = "/x/src/github.com/majewsky/system-configuration/repo"
 name = "holograms"
