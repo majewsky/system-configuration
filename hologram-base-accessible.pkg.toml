@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.2.0"
+version     = "1.2.1"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -21,7 +21,6 @@ requires = [
     "sshfs",
     "unrar",
     "unzip",
-    "yaourt",
     "whois",
     "zip",
 ]
