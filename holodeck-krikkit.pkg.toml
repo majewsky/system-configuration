@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20170909.1"
+version     = "20170909.2"
 description = "holodeck: services on Krikkit"
 requires    = [
     "holo>=0.10",
@@ -11,6 +11,7 @@ requires    = [
     "hologram-remount-efivarfs",
     "hologram-common-identity",
     "hologram-automation",
+    "hologram-uefi-bootloader-with-luks",
     # hardware support
     "intel-ucode",
     "wpa_supplicant",
