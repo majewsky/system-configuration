@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170830.1"
+version = "20170911.1"
 description = "hologram: base installation"
 
 requires = [
@@ -146,6 +146,22 @@ content = """
     echo 'Server=https://mirror.bethselamin.de/$repo/os/$arch'
     # other German mirrors (no shuffling or ranking since this is only a fallback anyway)
     sed '1,/^## Germany/d;s/^#Server/Server/;/^$/,$d'
+"""
+
+# makepkg
+[[file]]
+path    = "/usr/share/holo/files/00-base/etc/makepkg.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/sh
+    sed '
+        # enable package signing
+        /^BUILDENV=/s/!sign/sign/
+        # use my package signing key
+        s/^#GPGKEY=.*/GPGKEY="0xF7A9C9DC4631BD1A"/
+        # report myself as the packager
+        s/^#PACKAGER=.*/PACKAGER="Stefan Majewsky <holo-pacman@posteo.de>"/
+    '
 """
 
 # sudo

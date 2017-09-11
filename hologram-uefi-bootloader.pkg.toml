@@ -1,21 +1,18 @@
 [package]
 name        = "hologram-uefi-bootloader"
-version     = "1.1.0"
+version     = "1.2.0"
 description = "hologram: UEFI bootloader using systemd-boot"
 
 requires    = [
-    "systemd",                   # for bootctl
-    "util-linux",                # for blkid
-    "device-mapper",             # for dmsetup
-    "hologram-remount-efivarfs", # life insurance
+    "systemd",       # for bootctl
+    "util-linux",    # for blkid
+    "device-mapper", # for dmsetup
 ]
 
-# TODO: add `on = "install"` to holo-build to do this automatically
 [[action]]
 on     = "setup"
 script = '''
     echo 'If this package is installed for the first time, run `bootctl install`.'
-    echo 'You might need to `mount -o remount,rw /sys/firmware/efi/efivars` first.'
 '''
 
 [[file]]
