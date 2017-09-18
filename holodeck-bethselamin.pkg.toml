@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.15.0"
+version     = "1.16.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -46,10 +46,10 @@ content = """
 path    = "/etc/systemd/network/50-hetzner.network"
 content = """
     [Match]
-    MACAddress=${BETHSELAMIN_MACADDR}
+    MACAddress={{.Vars.bethselamin.mac_address}}
 
     [Network]
-    Address=${BETHSELAMIN_IP6ADDR}/64
+    Address={{.Vars.bethselamin.ipv6_address}}/64
     Gateway=fe80::1
 
     Address=172.31.1.100/24
@@ -57,7 +57,7 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-bethselamin-vars/etc/systemd/network/50-hetzner.network.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 ################################################################################
 # firewall
@@ -555,14 +555,14 @@ content = '''
     Description=React to Github events pushed to hook.bethselamin.de
 
     [Service]
-    ExecStart=/usr/bin/hookserve --port=8114 --secret=${HOOK_BETHSELAMIN_SECRET} /usr/lib/bethselamin/hookserve.sh
+    ExecStart=/usr/bin/hookserve --port=8114 --secret={{.Vars.hookserve.secret}} /usr/lib/bethselamin/hookserve.sh
 
     [Install]
     WantedBy=multi-user.target
 '''
 [[symlink]]
 path   = "/usr/share/holo/files/50-bethselamin-vars/usr/lib/systemd/system/hookserve.service.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/hookserve.service"

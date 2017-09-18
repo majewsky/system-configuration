@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20170726.1"
+version     = "20170918.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -46,7 +46,7 @@ target = "/usr/lib/systemd/system/systemd-resolved.service"
 path    = "/etc/systemd/network/lan.network"
 content = """
     [Match]
-    Name=${DAMOGRAN_IFACE_LAN}
+    Name={{.Vars.interfaces.lan}}
 
     [Network]
     Description=Internal LAN
@@ -59,13 +59,13 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/lan.network.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 [[file]]
 path    = "/etc/systemd/network/wlan.network"
 content = """
     [Match]
-    Name=${DAMOGRAN_IFACE_WLAN}
+    Name={{.Vars.interfaces.wlan}}
 
     [Network]
     Description=Internal Wireless LAN
@@ -74,13 +74,13 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/wlan.network.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 [[file]]
 path    = "/etc/systemd/network/wan.network"
 content = """
     [Match]
-    Name=${DAMOGRAN_IFACE_WAN}
+    Name={{.Vars.interfaces.wan}}
 
     [Network]
     Description=External Network (Internet)
@@ -88,7 +88,7 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/wan.network.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 ################################################################################
 # network setup: an iptables ruleset acts as firewall
@@ -106,16 +106,16 @@ content = """
     net.ipv4.ip_forward = 1
     net.ipv4.conf.all.forwarding = 1
     net.ipv4.conf.default.forwarding = 1
-    net.ipv4.conf.${DAMOGRAN_IFACE_LAN}.forwarding = 1
-    net.ipv4.conf.${DAMOGRAN_IFACE_WLAN}.forwarding = 1
-    net.ipv4.conf.${DAMOGRAN_IFACE_WAN}.forwarding = 1
+    net.ipv4.conf.{{.Vars.interfaces.lan}}.forwarding = 1
+    net.ipv4.conf.{{.Vars.interfaces.wlan}}.forwarding = 1
+    net.ipv4.conf.{{.Vars.interfaces.wan}}.forwarding = 1
 
     # disable IPv6 for internet-facing interfaces
-    net.ipv6.conf.${DAMOGRAN_IFACE_WAN}.disable_ipv6 = 1
+    net.ipv6.conf.{{.Vars.interfaces.wan}}.disable_ipv6 = 1
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/sysctl.d/90-firewall.conf.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 [[file]]
 path = "/etc/iptables/iptables.rules"
@@ -156,31 +156,31 @@ content = """
     -A TCP -p tcp -m tcp --dport 80 -j ACCEPT
     -A TCP -p tcp -m tcp --dport 443 -j ACCEPT
     # allow intranet PulseAudio
-    -A TCP -i ${DAMOGRAN_IFACE_WLAN} -p tcp -m tcp --dport 4713 -j ACCEPT
-    -A TCP -i ${DAMOGRAN_IFACE_LAN} -p tcp -m tcp --dport 4713 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 4713 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 4713 -j ACCEPT
     # allow intranet MPD
-    -A TCP -i ${DAMOGRAN_IFACE_WLAN} -p tcp -m tcp --dport 6600 -j ACCEPT
-    -A TCP -i ${DAMOGRAN_IFACE_LAN} -p tcp -m tcp --dport 6600 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 6600 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 6600 -j ACCEPT
     # allow public Minecraft
     # -A TCP -p tcp -m tcp --dport 25565 -j ACCEPT
 
     # allow intranet DNS
-    -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --dport 53 -j ACCEPT
-    -A UDP -i ${DAMOGRAN_IFACE_LAN} -p udp -m udp --dport 53 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 53 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 53 -j ACCEPT
     # allow intranet DHCP
-    -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
-    -A UDP -i ${DAMOGRAN_IFACE_LAN} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
     # allow intranet MDNS (for PulseAudio)
-    -A UDP -i ${DAMOGRAN_IFACE_WLAN} -p udp -m udp --dport 5353 -j ACCEPT
-    -A UDP -i ${DAMOGRAN_IFACE_LAN} -p udp -m udp --dport 5353 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 5353 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 5353 -j ACCEPT
 
 
 
     # accept traffic on established connections
     -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     # accept forwarding connections from intranet to public
-    -A FORWARD -i ${DAMOGRAN_IFACE_WLAN} -j ACCEPT
-    -A FORWARD -i ${DAMOGRAN_IFACE_LAN} -j ACCEPT
+    -A FORWARD -i {{.Vars.interfaces.wlan}} -j ACCEPT
+    -A FORWARD -i {{.Vars.interfaces.lan}} -j ACCEPT
     # reject unwanted connections
     -A FORWARD -j REJECT --reject-with icmp-host-unreachable
 
@@ -193,15 +193,15 @@ content = """
     :OUTPUT ACCEPT [0:0]
     :POSTROUTING ACCEPT [0:0]
 
-    # establish forwarding connections from intranet (IP range) to public (${DAMOGRAN_IFACE_WAN})
-    -A POSTROUTING -s 10.0.0.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
-    -A POSTROUTING -s 10.0.1.0/24 -o ${DAMOGRAN_IFACE_WAN} -j MASQUERADE
+    # establish forwarding connections from intranet (IP range) to public ({{.Vars.interfaces.wan}})
+    -A POSTROUTING -s 10.0.0.0/24 -o {{.Vars.interfaces.wan}} -j MASQUERADE
+    -A POSTROUTING -s 10.0.1.0/24 -o {{.Vars.interfaces.wan}} -j MASQUERADE
 
     COMMIT
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/iptables/iptables.rules.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 ################################################################################
 # network setup: hostapd to provide the WiFi access point
@@ -214,7 +214,7 @@ target = "/usr/lib/systemd/system/hostapd.service"
 path    = "/etc/hostapd/hostapd.conf"
 content = """
     # specify the wireless interface to operate on
-    interface=${DAMOGRAN_IFACE_WLAN}
+    interface={{.Vars.interfaces.wlan}}
     driver=nl80211
     # enable 802.11g base functionality (n comes on top of g)
     hw_mode=g
@@ -230,12 +230,12 @@ content = """
     country_code=DE
 
     # broadcast the network ID
-    ssid2="${DAMOGRAN_WLAN_SSID}"
+    ssid2="{{.Vars.wifi.ssid}}"
     ignore_broadcast_ssid=0
     # enable WPA2 encryption
     auth_algs=3
     wpa=2
-    wpa_passphrase=${DAMOGRAN_WLAN_PSK}
+    wpa_passphrase={{.Vars.wifi.psk}}
     wpa_key_mgmt=WPA-PSK
     wpa_pairwise=CCMP
     rsn_pairwise=CCMP
@@ -249,7 +249,7 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/hostapd/hostapd.conf.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 ################################################################################
 # network setup: dnsmasq to provide DHCP and DNS in the internal networks
@@ -271,13 +271,15 @@ path    = "/usr/share/holo/files/50-damogran/etc/dnsmasq.conf"
 content = """
     # bind DHCP and DNS servers to all interfaces except external internet
     bind-interfaces
-    except-interface=${DAMOGRAN_IFACE_WAN}
+    except-interface={{.Vars.interfaces.wan}}
 
     # allocate IPv4 ranges for DHCP
     dhcp-range=10.0.0.100,10.0.0.199,12h
     dhcp-range=10.0.1.100,10.0.1.199,12h
-    # assign a static IP address to Krikkit
-    dhcp-host=${KRIKKIT_MACADDR_LAN},10.0.0.3
+    # assign static IPs to well-known hosts
+    {{ range $host, $cfg := .Vars.hosts }}{{ if $cfg.mac }}
+    dhcp-host={{$cfg.mac}},{{$cfg.ip}}
+    {{ end }}{{ end }}
     # speed up DHCP by allowing dnsmasq to reject unknown leases
     dhcp-authoritative
 
@@ -285,9 +287,9 @@ content = """
     resolv-file=/run/systemd/resolve/resolv.conf
     # local DNS overrides
     address=/damogran.local/10.0.0.1
-    address=/arcturus.local/10.0.0.2
-    address=/krikkit.local/10.0.0.3
-    address=/magrathea.local/10.0.0.42
+    {{ range $host, $cfg := .Vars.hosts }}
+    address=/{{$host}}/{{$cfg.ip}}
+    {{ end }}
     dnssec
     trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 
@@ -296,7 +298,7 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/dnsmasq.conf.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 # break cyclic dependency between dnsmasq and adblock-sync with an initial
 # empty host list (dnsmasq needs the host list generated by adblock-sync, which

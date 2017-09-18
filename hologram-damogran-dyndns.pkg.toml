@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "2.1.3"
+version     = "2.2.0"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
 requires    = ["gandi-dyndns>=2015.12.26"]
 
@@ -8,15 +8,15 @@ requires    = ["gandi-dyndns>=2015.12.26"]
 path    = "/usr/share/holo/files/50-damogran/etc/gandi-dyndns/config.json"
 content = """
     {
-      "api_key": "${GANDI_APIKEY}",
+      "api_key": "{{.Vars.dyndns.api_key}}",
       "domains": {
-        "${DAMOGRAN_HTTP_PRIVATE_DOMAIN}": ["damogran","static"]
+        "{{.Vars.dyndns.domain}}": ["damogran","static"]
       }
     }
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/gandi-dyndns/config.json.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 [[file]]
 path    = "/usr/lib/systemd/system/gandi-dyndns.timer"

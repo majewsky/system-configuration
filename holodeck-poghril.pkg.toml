@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20170725.1"
+version     = "20170918.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -66,7 +66,7 @@ content = """
     Name=e*
 
     [Address]
-    Address=${POGHRIL_IP4ADDR}/32
+    Address={{.Vars.poghril.ipv4_address}}/32
     Peer=172.16.147.1/32
 
     [Network]
@@ -76,7 +76,7 @@ content = """
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-poghril-vars/etc/systemd/network/50-ispone.network.holoscript"
-target = "/my/variables"
+target = "/usr/bin/replicator"
 
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
