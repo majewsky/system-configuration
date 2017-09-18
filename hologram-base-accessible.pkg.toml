@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.2.2"
+version     = "1.2.3"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -53,8 +53,3 @@ content = """
     TTYPath=/dev/tty12
     MaxLevelConsole=info
 """
-
-# workaround for https://bugs.archlinux.org/task/55564
-[[symlink]]
-path   = "/usr/bin/mount.fuse"
-target = "/usr/bin/mount.fuse3"
