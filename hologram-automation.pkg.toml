@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-automation"
-version     = "0.4.0"
+version     = "0.5.0"
 description = "hologram: infrastructure for dialog-based task automation and common tasks"
 
 requires = [
@@ -9,7 +9,7 @@ requires = [
 
 [[file]]
 path = "/usr/bin/with-xmpp-bridge"
-mode = "0700"
+mode = "0700" # needs to be protected from non-root because of embedded credentials
 content = '''
     #!/bin/bash
     set -e
@@ -18,9 +18,15 @@ content = '''
     exec 9>/run/xmpp-bridge.lock
     flock 9
 
-    source /my/xmpp   # sets the environment variables for xmpp-bridge(1)
+    export XMPPBRIDGE_JID="{{.Vars.xmpp.jid}}"
+    export XMPPBRIDGE_PEER_JID="{{.Vars.xmpp.peer_jid}}"
+    export XMPPBRIDGE_PASSWORD="{{.Vars.xmpp.password}}"
     xmpp-bridge -- "$@"
 '''
+
+[[symlink]]
+path   = "/usr/share/holo/files/99-vars/usr/bin/with-xmpp-bridge.holoscript"
+target = "/usr/bin/replicator"
 
 ################################################################################
 # task: guided system upgrade
