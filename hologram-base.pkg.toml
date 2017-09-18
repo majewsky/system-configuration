@@ -1,13 +1,11 @@
 [package]
 name    = "hologram-base"
-version = "20170911.1"
+version = "20170918.1"
 description = "hologram: base installation"
 
 requires = [
     "hologram-openssh",
     "a-decision-regarding-cacert", # usually provided by hologram-disable-cacert
-    "hologram-secrets",            # provided by hologram-secrets-empty from this repo during
-                                   # installation, then by the host's custom secrets package
     # group:base, but remove the stuff that I don't usually need on remote systems
     "group:base",
     "except:inetutils",
@@ -25,6 +23,7 @@ requires = [
     "except:xfsprogs",
     # configuration management
     "replicator",
+    "secrets",
     # assorted CLI tools
     "dnsutils",
     "git",
@@ -163,6 +162,21 @@ content = """
         s/^#PACKAGER=.*/PACKAGER="Stefan Majewsky <holo-pacman@posteo.de>"/
     '
 """
+
+# unpack secrets
+[[file]]
+path = "/etc/secrets/key"
+mode = "0600"
+contentFrom = "/dev/null" # needs to be filled by root on setup
+
+[[file]]
+path        = "/usr/bin/unpack-secrets"
+mode        = "0755"
+contentFrom = "src/unpack-secrets.sh"
+
+[[action]]
+on     = "setup"
+script = "/usr/bin/unpack-secrets"
 
 # sudo
 [[file]]
