@@ -1,9 +1,10 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.16.0"
+version     = "1.16.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
+    "secrets", # this uses /usr/bin/replicator
     "hologram-base-hetzner",
     "hologram-automation",
     "hologram-munin-singlenode",

@@ -1,8 +1,11 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "2.2.0"
+version     = "2.2.1"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
-requires    = ["gandi-dyndns>=2015.12.26"]
+requires    = [
+    "secrets", # this uses /usr/bin/replicator
+    "gandi-dyndns>=2015.12.26",
+]
 
 [[file]]
 path    = "/usr/share/holo/files/50-damogran/etc/gandi-dyndns/config.json"

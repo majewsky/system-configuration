@@ -1,9 +1,10 @@
 [package]
 name        = "hologram-automation"
-version     = "0.5.0"
+version     = "0.5.1"
 description = "hologram: infrastructure for dialog-based task automation and common tasks"
 
 requires = [
+    "secrets", # this uses /usr/bin/replicator
     "xmpp-bridge>=0.6",
 ]
 

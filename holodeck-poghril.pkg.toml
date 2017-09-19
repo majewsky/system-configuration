@@ -1,9 +1,10 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20170918.1"
+version     = "20170919.1"
 description = "holodeck: services on Poghril"
 
 requires = [
+    "secrets", # this uses /usr/bin/replicator
     "hologram-base",
     "hologram-automation",
     "hologram-munin-singlenode",

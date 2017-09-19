@@ -1,9 +1,10 @@
 [package]
 name        = "hologram-murmur"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: Mumble server using uMurmur"
 
 requires = [
+  "secrets", # this uses /usr/bin/replicator
   "hologram-letsencrypt",
   "replicator",
   "umurmur",

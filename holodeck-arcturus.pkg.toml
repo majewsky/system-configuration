@@ -1,9 +1,10 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20170918.1"
+version     = "20170919.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
+    "secrets", # this uses /usr/bin/replicator
     "hologram-kde-desktop",
     "hologram-dev-tools",
     "hologram-games",

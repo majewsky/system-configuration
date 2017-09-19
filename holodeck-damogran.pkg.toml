@@ -1,9 +1,10 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20170918.1"
+version     = "20170919.1"
 description = "holodeck: services on Damogran"
 
 requires = [
+    "secrets", # this uses /usr/bin/replicator
     "hologram-base-accessible",
     "hologram-automation",
     "hologram-munin-singlenode",
