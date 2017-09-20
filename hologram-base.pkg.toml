@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170919.1"
+version = "20170920.1"
 description = "hologram: base installation"
 
 requires = [
@@ -172,10 +172,6 @@ contentFrom = "/dev/null" # needs to be filled by root on setup
 path        = "/usr/bin/unpack-secrets"
 mode        = "0755"
 contentFrom = "src/unpack-secrets.sh"
-
-[[action]]
-on     = "setup"
-script = "/usr/bin/unpack-secrets"
 
 # sudo
 [[file]]
