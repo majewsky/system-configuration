@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20170920.1"
+version = "20170925.2"
 description = "hologram: base installation"
 
 requires = [
@@ -163,6 +163,10 @@ content = """
 """
 
 # unpack secrets
+[[directory]]
+path = "/etc/secrets"
+mode = "0700"
+
 [[file]]
 path = "/etc/secrets/key"
 mode = "0600"
