@@ -1,11 +1,8 @@
 [package]
 name        = "hologram-openssh"
-version     = "1.4.1"
+version     = "1.5.0"
 description = "hologram: hardened OpenSSH server"
-requires    = [
-    "holo>=0.10",
-    "openssh",
-]
+requires    = [ "openssh" ]
 
 # enable SSH daemon
 [[symlink]]
@@ -14,6 +11,7 @@ target = "/usr/lib/systemd/system/sshd.service"
 
 # extend the default SSH configuration with recommendations from
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
+# NOTE: support for hmac-ripemd160 MAC has been removed in OpenSSH 7.6
 #
 # XXX WARNING: There's a typo in here; it should be "ed25519" instead of "ed22519".
 # I will fix this when I rotate SSH keys the next time.
@@ -39,18 +37,8 @@ content = """
 
     Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
     EOF
-"""
-
-# protect against CVE-2016-0777
-[[file]]
-path    = "/usr/share/holo/files/10-openssh/etc/ssh/ssh_config.holoscript"
-mode    = "0755"
-content = """
-    #!/bin/sh
-    echo 'UseRoaming no'
-    cat
 """
 
 # filter weak moduli
