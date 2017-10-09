@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.0.1"
+version     = "1.0.9"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -32,3 +32,39 @@ requires = [
     "ttf-freefont",
     "ttf-liberation",
 ]
+
+# install a custom X11 keymap addon (see comments in src/xkb/symbols.txt)
+
+[[file]]
+path = "/usr/share/X11/xkb/symbols/stefan"
+contentFrom = "src/xkb/symbols.txt"
+
+[[file]]
+path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/base.holoscript"
+mode = "0755"
+contentFrom = "src/xkb/rules.holoscript"
+
+[[file]]
+path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/base.lst.holoscript"
+mode = "0755"
+contentFrom = "src/xkb/rules.lst.holoscript"
+
+[[file]]
+path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/base.xml.holoscript"
+mode = "0755"
+contentFrom = "src/xkb/rules.xml.holoscript"
+
+[[file]]
+path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.holoscript"
+mode = "0755"
+contentFrom = "src/xkb/rules.holoscript"
+
+[[file]]
+path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.lst.holoscript"
+mode = "0755"
+contentFrom = "src/xkb/rules.lst.holoscript"
+
+[[file]]
+path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.xml.holoscript"
+mode = "0755"
+contentFrom = "src/xkb/rules.xml.holoscript"

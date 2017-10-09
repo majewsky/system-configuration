@@ -1,0 +1,8 @@
+// Escape becomes F13, and the Menu key emits Win unless Alt-Gr is pressed, too.
+// I use this with the de/nodeadkeys base layout and the caps/escape modifier.
+
+hidden partial modifier_keys
+xkb_symbols "map" {
+  key <ESC> { [ F13 ] };
+  key <MENU> { [ Super_R, Super_R, Menu, Menu ] };
+}

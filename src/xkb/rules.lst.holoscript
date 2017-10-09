@@ -1,0 +1,4 @@
+#!/bin/sh
+cat
+echo "  stefan Stefan's addons"
+echo "  stefan:map Yes please!"
