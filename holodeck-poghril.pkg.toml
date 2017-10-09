@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20170919.1"
+version     = "20171009.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -12,6 +12,11 @@ requires = [
     "hologram-archlinux-mirror",
     "hologram-murmur",
 ]
+
+# TODO: remove this once sshd access fixed
+[[action]]
+on = "setup"
+script = "systemctl daemon-reload && systemctl restart sshd"
 
 ################################################################################
 # identity
