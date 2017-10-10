@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.0.9"
+version     = "1.1.0"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
