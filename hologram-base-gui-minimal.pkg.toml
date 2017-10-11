@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.1.0"
+version     = "1.1.2"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -68,3 +68,20 @@ contentFrom = "src/xkb/rules.lst.holoscript"
 path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.xml.holoscript"
 mode = "0755"
 contentFrom = "src/xkb/rules.xml.holoscript"
+
+# instruct XKB to use this custom keymap
+
+[[file]]
+path = "/etc/profile.d/xkb.sh"
+content = '''
+    export XKB_DEFAULT_LAYOUT=de
+    export XKB_DEFAULT_VARIANT=nodeadkeys
+    export XKB_DEFAULT_OPTIONS=caps:escape,stefan:map
+'''
+
+[[file]]
+path = "/etc/profile.d/no-hidpi-please.sh"
+content = '''
+    export QT_AUTO_SCREEN_SCALE_FACTOR=1
+    export GDK_SCALE=1
+'''
