@@ -1,9 +1,10 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20170911.2"
+version     = "20171014.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "hologram-kde-desktop",
+    "hologram-sway-desktop",
     "hologram-dev-tools",
     "hologram-games",
     "hologram-dtp",
@@ -120,3 +121,18 @@ content = """
 HandlePowerKey=ignore
 HandleLidSwitch=ignore
 """
+
+# sway: touchpad configuration
+[[file]]
+path = "/etc/sway/config.d/touchpad"
+content = '''
+    input "2:14:ETPS/2_Elantech_Touchpad" {
+      accel_profile adaptive
+      click_method button_areas
+      dwt enabled # disable while typing
+      events disabled_on_external_mouse
+      middle_emulation enabled
+      scroll_method two_finger
+      tap enabled
+    }
+'''
