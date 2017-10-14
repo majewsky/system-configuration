@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.0.3"
+version     = "0.0.6"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -29,3 +29,38 @@ content = """
 [[file]]
 path = "/usr/share/holo/files/30-sway-desktop/etc/sway/config"
 contentFrom = "src/sway.cfg"
+
+# set default wallpaper on first installation
+[[action]]
+on = "setup"
+script = '''
+  if [ ! -e /home/stefan/.config/sway/wallpaper.png ]; then
+    ln -s /usr/share/sway/Sway_Wallpaper_Blue_1920x1080.png /home/stefan/.config/sway/wallpaper.png
+  fi
+'''
+
+# create directories without which the configuration is invalid (because it
+# globs over files in these paths)
+
+[[directory]]
+path = "/etc/sway/config.d"
+[[directory]]
+path = "/home/stefan"
+mode = "0700"
+owner = 1001 # stefan
+group = 100  # users
+[[directory]]
+path = "/home/stefan/.config"
+mode = "0755"
+owner = 1001
+group = 100
+[[directory]]
+path = "/home/stefan/.config/sway"
+mode = "0755"
+owner = 1001
+group = 100
+[[directory]]
+path = "/home/stefan/.config/sway/config.d"
+mode = "0755"
+owner = 1001
+group = 100
