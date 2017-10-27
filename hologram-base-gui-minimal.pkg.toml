@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.1.3"
+version     = "1.1.4"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -70,6 +70,18 @@ mode = "0755"
 contentFrom = "src/xkb/rules.xml.holoscript"
 
 # instruct XKB to use this custom keymap
+
+[[file]]
+path = "/etc/X11/xorg.conf.d/keyboard.conf"
+content = '''
+    Section "InputClass"
+        Identifier "system-keyboard"
+        MatchIsKeyboard "on"
+        Option "XkbLayout" "de"
+        Option "XkbVariant" "nodeadkeys"
+        Option "XkbOptions" "caps:escape,stefan:map"
+    EndSection
+'''
 
 [[file]]
 path = "/etc/profile.d/xkb.sh"
