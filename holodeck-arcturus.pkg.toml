@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20170919.1"
+version     = "20170930.3"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -43,6 +43,16 @@ content = """
     export PRETTYPROMPT_COMMONUSER=stefan
     export PRETTYPROMPT_HOSTCOLOR='0;37'
 """
+
+# load KMS driver early to work around https://github.com/sddm/sddm/issues/905
+
+[[file]]
+path    = "/usr/share/holo/files/50-arcturus/etc/mkinitcpio.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sed -f
+    /^MODULES/s/()/(amdgpu)/
+'''
 
 # network setup: systemd-networkd
 
