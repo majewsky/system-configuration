@@ -1,0 +1,49 @@
+[package]
+name        = "hologram-wireguard-server"
+version     = "0.0.8"
+description = "hologram: Wireguard configuration for servers with public IPs"
+
+requires = [
+  "secrets", # this uses /usr/bin/replicator
+  "wireguard-dkms",
+  "wireguard-tools",
+]
+
+[[directory]]
+path = "/etc/wireguard"
+mode = "0700" # contains private keys
+
+# open port when using hologram-ferm
+[[file]]
+path    = "/etc/ferm.d/incoming-wireguard"
+content = "proto udp dport {{.Vars.wg.port}} ACCEPT;"
+[[symlink]]
+path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wireguard.holoscript"
+target = "/usr/bin/replicator"
+
+# setup network between servers (x.y.1.0/24)
+[[file]]
+path = "/etc/wireguard/wg-server.conf"
+content = '''
+  [Interface]
+  Address = {{.Vars.wg.slash16}}.1.{{.Vars.host.id}}/32
+  PrivateKey = {{.Vars.wg.private_key}}
+  ListenPort = {{.Vars.wg.port}}
+
+  {{range $hostname, $cfg := .Vars.wg.servers}}
+  {{- if ne $hostname $.Vars.host.name}}
+  [Peer]
+  PublicKey = {{$cfg.public_key}}
+  PresharedKey = {{$.Vars.wg.preshared_key}}
+  Endpoint = {{$cfg.endpoint}}:{{$.Vars.wg.port}}
+  AllowedIPs = {{$.Vars.wg.slash16}}.1.{{index $.Vars.wg.peers $hostname "machine_id"}}/32
+  {{- end}}
+  {{- end}}
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-wireguard/etc/wireguard/wg-server.conf.holoscript"
+target = "/usr/bin/replicator"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/wg-quick@wg-server.service"
+target = "/usr/lib/systemd/system/wg-quick@.service"
