@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-openssh"
-version     = "1.5.0"
+version     = "1.6.0"
 description = "hologram: hardened OpenSSH server"
 requires    = [ "openssh" ]
 
@@ -8,6 +8,11 @@ requires    = [ "openssh" ]
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/sshd.service"
 target = "/usr/lib/systemd/system/sshd.service"
+
+# open SSH port when using hologram-ferm
+[[file]]
+path = "/etc/ferm.d/incoming-ssh"
+content = "proto tcp dport ssh ACCEPT;"
 
 # extend the default SSH configuration with recommendations from
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html

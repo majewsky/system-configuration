@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-synapse"
-version     = "1.0.2"
+version     = "1.1.0"
 description = "hologram: Matrix Synapse server on Bethselamin"
 requires    = [ "matrix-synapse" ]
 
@@ -33,6 +33,11 @@ group = "synapse"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/synapse.service"
 target = "/usr/lib/systemd/system/synapse.service"
+
+# open port when using hologram-ferm
+[[file]]
+path = "/etc/ferm.d/incoming-matrix-federation"
+content = "proto tcp dport 8448 ACCEPT;"
 
 ################################################################################
 # synapse configuration

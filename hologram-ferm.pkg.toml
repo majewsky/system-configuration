@@ -1,0 +1,42 @@
+[package]
+name        = "hologram-ferm"
+version     = "1.0.0"
+description = "hologram: configure firewall using ferm"
+
+requires = ["ferm"]
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/ferm.service"
+target = "/usr/lib/systemd/system/ferm.service"
+
+[[file]]
+path    = "/usr/share/holo/files/10-ferm/etc/ferm.conf"
+content = """
+    table filter {
+        chain INPUT {
+            policy DROP;
+
+            # connection tracking
+            mod state state INVALID DROP;
+            mod state state (ESTABLISHED RELATED) ACCEPT;
+
+            # allow local connections
+            interface lo ACCEPT;
+
+            # respond to ping
+            proto icmp icmp-type echo-request ACCEPT;
+
+            # allow services configured on this machine (the hologram for the service
+            # needs to install a snippet to /etc/ferm.d/incoming-$SERVICE)
+            @include @glob("ferm.d/incoming-*");
+
+            # the rest is dropped by the policy above
+        }
+
+        # outgoing connections are not limited
+        chain OUTPUT policy ACCEPT;
+
+        # this is not a router
+        chain FORWARD policy DROP;
+    }
+"""

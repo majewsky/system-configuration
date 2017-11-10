@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-murmur"
-version     = "1.0.1"
+version     = "1.1.1"
 description = "hologram: Mumble server using uMurmur"
 
 requires = [
@@ -24,7 +24,7 @@ content = '''
 '''
 
 [[symlink]]
-path = "/usr/share/holo/files/50-bethselamin-vars/etc/letsencrypt-allofthem/murmur.sh.holoscript"
+path = "/usr/share/holo/files/20-umurmur/etc/letsencrypt-allofthem/murmur.sh.holoscript"
 target = "/usr/bin/replicator"
 
 [[file]]
@@ -39,12 +39,10 @@ content = '''
 '''
 
 [[symlink]]
-path = "/usr/share/holo/files/50-bethselamin-vars/etc/letsencrypt-allofthem/then/murmur.sh.holoscript"
+path = "/usr/share/holo/files/20-umurmur/etc/letsencrypt-allofthem/then/murmur.sh.holoscript"
 target = "/usr/bin/replicator"
 
 # reference: https://github.com/umurmur/umurmur/wiki/Configuration
-# TODO: use replicator(1), esp. to configure channels
-# TODO: double-check reference for missing config options
 [[file]]
 path    = "/usr/share/holo/files/50-bethselamin/etc/umurmur/umurmur.conf"
 content = '''
@@ -100,7 +98,15 @@ content = '''
 '''
 
 [[symlink]]
-path   = "/usr/share/holo/files/50-bethselamin-vars/etc/umurmur/umurmur.conf.holoscript"
+path   = "/usr/share/holo/files/20-umurmur/etc/umurmur/umurmur.conf.holoscript"
+target = "/usr/bin/replicator"
+
+# open port when using hologram-ferm
+[[file]]
+path = "/etc/ferm.d/incoming-umurmur"
+content = "proto (tcp udp) dport {{ .Vars.murmur.port | default 64738 }} ACCEPT;"
+[[symlink]]
+path   = "/usr/share/holo/files/20-umurmur/etc/ferm.d/incoming-umurmur.holoscript"
 target = "/usr/bin/replicator"
 
 # the systemd unit from the package has User=umurmur and Group=umurmur, which

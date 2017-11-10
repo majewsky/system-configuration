@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-bethselamin-prosody"
-version     = "1.0.1"
+version     = "1.1.0"
 description = "hologram: Prosody on Bethselamin"
 
 requires = [
@@ -12,6 +12,14 @@ requires = [
 # make sure that ca-certificates-cacert is installed, for remote servers that are CAcert-signed
 provides  = [ "a-decision-regarding-cacert" ]
 conflicts = [ "hologram-disable-cacert" ]
+
+# open port when using hologram-ferm
+[[file]]
+path = "/etc/ferm.d/incoming-xmpp"
+content = '''
+    proto tcp dport xmpp-client ACCEPT;
+    proto tcp dport xmpp-server ACCEPT;
+'''
 
 [[file]]
 path    = "/usr/share/holo/files/50-bethselamin/etc/prosody/prosody.cfg.lua"

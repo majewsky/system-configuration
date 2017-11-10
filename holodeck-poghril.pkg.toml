@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20171009.1"
+version     = "20171110.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -8,15 +8,10 @@ requires = [
     "hologram-base",
     "hologram-automation",
     "hologram-munin-singlenode",
-    "ferm",
+    "hologram-ferm",
     "hologram-archlinux-mirror",
     "hologram-murmur",
 ]
-
-# TODO: remove this once sshd access fixed
-[[action]]
-on = "setup"
-script = "systemctl daemon-reload && systemctl restart sshd"
 
 ################################################################################
 # identity
@@ -91,45 +86,3 @@ target = "/usr/lib/systemd/system/systemd-resolved.service"
 [[symlink]]
 path   = "/usr/share/holo/files/50-poghril/etc/resolv.conf"
 target = "/run/systemd/resolve/resolv.conf"
-
-################################################################################
-# firewall
-
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/ferm.service"
-target = "/usr/lib/systemd/system/ferm.service"
-
-[[file]]
-path    = "/usr/share/holo/files/50-bethselamin/etc/ferm.conf"
-content = """
-    table filter {
-        chain INPUT {
-            policy DROP;
-
-            # connection tracking
-            mod state state INVALID DROP;
-            mod state state (ESTABLISHED RELATED) ACCEPT;
-
-            # allow local connections
-            interface lo ACCEPT;
-
-            # respond to ping
-            proto icmp icmp-type echo-request ACCEPT;
-
-            # allow SSH, HTTP, HTTPS, Mumble
-            proto tcp dport ssh ACCEPT;
-            proto tcp dport http ACCEPT;
-            proto tcp dport https ACCEPT;
-            proto tcp dport 64738 ACCEPT;
-            proto udp dport 64738 ACCEPT;
-
-            # the rest is dropped by the above policy
-        }
-
-        # outgoing connections are not limited
-        chain OUTPUT policy ACCEPT;
-
-        # this is not a router
-        chain FORWARD policy DROP;
-    }
-"""

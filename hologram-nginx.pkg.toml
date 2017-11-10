@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.7.2"
+version     = "1.8.0"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -20,6 +20,11 @@ contentFrom = "/dev/null"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/nginx.service"
 target = "/usr/lib/systemd/system/nginx.service"
+
+# open port when using hologram-ferm
+[[file]]
+path = "/etc/ferm.d/incoming-https"
+content = "proto tcp dport https ACCEPT;"
 
 [[file]]
 path    = "/etc/nginx/server-baseline-https.inc"

@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-letsencrypt"
-version     = "1.4.6"
+version     = "1.5.0"
 description = "Pluggable letsencrypt-based certificate auto-issuance"
 
 requires = [
@@ -73,6 +73,11 @@ content = '''
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/nginx-for-letsencrypt.service"
 target = "/etc/systemd/system/nginx-for-letsencrypt.service"
+
+# open port when using hologram-ferm
+[[file]]
+path = "/etc/ferm.d/incoming-http"
+content = "proto tcp dport http ACCEPT;"
 
 ################################################################################
 # run letsencrypt under restricted user
