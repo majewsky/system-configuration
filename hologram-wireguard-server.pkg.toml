@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-wireguard-server"
-version     = "0.0.16"
+version     = "0.1.0"
 description = "hologram: Wireguard configuration for servers with public IPs"
 
 requires = [
@@ -82,9 +82,24 @@ content = '''
 path   = "/usr/share/holo/files/20-etcd/etc/conf.d/etcd.holoscript"
 target = "/usr/bin/replicator"
 
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/etcd.service"
+target = "/usr/lib/systemd/system/etcd.service"
+
 # etcd is restricted to the server VPN
 [[file]]
 path    = "/etc/ferm.d/incoming-etcd"
 content = '''
   proto tcp dport (etcd-client etcd-server) interface wg-server ACCEPT;
 '''
+
+# make etcdctl work
+[[file]]
+path    = "/etc/profile.d/etcdctl.sh"
+content = '''
+  export ETCDCTL_API=3
+  export ETCDCTL_ENDPOINTS="http://{{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2379"
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-etcd/etc/profile.d/etcdctl.sh.holoscript"
+target = "/usr/bin/replicator"
