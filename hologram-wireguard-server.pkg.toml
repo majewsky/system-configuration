@@ -1,9 +1,10 @@
 [package]
 name        = "hologram-wireguard-server"
-version     = "0.0.8"
+version     = "0.0.16"
 description = "hologram: Wireguard configuration for servers with public IPs"
 
 requires = [
+  "etcd",
   "secrets", # this uses /usr/bin/replicator
   "wireguard-dkms",
   "wireguard-tools",
@@ -21,7 +22,14 @@ content = "proto udp dport {{.Vars.wg.port}} ACCEPT;"
 path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wireguard.holoscript"
 target = "/usr/bin/replicator"
 
+################################################################################
 # setup network between servers (x.y.1.0/24)
+
+[[directory]]
+path  = "/var/lib/etcd"
+owner = "etcd"
+group = "etcd"
+
 [[file]]
 path = "/etc/wireguard/wg-server.conf"
 content = '''
@@ -47,3 +55,36 @@ target = "/usr/bin/replicator"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/wg-quick@wg-server.service"
 target = "/usr/lib/systemd/system/wg-quick@.service"
+
+################################################################################
+# etcd cluster between servers for Wirewrap leader election
+
+[[file]]
+path    = "/usr/share/holo/files/20-etcd/etc/conf.d/etcd"
+content = '''
+  ETCD_NAME={{.Vars.host.name}}
+  ETCD_DATA_DIR=/var/lib/etcd
+
+  ETCD_LISTEN_PEER_URLS="http://{{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2380"
+  ETCD_LISTEN_CLIENT_URLS="http://{{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2379"
+  ETCD_ADVERTISE_CLIENT_URLS="http://{{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2379"
+
+  ETCD_INITIAL_ADVERTISE_PEER_URLS="http://{{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2380"
+  ETCD_INITIAL_CLUSTER_TOKEN="wirewrap-etcd"
+  ETCD_INITIAL_CLUSTER_STATE="new"
+  ETCD_INITIAL_CLUSTER="{{range $hostname, $cfg := .Vars.wg.servers}}{{$hostname}}=http://{{$.Vars.wg.slash16}}.1.{{index $.Vars.wg.peers $hostname "machine_id"}}:2380,{{end}}"
+
+  # values in ms
+  ETCD_HEARTBEAT_INTERVAL=100
+  ETCD_ELECTION_TIMEOUT=1000
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-etcd/etc/conf.d/etcd.holoscript"
+target = "/usr/bin/replicator"
+
+# etcd is restricted to the server VPN
+[[file]]
+path    = "/etc/ferm.d/incoming-etcd"
+content = '''
+  proto tcp dport (etcd-client etcd-server) interface wg-server ACCEPT;
+'''
