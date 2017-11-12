@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-murmur"
-version     = "1.1.1"
+version     = "1.1.2"
 description = "hologram: Mumble server using uMurmur"
 
 requires = [
@@ -44,7 +44,7 @@ target = "/usr/bin/replicator"
 
 # reference: https://github.com/umurmur/umurmur/wiki/Configuration
 [[file]]
-path    = "/usr/share/holo/files/50-bethselamin/etc/umurmur/umurmur.conf"
+path    = "/usr/share/holo/files/20-umurmur/etc/umurmur/umurmur.conf"
 content = '''
   max_bandwidth = 48000;
   welcometext   = "{{ .Vars.murmur.motd | default "Welcome to uMurmur!" }}";
