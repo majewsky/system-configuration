@@ -1,13 +1,12 @@
 [package]
 name        = "holodeck-magrathea"
-version     = "1.2.1"
+version     = "1.2.2"
 description = "holodeck: services on Magrathea (traveling Minecraft LAN server)"
 
 requires = [
     "hologram-base-accessible",
     "hologram-uefi-bootloader",
-    # for Minecraft
-    "jre8-openjdk-headless",
+    "hologram-minecraft-server",
     # optional: tools for initial setup via Wifi
     "dhcpcd",
     "wpa_supplicant",
@@ -62,22 +61,3 @@ target = "/usr/lib/systemd/system/systemd-resolved.service"
 [[symlink]]
 path   = "/usr/share/holo/files/50-magrathea/etc/resolv.conf"
 target = "/run/systemd/resolve/resolv.conf"
-
-# user account for running Minecraft
-
-[[user]]
-name  = "minecraft"
-home  = "/home/minecraft"
-shell = "/bin/bash"
-uid   = 1002
-group = "users"
-
-[[file]]
-path = "/usr/share/holo/ssh-keys/minecraft/keys.pub"
-content = '''
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQClzW34zaEtGvGpIf4jRRQVnwNLv+nKBhqvW04ggh4fF9ILXvHBnjW3klfwlP9JmSCHK9IJSAsGS9jMZ7ckbgFMir4AJXvZYMlLY7PyuECF7OqOjSCmQGKdhmfnVz7HUrOBNrWM+Kz/KV76jtmxZlRI7gsX0RlZ+EXyjoUm4pA1l3085Pvsl7QXWJQQrbBl83IF/G7QYYGXtmaFXuqDbitj0d5yT01wgawWivlmitEWBUILTjS5pk4OyUlzzebjmd77jZQOenIqEg6ZNtoAludMl2jvxtH9TrCrv+XQh65GoV0dT0gROvG4H4aH7Yh7bxRkBci5G9QvcoRaURNUyjGVQqr8Bm9pfcJEzJa6qN+5RU2IA9WeE1MSaH6imvmU0XMEfJiK0qF//OhXAAoKeVCFu3rJAUIXfViW+EaxTnZlx+NXDmF57Z2ZgA7zxFdmuPhW/ogciDX+g0yMBbKmCURUh4tzhNlCbFksI4io48jXpTDfxVaCJfuzpHCFdxnt+DxQlKE4s4N3Mo+tXna++KP1MWYOjiCm/RTneDzXje1I0+ODNVMNuCaYAMKwqpc3W0d27DuplT4+vILUXCwfdEr3WZabYQH6+n13OKbVTvtuMwBjyZf4g9/wI8UNKRxGJZM87f4hGFbp+2eewIThPDN0CI3rwPUcKh73l8lMNJvXKw== stefan@arcturus
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5SglxtK6N9Gfqcly/k5ozXSw4YIcmaWdsXnO40cEZWttTU0uuGxjhJQ2uppW7isHdgv9klQnJ8CE/tJ59i+JC8Hw3lZKYjO4MGEYBAWiEdh6fkszAmE7uDbFz4BpXuLd5f51fB4KlBUxvfq5ty5LSy6lCBUdn9UTO7NUTC/Bi7te3oxPCppHUOz5F/SmKyqrI/lCjhDXBIPUu1JSC38483FWWeZO/YPnoxtEbh9xPcKNeklUIkb03+zFRBsEmpLzSMBaIKDu884HZPK7jVLdthztKKFVLn/n1a6qk64mVm/QG1C+pJV93k+PdhWEXq3oHltYDDgCkaT8Ll//2XacAIP2CE7NTqjrCuNrq6u0yE7xjKj9PhpL1/jl5/4M173bxMv/x8ktK1iIKH0L+VfSj8JzhxIZVF7c9FQm9v4vLk0kcDyQKgnImfkotJjnS1y1HdseIFVogJb1lIz2NDdzB0/nRNZMky4yMTKZyx8vhA+6W9elFu2ofB8g7ONvDaKiMR7dBWE6ScB0tCvmJdygzlHqUzTiMKUUwZ+4EbNkYPchmFOs9COMkUzZ+BvmH/WM2LpGS7fJNXc7ygScrvZaNOxHm3ZEQHWCn3cOE9wBzOKwATimOVRc4f870ZHDyHkMCQVQwfQfKjrlwFIg+rFKWQ7qB1EzM3JxtovBYTIHHcw== stefan@krikkit
-    ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEAtD1Wf7vCrS8iQwDS3D+qt8WS2hOdLGUTz8XkjX4vDs5wBvcwvvUXnChSMJNYLQFuSw49XlasfGaDeZsPX+CUH/hozQF4y9TIy+/RinaA0rWFiEok6xB3trmcTDYMi43PxZqBqy5HIK0mhKEbCRcp9FNB5qhLKxOphARfXFtGPo2BulLpZpnTMFE6jJrWylcXOkb3C4+A/e71ztO8hwYemPWoYl0lqJMtPS1KoifjIpEWW5JkcvmS2MbXBAfKf/97YtXDBiLh4WRA8BsKM8/V0ZxNOpeCwxVs9lQMCkBzl7374A4OjAEbh7ie3BDr9IEYH4ofH+aAaO05IUsbCZvGn55dhCt+T1L7a9jDd6RsUJwazOHalqCXqN/4imEzhSFYE6B5QdbhqHL6+mhKG3SenjSWv49hvEojU/7XohLPvBgnvupTNktjDTBG+fUfuL2XbJRZ91d6tYZkjmlmNJox6dNE4WzHLd73WywUW3s7OxWIaz8vBvnIlRxXVSbG/Irxq7YPx7+L/rFsj55cchD2FEbgtBfbNiG88/49WyK3M+5yzX7fTdNPVMeNjEYA1A6+eqU0LauOejTA9Zp7ernBjl40i/lXSectBipZFUL7azRSE7RzY53Y7CeLS68HrmVos3mSO0rMU/Fk11xHodImgH/KbjNiIeArAq6uYRi7eRk= apophis@schlepptop
-    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBuoAQ9uQayjVuvFwnfV+pXrauYIvge6DGk9gdapIhoO apophis@toruk
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs0PiLBRaS63NBDLYhXDzIvKT2a6rHbiosOiKIjjiOpn5LLZZPgaOfghp3z38ZwiUC5b3peL86TFC905zYU7KXXAoOGRVAT7dn+emCPcGn6164K2nDPGA1GvZP7gS2gUhvrxmDw66ilt32WWTyf4Xv5xwyOO8S0a98jc+MAib9ksETciea3XSAVswKUCG3SAR1KIru7qNPaPuGxu6QWQEjZgjkHTZ0IL7v82cNm/XxtTKtJDa4LRegxNUJBYOuz36C8kx6mlM3Y4K+d5eevOJKKjlldr2NWj+3GJbpV2ItO6fed/MzMCJLep61l5Fvr4RHWFZhHaPJ7QkUrqBnX4Kn felix
-'''
