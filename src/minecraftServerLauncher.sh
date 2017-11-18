@@ -15,8 +15,6 @@ fi
 STATEFILE="$XDG_RUNTIME_DIR/minecraftServerState"
 LOCKFILE="$XDG_RUNTIME_DIR/minecraftServerLock"
 
-# always call this when exiting after a lock was aquired to ensure it is
-# cleaned-up properly
 exitHandler()
 {
 	rm "$LOCKFILE"
@@ -42,6 +40,7 @@ lock()
 		echo "Locked by other process."
 		exit 1
 	fi
+	trap exitHandler EXIT
 }
 
 getState()
@@ -55,9 +54,6 @@ getState()
 		CS_PID=$2
 	fi
 }
-
-trap exitHandler SIGINT
-trap exitHandler SIGTERM
 
 if [ ! -z $SSH_ORIGINAL_COMMAND ]; then
 	set $SSH_ORIGINAL_COMMAND
@@ -90,7 +86,7 @@ case "$CMD" in
 		getState
 		if [ -z "$CURRENTSERVER" ]; then
 			echo "stop: No server running."
-			exitHandler 1
+			exit 1
 		fi
 		echo "stop Shutting down server $CURRENTSERVER"
 		kill -s SIGTERM $CS_PID
@@ -104,12 +100,12 @@ case "$CMD" in
 		if [ ! -d "$SERVERROOT/$S_NAME" ]; then
 			echo Invalid server name $S_NAME
 			showAvail
-			exitHandler 1
+			exit 1
 		fi
 		if [ ! -z "$CURRENTSERVER" ]; then
 			if [ "$CS_NAME" = "$S_NAME" ]; then
 				echo Server $S_NAME slready running.
-				exitHandler 0
+				exit 0
 			else
 				echo Shutting down running server.
 				kill -s SIGTERM $CS_PID
@@ -136,5 +132,3 @@ case "$CMD" in
 		exit 1
 		;;
 esac
-
-exitHandler 0
