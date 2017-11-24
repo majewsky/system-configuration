@@ -20,7 +20,7 @@ EOF
 }
 
 if [ -n "${SSH_ORIGINAL_COMMAND:-}" ]; then
-	set -- "${SSH_ORIGINAL_COMMAND}"
+	set -- ${SSH_ORIGINAL_COMMAND}
 fi
 if [ $# -eq 0 ]; then
 	usage

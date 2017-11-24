@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-minecraft-server"
-version     = "0.1.4"
+version     = "0.1.8"
 description = "hologram: Minecraft server"
 
 requires = [
@@ -15,6 +15,14 @@ name  = "minecraft"
 home  = "/home/minecraft"
 shell = "/bin/bash"
 group = "users"
+
+[[action]]
+on = "setup"
+script = '''
+    mkdir -p /home/minecraft/servers
+    chown -R minecraft:users /home/minecraft
+    chmod 0700 /home/minecraft
+'''
 
 # need lingering session to keep minecraft@.service running
 [[file]]
@@ -51,10 +59,11 @@ content = '''
 
     [Service]
     Type=simple
-    ExecStart=/bin/bash ${HOME}/servers/%i/Server\sFiles/ServerStart.sh
+    ExecStart=/bin/bash -c "cd servers/%i/Server\ Files && . ServerStart.sh"
     OOMScoreAdjust=1000
 '''
 
 [[file]]
 path = "/home/minecraft/bin/minecraft-shell"
 contentFrom = "src/minecraft-shell.sh"
+mode = "0755"
