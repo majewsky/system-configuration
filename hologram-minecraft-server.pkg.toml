@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-minecraft-server"
-version     = "0.1.3"
+version     = "0.1.4"
 description = "hologram: Minecraft server"
 
 requires = [
@@ -15,6 +15,11 @@ name  = "minecraft"
 home  = "/home/minecraft"
 shell = "/bin/bash"
 group = "users"
+
+# need lingering session to keep minecraft@.service running
+[[file]]
+path        = "/var/lib/systemd/linger/minecraft"
+contentFrom = "/dev/null" # empty file
 
 [[file]]
 path = "/usr/share/holo/ssh-keys/minecraft/keys.pub"
