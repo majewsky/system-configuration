@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-minecraft-server"
-version     = "0.1.2"
+version     = "0.1.3"
 description = "hologram: Minecraft server"
 
 requires = [
@@ -30,7 +30,7 @@ content = '''
 # open firewall port (when using hologram-ferm)
 
 [[file]]
-path = "/etc/ferm.d/incoming-ssh"
+path = "/etc/ferm.d/incoming-minecraft"
 content = "proto tcp dport 25565 ACCEPT;"
 
 ################################################################################
