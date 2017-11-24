@@ -14,7 +14,6 @@ requires = [
 name  = "minecraft"
 home  = "/home/minecraft"
 shell = "/bin/bash"
-uid   = 1002
 group = "users"
 
 [[file]]
@@ -27,6 +26,25 @@ content = '''
     command="/home/minecraft/bin/minecraftServerLauncher.sh",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs0PiLBRaS63NBDLYhXDzIvKT2a6rHbiosOiKIjjiOpn5LLZZPgaOfghp3z38ZwiUC5b3peL86TFC905zYU7KXXAoOGRVAT7dn+emCPcGn6164K2nDPGA1GvZP7gS2gUhvrxmDw66ilt32WWTyf4Xv5xwyOO8S0a98jc+MAib9ksETciea3XSAVswKUCG3SAR1KIru7qNPaPuGxu6QWQEjZgjkHTZ0IL7v82cNm/XxtTKtJDa4LRegxNUJBYOuz36C8kx6mlM3Y4K+d5eevOJKKjlldr2NWj+3GJbpV2ItO6fed/MzMCJLep61l5Fvr4RHWFZhHaPJ7QkUrqBnX4Kn felix
 '''
 
+################################################################################
+# run Minecraft servers within a systemd unit
+
+[[file]]
+path = "/usr/lib/systemd/user/minecraft@.service"
+content = '''
+    [Unit]
+    Description=Minecraft server
+    After=network-online.target
+    Wants=network-online.target
+
+    [Service]
+    Type=simple
+    ExecStart=/bin/bash ${HOME}/servers/%i/Server\sFiles/ServerStart.sh
+    OOMScoreAdjust=1000
+'''
+
 [[file]]
 path = "/home/minecraft/bin/minecraftServerLauncher.sh"
-content-from = "src/minecraftServerLauncher.sh"
+contentFrom = "src/minecraftServerLauncher.sh"
+
+
