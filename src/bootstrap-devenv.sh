@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_URL=github.com/majewsky/devenv
 REPO_SHORT_URL=gh:majewsky/devenv
-RTREE_ROOT=/x
+GOPATH=/x
 
 # clone devenv repo into the (not yet populated) repo tree
 REPO_PATH="${RTREE_ROOT}/src/${REPO_URL}"
