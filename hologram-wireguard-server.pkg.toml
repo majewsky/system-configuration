@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-wireguard-server"
-version     = "0.1.0"
+version     = "0.2.0"
 description = "hologram: Wireguard configuration for servers with public IPs"
 
 requires = [
@@ -18,17 +18,15 @@ mode = "0700" # contains private keys
 [[file]]
 path    = "/etc/ferm.d/incoming-wireguard"
 content = "proto udp dport {{.Vars.wg.port}} ACCEPT;"
+[[file]]
+path    = "/etc/ferm.d/incoming-wirewrap"
+content = "proto tcp dport {{.Vars.wg.port}} ACCEPT;"
 [[symlink]]
 path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wireguard.holoscript"
 target = "/usr/bin/replicator"
 
 ################################################################################
 # setup network between servers (x.y.1.0/24)
-
-[[directory]]
-path  = "/var/lib/etcd"
-owner = "etcd"
-group = "etcd"
 
 [[file]]
 path = "/etc/wireguard/wg-server.conf"
@@ -38,13 +36,16 @@ content = '''
   PrivateKey = {{.Vars.wg.private_key}}
   ListenPort = {{.Vars.wg.port}}
 
-  {{range $hostname, $cfg := .Vars.wg.servers}}
+  {{range $hostname, $cfg := .Vars.wg.peers}}
+  {{- if $cfg.endpoint}}
   {{- if ne $hostname $.Vars.host.name}}
   [Peer]
   PublicKey = {{$cfg.public_key}}
   PresharedKey = {{$.Vars.wg.preshared_key}}
   Endpoint = {{$cfg.endpoint}}:{{$.Vars.wg.port}}
-  AllowedIPs = {{$.Vars.wg.slash16}}.1.{{index $.Vars.wg.peers $hostname "machine_id"}}/32
+  AllowedIPs = {{$.Vars.wg.slash16}}.1.{{$cfg.machine_id}}/32
+
+  {{- end}}
   {{- end}}
   {{- end}}
 '''
@@ -59,6 +60,11 @@ target = "/usr/lib/systemd/system/wg-quick@.service"
 ################################################################################
 # etcd cluster between servers for Wirewrap leader election
 
+[[directory]]
+path  = "/var/lib/etcd"
+owner = "etcd"
+group = "etcd"
+
 [[file]]
 path    = "/usr/share/holo/files/20-etcd/etc/conf.d/etcd"
 content = '''
@@ -72,7 +78,11 @@ content = '''
   ETCD_INITIAL_ADVERTISE_PEER_URLS="http://{{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2380"
   ETCD_INITIAL_CLUSTER_TOKEN="wirewrap-etcd"
   ETCD_INITIAL_CLUSTER_STATE="new"
-  ETCD_INITIAL_CLUSTER="{{range $hostname, $cfg := .Vars.wg.servers}}{{$hostname}}=http://{{$.Vars.wg.slash16}}.1.{{index $.Vars.wg.peers $hostname "machine_id"}}:2380,{{end}}"
+  ETCD_INITIAL_CLUSTER="{{range $hostname, $cfg := .Vars.wg.peers -}}
+    {{- if $cfg.endpoint -}}
+      {{$hostname}}=http://{{$.Vars.wg.slash16}}.1.{{$cfg.machine_id}}:2380,
+    {{- end -}}
+  {{- end}}"
 
   # values in ms
   ETCD_HEARTBEAT_INTERVAL=100
@@ -102,4 +112,34 @@ content = '''
 '''
 [[symlink]]
 path   = "/usr/share/holo/files/20-etcd/etc/profile.d/etcdctl.sh.holoscript"
+target = "/usr/bin/replicator"
+
+################################################################################
+# setup network between everyone (x.y.2.0/24) with Wirewrap
+
+[[file]]
+path = "/etc/wireguard/wirewrap.conf"
+content = '''
+  [Interface]
+  Address = {{.Vars.wg.slash16}}.2.{{.Vars.host.id}}/32
+  PrivateKey = {{.Vars.wg.private_key}}
+  ListenPort = {{.Vars.wg.port}}
+
+  {{range $hostname, $cfg := .Vars.wg.peers}}
+  [Peer]
+  PublicKey = {{$cfg.public_key}}
+  PresharedKey = {{$.Vars.wg.preshared_key}}
+  AllowedIPs = {{$.Vars.wg.slash16}}.2.{{$cfg.machine_id}}/32
+  {{if $cfg.endpoint -}}
+  WirewrapID = h2g2
+  Endpoint = {{$cfg.endpoint}}:{{$.Vars.wg.port}}
+  {{end}}
+  {{- end}}
+
+  [Wirewrap]
+  ID = h2g2
+  Etcd = localhost:2379
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-wireguard/etc/wireguard/wirewrap.conf.holoscript"
 target = "/usr/bin/replicator"
