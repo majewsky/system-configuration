@@ -16,6 +16,9 @@ syntax:
 	minecraft-shell status          - Show status of currently running server, if any.
 	minecraft-shell logs [ARG...]   - Show logs for currently running server.#
 	                                  Args are passed on to journalctl(1).
+
+	minecraft-shell backup          - Commit and push the current state of the servers directory
+	                                  into the backup Git repo.
 EOF
 }
 
@@ -95,6 +98,18 @@ case "$CMD" in
 			exit 1
 		fi
 		exec journalctl -q --user -u "minecraft@$CURRENT_SERVER" "$@"
+		;;
+	backup)
+		if [ -n "$CURRENT_SERVER" ]; then
+			echo "Cannot create backup while server $CURRENT_SERVER is running."
+			exit 1
+		fi
+		cd "$SERVER_ROOT"
+		set -e
+		git add .
+		git commit -m "server backup"
+		git remote get-url origin
+		git push -f origin master
 		;;
 	*)
 		usage
