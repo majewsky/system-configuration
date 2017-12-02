@@ -105,11 +105,12 @@ case "$CMD" in
 			exit 1
 		fi
 		cd "$SERVER_ROOT"
-		set -e
+		set -x
 		git add .
 		git commit -m "server backup"
 		git remote get-url origin
 		git push -f origin master
+		set +x
 		;;
 	*)
 		usage
