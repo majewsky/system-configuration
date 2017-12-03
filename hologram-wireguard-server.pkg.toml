@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-wireguard-server"
-version     = "0.2.0"
+version     = "0.2.2"
 description = "hologram: Wireguard configuration for servers with public IPs"
 
 requires = [
@@ -18,11 +18,15 @@ mode = "0700" # contains private keys
 [[file]]
 path    = "/etc/ferm.d/incoming-wireguard"
 content = "proto udp dport {{.Vars.wg.port}} ACCEPT;"
+[[symlink]]
+path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wireguard.holoscript"
+target = "/usr/bin/replicator"
+
 [[file]]
 path    = "/etc/ferm.d/incoming-wirewrap"
 content = "proto tcp dport {{.Vars.wg.port}} ACCEPT;"
 [[symlink]]
-path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wireguard.holoscript"
+path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wirewrap.holoscript"
 target = "/usr/bin/replicator"
 
 ################################################################################
@@ -138,7 +142,7 @@ content = '''
 
   [Wirewrap]
   ID = h2g2
-  Etcd = localhost:2379
+  Etcd = {{.Vars.wg.slash16}}.1.{{.Vars.host.id}}:2379
 '''
 [[symlink]]
 path   = "/usr/share/holo/files/20-wireguard/etc/wireguard/wirewrap.conf.holoscript"
