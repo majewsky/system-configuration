@@ -96,8 +96,10 @@ case "$CMD" in
 		systemctl --user status "minecraft@$CURRENT_SERVER"
 		;;
 	logs)
-		if [ -z "$CURRENT_SERVER" ]; then
-			echo "No server running."
+		if [ -n "$1" ]; then
+			CURRENT_SERVER=$1
+		elif [ -z "$CURRENT_SERVER" ]; then
+			echo "No server running or specified."
 			exit 1
 		fi
 		exec journalctl -q --user -u "minecraft@$CURRENT_SERVER" "$@"
