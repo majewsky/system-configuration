@@ -96,9 +96,13 @@ case "$CMD" in
 		systemctl --user status "minecraft@$CURRENT_SERVER"
 		;;
 	logs)
-		if [ -n "$1" ]; then
-			CURRENT_SERVER=$1
-		elif [ -z "$CURRENT_SERVER" ]; then
+		if [ "$#" -gt 0 ]; then
+			if [[ "$1" != -* ]]; then
+				CURRENT_SERVER="$1"
+				shift
+			fi
+		fi
+		if [ -z "$CURRENT_SERVER" ]; then
 			echo "No server running or specified."
 			exit 1
 		fi
