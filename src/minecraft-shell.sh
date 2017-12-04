@@ -19,6 +19,9 @@ syntax:
 
 	minecraft-shell backup          - Commit and push the current state of the servers directory
 	                                  into the backup Git repo.
+
+	minecraft-shell bash            - Log into bash(1) for maintenance.
+
 EOF
 }
 
@@ -98,6 +101,9 @@ case "$CMD" in
 			exit 1
 		fi
 		exec journalctl -q --user -u "minecraft@$CURRENT_SERVER" "$@"
+		;;
+	bash)
+		exec bash -i
 		;;
 	backup)
 		if [ -n "$CURRENT_SERVER" ]; then
