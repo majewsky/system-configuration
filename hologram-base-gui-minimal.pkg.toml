@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.1.4"
+version     = "1.1.5"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -14,6 +14,8 @@ requires = [
     "gvim", # vim with X11 clipboard support
     "inkscape",
     "mupdf",
+    "paprefs",
+    "pavucontrol",
     "qgit",
     "quickstart",
     "screen-message",

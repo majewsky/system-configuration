@@ -1,0 +1,39 @@
+[package]
+name        = "holodeck-work-vm"
+version     = "1.0.2"
+description = "holodeck: base configuration for work VMs"
+
+requires = [
+  "hologram-virtualbox-guest",
+  "hologram-uefi-bootloader",
+  "hologram-dev-tools-minimal",
+  "hologram-kde-desktop-minimal",
+  "hologram-multimedia-base",
+  "hologram-disable-cacert",
+  # assorted tools
+  "clusterssh",
+  "docker",
+  "ipython",
+  "ipython2",
+  "mitmproxy",
+  "nload",
+  "nodejs",
+  "phantomjs",
+  "postgresql",
+  "python-pip",
+  "python2-pip",
+  "python2-virtualenv",
+  "sshuttle",
+]
+
+[[user]]
+name   = "stefan"
+groups = ["docker"]
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/docker.service"
+target = "/usr/lib/systemd/system/docker.service"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/postgresql.service"
+target = "/usr/lib/systemd/system/postgresql.service"

@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.3.1"
+version     = "1.3.2"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -9,8 +9,6 @@ requires = [
     # assorted GUI apps
     "mesa-demos",
     "mumble",
-    "paprefs",
-    "pavucontrol",
     "pidgin-otr", # includes pidgin
     "tk", # for gitk and git-gui
     "vlc",
