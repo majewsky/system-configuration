@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.3.0"
+version     = "1.3.1"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -59,6 +59,6 @@ content = """
 path = "/usr/share/holo/files/20-base-accessible/etc/gitconfig"
 content = '''
     [user]
-    name = Fake
-    email = fake@example.com
+    name = Stefan Majewsky
+    email = majewsky@gmx.net
 '''
