@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.2.3"
+version     = "1.3.0"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -53,3 +53,12 @@ content = """
     TTYPath=/dev/tty12
     MaxLevelConsole=info
 """
+
+# git identity
+[[file]]
+path = "/usr/share/holo/files/20-base-accessible/etc/gitconfig"
+content = '''
+    [user]
+    name = Fake
+    email = fake@example.com
+'''

@@ -210,7 +210,6 @@ path   = "/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
 target = "/usr/lib/systemd/system/systemd-timesyncd.service"
 
 # git is stupid and wants a name/email even when only pulling, even on servers
-
 [[file]]
 path = "/etc/gitconfig"
 content = '''
