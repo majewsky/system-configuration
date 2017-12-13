@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-murmur"
-version     = "1.1.2"
+version     = "1.2.1"
 description = "hologram: Mumble server using uMurmur"
 
 requires = [
@@ -14,6 +14,11 @@ requires = [
 path  = "/data/murmur"
 owner = "umurmur"
 group = "umurmur"
+
+# user comes from umurmur package, but no home directory is created for it
+[[user]]
+name = "umurmur"
+home = "/data/murmur"
 
 [[file]]
 path    = "/etc/letsencrypt-allofthem/murmur.sh"
