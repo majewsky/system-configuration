@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-work-vm"
-version     = "1.0.2"
+version     = "1.0.3"
 description = "holodeck: base configuration for work VMs"
 
 requires = [
@@ -17,13 +17,16 @@ requires = [
   "ipython2",
   "mitmproxy",
   "nload",
+  "npm",
   "nodejs",
+  "perl-file-slurp",
   "phantomjs",
   "postgresql",
   "python-pip",
   "python2-pip",
   "python2-virtualenv",
   "sshuttle",
+  "yarn",
 ]
 
 [[user]]
