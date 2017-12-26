@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.3.1"
+version     = "1.3.2"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -17,6 +17,7 @@ requires = [
     "pacgraph",
     "p7zip",
     "pwget",
+    "pwget2",
     "smartmontools",
     "sshfs",
     "unrar",
