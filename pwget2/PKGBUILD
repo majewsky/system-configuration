@@ -1,0 +1,23 @@
+pkgname='pwget2'
+_pkgorigname='pwget'
+pkgver=2.0
+pkgrel=1
+pkgdesc='Stateless password manager with support for password revocation - 2.x series'
+arch=('i686' 'x86_64')
+url='https://github.com/majewsky/pwget'
+license=('GPL3')
+depends=('openssl')
+makedepends=('go')
+source=("${url}/archive/v${pkgver}.tar.gz")
+md5sums=('bbea34f376bcac63a7979826fa1328b3')
+sha256sums=('052f167455e09b1c37f5e7db399952a8e8cd69661d5fff8462f39de7db0c5bf8')
+
+build() {
+    cd "${srcdir}/${_pkgorigname}-${pkgver}"
+    make
+}
+
+package() {
+    cd "${srcdir}/${_pkgorigname}-${pkgver}"
+    make install DESTDIR="${pkgdir}"
+}
