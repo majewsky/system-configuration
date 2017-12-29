@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20171014.1"
+version     = "20171229.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "hologram-kde-desktop",
@@ -26,7 +26,8 @@ requires    = [
     "libreoffice-still",
     "mpd",
     "powerdevil",    # skipped in hologram-kde-desktop
-    "virtualbox",
+    # trial runs
+    "wireguard-tools",
     "linux-headers", # for virtualbox-host-dkms
 ]
 
