@@ -1,0 +1,29 @@
+pkgname=vt6-website-build
+pkgver=1
+pkgrel=2
+pkgdesc='Generator for vt6.io'
+arch=('x86_64')
+url="https://github.com/vt6/website"
+license=('GPL3')
+depends=(
+    'texlive-core'       # pdflatex, tikz.sty
+    'texlive-latexextra' # standalone.cls
+    'pdf2svg'
+)
+makedepends=('go')
+source=("${url}/archive/v${pkgver}.tar.gz")
+sha256sums=('015173ac45270e57a27d22bf83b0a96e0f29ad4f09c3a88f44635c6c4fe33f29')
+
+options=('!strip') # binaries are already stripped inside the Makefile
+
+build() {
+    cd "${srcdir}/website-${pkgver}"
+    make
+}
+
+package() {
+    cd "${srcdir}/website-${pkgver}"
+    # make install DESTDIR="${pkgdir}"
+    # TODO does not work; workaround:
+    install -D -m 0755 vt6-website-build "${pkgdir}/usr/bin/vt6-website-build"
+}

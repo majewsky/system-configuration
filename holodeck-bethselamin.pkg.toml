@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.18.0"
+version     = "1.19.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -21,8 +21,7 @@ requires = [
     "todolist",
     "blog-generator",
     "hookserve",
-    "hugo", # for vt6.io
-    "make", # for vt6.io
+    "vt6-website-build",
     # additional services
     "hologram-bethselamin-synapse",
     "hologram-bethselamin-prosody",
@@ -437,10 +436,9 @@ content = '''
     else
         git clone https://github.com/vt6/vt6 data
     fi
-    cd /data/vt6/data
-    git clean -dxf .
-    make website
-    rsync -au --delete-delay /data/vt6/data/website/public/ /data/vt6/output/
+    git -C /data/vt6/data clean -dxf .
+    vt6-website-build /data/vt6/data /data/vt6/output.tmp
+    rsync -au --delete-delay /data/vt6/output.tmp/ /data/vt6/output/
 '''
 
 [[file]]
@@ -451,9 +449,8 @@ content = '''
 
     [Service]
     Type=oneshot
-    ExecStart=/usr/lib/vt6-update.sh
-    User=blog
-    Group=nobody
+    # note: need to drop privileges with sudo(1) because with-xmpp-bridge(1) requires root privileges to load credentials
+    ExecStart=/usr/bin/with-xmpp-bridge sudo -u blog -g nobody /usr/lib/vt6-update.sh
 '''
 
 [[file]]
