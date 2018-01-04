@@ -4,6 +4,7 @@
 
 pkgbase=linux               # Build stock -ARCH kernel
 #pkgbase=linux-custom       # Build kernel with a different name
+pkgbase=linux-for-poghril
 _srcname=linux-4.14
 pkgver=4.14.11
 pkgrel=1
