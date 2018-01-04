@@ -5,6 +5,8 @@
 *.log
 *.log.*
 *.sig
+*.sign
+*.xz
 
 pkg/
 src/
