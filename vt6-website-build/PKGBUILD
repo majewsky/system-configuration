@@ -1,6 +1,6 @@
 pkgname=vt6-website-build
-pkgver=1
-pkgrel=2
+pkgver=2
+pkgrel=1
 pkgdesc='Generator for vt6.io'
 arch=('x86_64')
 url="https://github.com/vt6/website"
@@ -12,7 +12,7 @@ depends=(
 )
 makedepends=('go')
 source=("${url}/archive/v${pkgver}.tar.gz")
-sha256sums=('015173ac45270e57a27d22bf83b0a96e0f29ad4f09c3a88f44635c6c4fe33f29')
+sha256sums=('82f1239cef89035199d290d0629bc23cea9277f45a59a68fd42519f367d5ab0e')
 
 options=('!strip') # binaries are already stripped inside the Makefile
 
@@ -23,7 +23,5 @@ build() {
 
 package() {
     cd "${srcdir}/website-${pkgver}"
-    # make install DESTDIR="${pkgdir}"
-    # TODO does not work; workaround:
-    install -D -m 0755 vt6-website-build "${pkgdir}/usr/bin/vt6-website-build"
+    make install DESTDIR="${pkgdir}"
 }
