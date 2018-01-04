@@ -13,6 +13,8 @@ requires = [
     "hologram-murmur",
     "hologram-wireguard-server",
     "linux-headers", # for wireguard-dkms
+    "linux-for-poghril",
+    "linux-for-poghril-headers", # for wireguard-dkms
 ]
 
 ################################################################################
@@ -50,6 +52,9 @@ content = """
 [[action]]
 on     = "setup"
 script = "mkinitcpio -p linux"
+[[action]]
+on     = "setup"
+script = "mkinitcpio -p linux-for-poghril"
 
 ################################################################################
 # filesystem
