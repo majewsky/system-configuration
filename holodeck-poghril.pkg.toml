@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20171110.2"
+version     = "20180103.1"
 description = "holodeck: services on Poghril"
 
 requires = [
