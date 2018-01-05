@@ -1,5 +1,5 @@
 pkgname=vt6-website-build
-pkgver=2
+pkgver=3
 pkgrel=1
 pkgdesc='Generator for vt6.io'
 arch=('x86_64')
@@ -12,7 +12,7 @@ depends=(
 )
 makedepends=('go')
 source=("${url}/archive/v${pkgver}.tar.gz")
-sha256sums=('82f1239cef89035199d290d0629bc23cea9277f45a59a68fd42519f367d5ab0e')
+sha256sums=('ecbee68eb70a20a91cc0df01436b6ed4ea469f818922e0a7eef7d92d9dd2b8b6')
 
 options=('!strip') # binaries are already stripped inside the Makefile
 
