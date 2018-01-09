@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.3.6"
+version     = "1.3.7"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -12,10 +12,8 @@ requires = [
     "docker",                 # NOTE: not enabled (as in "systemctl enable") by default to avoid confusion with networking and stuff
     "doxygen",
     "gdb",
-    "hugo",
     "perl-ipc-system-simple", # required for build_package.pl in this repo
     "pkgbuild-introspection",
-    "pygmentize",             # optional dependency for Hugo
     "rust",
     "sloccount",
     "valgrind",
