@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20180103.1"
+version     = "20180123.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -61,7 +61,10 @@ script = "mkinitcpio -p linux-for-poghril"
 
 [[file]]
 path    = "/etc/fstab.local"
-content = "/dev/xvda  /  ext4  defaults,barrier=0  1  1"
+content = """
+    /dev/xvda1 /    ext4  defaults,barrier=0 1 1
+    /dev/xvda2 none swap  defaults           0 0
+"""
 
 ################################################################################
 # network interface configuration (the hoster's installer generated netctl
