@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-work-vm"
-version     = "1.0.3"
+version     = "1.0.4"
 description = "holodeck: base configuration for work VMs"
 
 requires = [
@@ -20,7 +20,7 @@ requires = [
   "npm",
   "nodejs",
   "perl-file-slurp",
-  "phantomjs",
+  #"phantomjs", - not in repos anymore
   "postgresql",
   "python-pip",
   "python2-pip",
