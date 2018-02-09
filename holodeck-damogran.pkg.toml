@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20180209.1"
+version     = "20180209.2"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -11,6 +11,7 @@ requires = [
     "hologram-damogran-dyndns",
     "hologram-damogran-audio",
     "hologram-uefi-bootloader",
+    "linux-headers", # for wireguard-dkms
     # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)
     "dnsmasq",
     "hostapd",
@@ -161,8 +162,8 @@ content = """
     # allow intranet MPD
     -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 6600 -j ACCEPT
     -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 6600 -j ACCEPT
-    # allow public Minecraft
-    # -A TCP -p tcp -m tcp --dport 25565 -j ACCEPT
+    # allow Prometheus scraping via Wireguard
+    -A TCP -i wg-monitoring -p tcp -m tcp --dport 9100 -j ACCEPT
 
     # allow intranet DNS
     -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 53 -j ACCEPT
@@ -173,6 +174,8 @@ content = """
     # allow intranet MDNS (for PulseAudio)
     -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 5353 -j ACCEPT
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 5353 -j ACCEPT
+    # allow public Wireguard
+    -A UDP -p udp -m udp --dport {{.Vars.wg.port}} -j ACCEPT
 
 
 
