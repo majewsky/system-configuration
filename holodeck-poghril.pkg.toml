@@ -1,17 +1,15 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20180123.1"
+version     = "20180209.1"
 description = "holodeck: services on Poghril"
 
 requires = [
     "secrets", # this uses /usr/bin/replicator
     "hologram-base",
     "hologram-automation",
-    "hologram-munin-singlenode",
     "hologram-ferm",
     "hologram-archlinux-mirror",
     "hologram-murmur",
-    "hologram-wireguard-server",
     "linux-headers", # for wireguard-dkms
     "linux-for-poghril",
     "linux-for-poghril-headers", # for wireguard-dkms

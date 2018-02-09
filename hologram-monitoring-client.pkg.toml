@@ -1,0 +1,47 @@
+[package]
+name        = "hologram-monitoring-client"
+version     = "0.1.1"
+description = "hologram: connection to monitoring network"
+
+requires = [
+  'hologram-monitoring-agents',
+  'wireguard-dkms',
+  'wireguard-tools',
+]
+
+[[directory]]
+path = "/etc/wireguard"
+mode = "0700" # contains private keys
+
+# open port when using hologram-ferm
+[[file]]
+path    = "/etc/ferm.d/incoming-wireguard"
+content = "proto udp dport {{.Vars.wg.port}} ACCEPT;"
+[[symlink]]
+path   = "/usr/share/holo/files/20-wireguard/etc/ferm.d/incoming-wireguard.holoscript"
+target = "/usr/bin/replicator"
+
+################################################################################
+# private network for metric collection/Grafana access
+
+[[file]]
+path = "/etc/wireguard/wg-monitoring.conf"
+content = '''
+  [Interface]
+  Address = {{.Vars.prometheus.slash24}}.{{.Vars.host.id}}/32
+  PrivateKey = {{.Vars.wg.private_key}}
+
+  [Peer]
+  PublicKey = {{.Vars.wg.server.public_key}}
+  PresharedKey = {{.Vars.wg.preshared_key}}
+  Endpoint = {{.Vars.wg.server.endpoint}}:{{.Vars.wg.port}}
+  AllowedIPs = {{.Vars.prometheus.slash24}}.0/24
+  PersistentKeepAlive = 15
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-server/etc/wireguard/wg-monitoring.conf.holoscript"
+target = "/usr/bin/replicator"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/wg-quick@wg-monitoring.service"
+target = "/usr/lib/systemd/system/wg-quick@.service"
