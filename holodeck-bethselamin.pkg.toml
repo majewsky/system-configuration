@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.19.1"
+version     = "1.19.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -254,7 +254,7 @@ content = '''
 [[user]]
 name  = "backup"
 group = "git"
-groups = ["prosody", "synapse"]
+groups = ["prosody", "synapse", "grafana"]
 home  = "/var/lib/backupuser"
 
 [[file]]
