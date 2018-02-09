@@ -1,6 +1,7 @@
 global:
   scrape_interval:     60s
   evaluation_interval: 60s
+  scrape_timeout:      5s
 
 rule_files: []
 
@@ -8,3 +9,10 @@ scrape_configs:
   - job_name: prometheus
     static_configs:
       - targets: ['localhost:{{.Vars.prometheus.http_port}}']
+  - job_name: node exporters
+    static_configs:
+    {{- range $hostname, $cfg := .Vars.wg.peers }}
+    - targets: ['{{$.Vars.prometheus.slash24}}.{{$cfg.machine_id}}:9100']
+      labels:
+        host: '{{$hostname}}'
+    {{- end }}
