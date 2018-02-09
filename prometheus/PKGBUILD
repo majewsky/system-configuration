@@ -27,7 +27,7 @@ prepare() {
 }
 
 build() {
-    export GOPATH="$srcdir/gopath"
+    export GOPATH="$srcdir/gopath" GOBIN="$GOPATH/bin"
     cd "$GOPATH/src/github.com/$pkgname/$pkgname" || exit 1
     make build
 
