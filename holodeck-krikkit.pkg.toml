@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20171229.1"
+version     = "20180212.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "hologram-kde-desktop",
@@ -14,6 +14,9 @@ requires    = [
     "intel-ucode",
     "wpa_supplicant",
     "xf86-input-synaptics",
+    # power management
+    "tlp",
+    "x86_energy_perf_policy", # optional dependency for tlp
     # support for Intel GPU
     "xf86-video-intel",
     "libva-intel-driver",
@@ -137,3 +140,22 @@ content = '''
       tap enabled
     }
 '''
+
+# enable TLP (laptop power-saving daemon)
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/tlp.service"
+target = "/usr/lib/systemd/system/tlp.service"
+[[symlink]]
+path   = "/etc/systemd/system/sleep.target.wants/tlp-sleep.service"
+target = "/usr/lib/systemd/system/tlp-sleep.service"
+
+[[symlink]]
+path   = "/etc/systemd/system/NetworkManager.service"
+target = "/dev/null"
+[[symlink]]
+path   = "/etc/systemd/system/systemd-rfkill.service"
+target = "/dev/null"
+[[symlink]]
+path   = "/etc/systemd/system/systemd-rfkill.socket"
+target = "/dev/null"
