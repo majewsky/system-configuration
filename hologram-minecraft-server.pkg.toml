@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-minecraft-server"
-version     = "0.2.4"
+version     = "0.2.5"
 description = "hologram: Minecraft server"
 
 requires = [

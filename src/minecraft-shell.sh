@@ -61,7 +61,10 @@ case "$CMD" in
 			exit 0
 		fi
 		echo "Stopping $CURRENT_SERVER..."
-		systemctl --user stop "minecraft@$CURRENT_SERVER"
+		echo "WARNING: Stopping is currently disabled because it may corrupt the world." >&2
+		echo "         Log onto the server and use the /stop command instead." >&2
+		exit 1
+		#systemctl --user stop "minecraft@$CURRENT_SERVER"
 		;;
 	start)
 		if [ $# -ne 1 ]; then
