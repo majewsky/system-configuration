@@ -20,23 +20,31 @@ syntax:
 	minecraft-shell backup          - Commit and push the current state of the servers directory
 	                                  into the backup Git repo.
 
-	minecraft-shell bash            - Log into bash(1) for maintenance.
+	minecraft-shell help            - Display this message.
 
 EOF
 }
 
-if [ -n "${SSH_ORIGINAL_COMMAND:-}" ]; then
-	set -- ${SSH_ORIGINAL_COMMAND}
+# This program is intended to be used as a login shell, so it's usually invoked as
+# `minecraft-shell -c "some command"` by `ssh minecraft some command`.
+if [ $# -eq 2 -a "${1:-}" = "-c" ]; then
+	set -- $2
 fi
+
 if [ $# -eq 0 ]; then
-	usage
-	exit 0
+	echo -e "\e[1;31mWARNING:\e[0m Direct shell access is only intended for maintenance usage." >&2
+	echo -e '         Run `ssh minecraft help` to see the builtin commands of minecraft-shell.' >&2
+	exec bash -i
 fi
 
 CMD="$1"
 shift
 
 case "$CMD" in
+	help)
+		usage
+		exit 0
+		;;
 	list)
 		if [ $# -ne 0 ]; then
 			usage
@@ -110,9 +118,6 @@ case "$CMD" in
 			exit 1
 		fi
 		exec journalctl -q --user -u "minecraft@$CURRENT_SERVER" "$@"
-		;;
-	bash)
-		exec bash -i
 		;;
 	backup)
 		if [ -n "$CURRENT_SERVER" ]; then
