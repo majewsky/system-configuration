@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-minecraft-server"
-version     = "0.3.0"
+version     = "0.3.1"
 description = "hologram: Minecraft server"
 
 requires = [
@@ -38,6 +38,7 @@ content = '''
     restrict,pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBuoAQ9uQayjVuvFwnfV+pXrauYIvge6DGk9gdapIhoO apophis@toruk
     restrict,pty ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs0PiLBRaS63NBDLYhXDzIvKT2a6rHbiosOiKIjjiOpn5LLZZPgaOfghp3z38ZwiUC5b3peL86TFC905zYU7KXXAoOGRVAT7dn+emCPcGn6164K2nDPGA1GvZP7gS2gUhvrxmDw66ilt32WWTyf4Xv5xwyOO8S0a98jc+MAib9ksETciea3XSAVswKUCG3SAR1KIru7qNPaPuGxu6QWQEjZgjkHTZ0IL7v82cNm/XxtTKtJDa4LRegxNUJBYOuz36C8kx6mlM3Y4K+d5eevOJKKjlldr2NWj+3GJbpV2ItO6fed/MzMCJLep61l5Fvr4RHWFZhHaPJ7QkUrqBnX4Kn felix
     restrict,pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMo53yaUapWZ8WSdGfGcDxkR1u565MtTvTpGsoNoci8L s1feha@quorra
+    restrict,pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF1R1Y5l/pQtQwFBOMGHniMYyBBopWA8HgRAjt2nUZsI apophis@tavuk
 '''
 
 ################################################################################
