@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.1.6"
+version     = "1.1.7"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -97,6 +97,6 @@ content = '''
 [[file]]
 path = "/etc/profile.d/no-hidpi-please.sh"
 content = '''
-    export QT_AUTO_SCREEN_SCALE_FACTOR=1
+    unset QT_AUTO_SCREEN_SCALE_FACTOR
     export GDK_SCALE=1
 '''
