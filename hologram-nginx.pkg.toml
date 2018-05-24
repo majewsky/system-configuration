@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.8.0"
+version     = "1.8.1"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -81,6 +81,9 @@ content = """
 """
 
 # make the default /etc/nginx/nginx.conf more modular by linking to /etc/nginx/sites-enabled
+#
+# Access log is deactivated, and error log set up to not log "file not found"
+# errors resulting from GET on unknown URLs, because of Datensparsamkeit.
 [[file]]
 path    = "/usr/share/holo/files/00-base/etc/nginx/nginx.conf"
 content = """
@@ -97,6 +100,7 @@ content = """
         sendfile on;
         keepalive_timeout 65;
         access_log off;
+        error_log stderr crit;
 
         include /etc/nginx/sites-enabled/*.conf;
     }
