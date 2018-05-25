@@ -1,5 +1,5 @@
 pkgname=blog-generator
-pkgver=20170417.1
+pkgver=20180525.1
 pkgrel=1
 pkgdesc='Generator for my private blog'
 arch=('x86_64')
