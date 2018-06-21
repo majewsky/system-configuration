@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.19.2"
+version     = "1.19.3"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -218,7 +218,7 @@ path    = "/etc/systemd/system/gitea.service.d/paths.conf"
 content = '''
     [Service]
     WorkingDirectory=/data/gitea
-    Environment=USER=git HOME=/home/git
+    Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/data/gitea
 '''
 
 [[symlink]]
