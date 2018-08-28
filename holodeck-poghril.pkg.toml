@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20180209.1"
+version     = "20180828.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -10,6 +10,7 @@ requires = [
     "hologram-ferm",
     "hologram-archlinux-mirror",
     "hologram-murmur",
+    "hologram-xyrillian",
     "linux-headers", # for wireguard-dkms
     "linux-for-poghril",
     "linux-for-poghril-headers", # for wireguard-dkms
