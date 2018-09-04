@@ -132,6 +132,9 @@ case "$CMD" in
 		git push -f origin master
 		set +x
 		;;
+	scp)
+		exec scp "$@"
+		;;
 	*)
 		usage
 		exit 1
