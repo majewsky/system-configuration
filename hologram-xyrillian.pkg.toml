@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-xyrillian"
-version     = "0.0.1"
+version     = "0.1"
 description = "hologram: setup and automation for https://xyrillian.de"
 
 requires = [
@@ -49,12 +49,25 @@ target = "xyrillian.de"
 path    = "/etc/nginx/sites-enabled/redirects-to-xyrillian.conf"
 content = '''
     server {
-        server_name garnichtsoeinfach-podcast.de www.garnichtsoeinfach-podcast.de;
+        server_name garnichtsoeinfach-podcast.de;
         include     /etc/nginx/server-baseline-https.inc;
 
-        ssl_certificate     /etc/letsencrypt/live/hook.xyrillian.de/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/hook.xyrillian.de/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/hook.xyrillian.de/chain.pem;
+        ssl_certificate     /etc/letsencrypt/live/garnichtsoeinfach-podcast.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/garnichtsoeinfach-podcast.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/garnichtsoeinfach-podcast.de/chain.pem;
+
+        location / {
+            return 301 https://xyrillian.de/noises/;
+        }
+    }
+
+    server {
+        server_name www.garnichtsoeinfach-podcast.de;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        ssl_certificate     /etc/letsencrypt/live/www.garnichtsoeinfach-podcast.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/www.garnichtsoeinfach-podcast.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/www.garnichtsoeinfach-podcast.de/chain.pem;
 
         location / {
             return 301 https://xyrillian.de/noises/;
