@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-xyrillian"
-version     = "0.1"
+version     = "0.2"
 description = "hologram: setup and automation for https://xyrillian.de"
 
 requires = [
@@ -136,7 +136,7 @@ content = '''
     else
         git clone https://github.com/majewsky/xyrillian.de data
     fi
-    rsync -au --exclude .git/ --delete-delay data/ /data/static-web/xyrillian.de/
+    rsync -au --exclude .git/ --exclude build/ --exclude Makefile --delete-delay data/ /data/static-web/xyrillian.de/
 '''
 
 [[file]]
