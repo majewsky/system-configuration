@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.3.2"
+version     = "1.3.3"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
