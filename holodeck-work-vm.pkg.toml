@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-work-vm"
-version     = "1.0.4"
+version     = "1.0.5"
 description = "holodeck: base configuration for work VMs"
 
 requires = [
@@ -9,7 +9,6 @@ requires = [
   "hologram-dev-tools-minimal",
   "hologram-kde-desktop-minimal",
   "hologram-multimedia-base",
-  "hologram-disable-cacert",
   # assorted tools
   "clusterssh",
   "docker",
