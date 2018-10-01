@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.19.3"
+version     = "1.19.4"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -435,6 +435,7 @@ content = '''
         git clone https://github.com/vt6/vt6 data
     fi
     git -C /data/vt6/data clean -dxf .
+    rm -rf -- /data/vt6/output.tmp/
     vt6-website-build /data/vt6/data /data/vt6/output.tmp
     rsync -au --delete-delay /data/vt6/output.tmp/ /data/vt6/output/
 '''
