@@ -1,7 +1,10 @@
 [package]
 name        = "hologram-virtualbox-guest"
-version     = "1.0.0"
+version     = "1.0.2"
 description = "Hologram: kernel modules, bootloader, network setup for VirtualBox VMs"
+
+provides  = [ "hologram-vm-guest" ]
+conflicts = [ "hologram-vmware-guest" ]
 
 requires = [
     "hologram-uefi-bootloader",

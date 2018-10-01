@@ -1,10 +1,10 @@
 [package]
 name        = "holodeck-work-vm"
-version     = "1.0.5"
+version     = "1.0.6"
 description = "holodeck: base configuration for work VMs"
 
 requires = [
-  "hologram-virtualbox-guest",
+  "hologram-vm-guest", # either hologram-virtualbox-guest or hologram-vmware-guest
   "hologram-uefi-bootloader",
   "hologram-dev-tools-minimal",
   "hologram-kde-desktop-minimal",

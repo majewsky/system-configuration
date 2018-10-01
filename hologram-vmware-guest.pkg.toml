@@ -1,11 +1,13 @@
 [package]
 name        = "hologram-vmware-guest"
-version     = "0.0.3"
+version     = "0.0.5"
 description = "hologram: Kernel modules, bootloader, network setup for VMware VMs"
+
+provides  = [ "hologram-vm-guest" ]
+conflicts = [ "hologram-virtualbox-guest" ]
 
 requires = [
     "hologram-base", # for systemd-networkd
-    "hologram-uefi-bootloader",
     "open-vm-tools",
     "xf86-input-vmmouse",
     "xf86-video-vmware",
