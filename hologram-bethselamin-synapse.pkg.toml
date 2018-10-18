@@ -140,7 +140,7 @@ content = '''
   bcrypt_rounds: 12
 
   # guest access
-  allow_guest_access: False
+  allow_guest_access: True
   trusted_third_party_id_servers:
       - matrix.org
       - vector.im
