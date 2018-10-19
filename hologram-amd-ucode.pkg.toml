@@ -1,0 +1,17 @@
+[package]
+name        = "hologram-amd-ucode"
+version     = "1.0.0"
+description = "hologram: deploy amd-ucode during UEFI boot sequence"
+
+requires    = [
+    "hologram-uefi-bootloader",
+    "amd-ucode",
+]
+
+[[file]]
+path    = "/usr/share/holo/files/10-amd-ucode/boot/loader/entries/arch.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    sed '/^initrd/i\initrd    /amd-ucode.img'
+'''
