@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20170930.3"
+version     = "20181020.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -11,6 +11,8 @@ requires = [
     "hologram-uefi-bootloader-with-luks",
     "hologram-dtp",
     "hologram-automation",
+    "hologram-monitoring-client",
+    "linux-headers", # for wireguard-dkms in hologram-monitoring-client
     # support for Intel CPU/GPU
     "hologram-intel-ucode",
     # support for AMD GPU
@@ -24,8 +26,7 @@ requires = [
     "mesa-vdpau",
     "lib32-mesa-vdpau",
     # network setup
-    "broadcom-wl-dkms", # closed source driver because Linux kernel does not support my Wifi module
-    "linux-headers",    # optional dep for broadcom-wl-dkms
+    "broadcom-wl", # closed source driver for my Wifi module
     "wpa_supplicant",
     # additional apps
     "kdeconnect",
@@ -43,16 +44,6 @@ content = """
     export PRETTYPROMPT_COMMONUSER=stefan
     export PRETTYPROMPT_HOSTCOLOR='0;37'
 """
-
-# load KMS driver early to work around https://github.com/sddm/sddm/issues/905
-
-[[file]]
-path    = "/usr/share/holo/files/50-arcturus/etc/mkinitcpio.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sed -f
-    /^MODULES/s/()/(amdgpu)/
-'''
 
 # network setup: systemd-networkd
 
