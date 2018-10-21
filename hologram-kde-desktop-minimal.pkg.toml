@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop-minimal"
-version     = "1.1.1"
+version     = "1.1.2"
 description = "hologram: GUI installation with KDE Plasma desktop (variant for space-constrained systems)"
 
 requires = [
@@ -15,7 +15,6 @@ requires = [
     "filelight",
     "kcharselect",
     "kcolorchooser",
-    "kmix",
     "kolourpaint",
     "konsole",
     "kruler",
