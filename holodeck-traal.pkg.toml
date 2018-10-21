@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20181021.1"
+version     = "20181021.2"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -73,6 +73,7 @@ content = '''
 
 [[file]]
 path    = "/usr/share/holo/files/50-traal/etc/X11/xorg.conf.d/keyboard.conf.holoscript"
+mode    = "0755"
 content = """
     #!/bin/sh
     sed '/XkbLayout/s/de/en/;/XkbVariant/d'
@@ -80,6 +81,7 @@ content = """
 
 [[file]]
 path    = "/usr/share/holo/files/50-traal/etc/profile.d/xkb.sh.holoscript"
+mode    = "0755"
 content = """
     #!/bin/sh
     sed '/LAYOUT/s/de/en/;/VARIANT/d'
