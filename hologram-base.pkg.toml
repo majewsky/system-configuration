@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20181001.1"
+version = "20181024.1"
 description = "hologram: base installation"
 
 requires = [

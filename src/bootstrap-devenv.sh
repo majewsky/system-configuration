@@ -3,10 +3,10 @@ set -euo pipefail
 
 REPO_URL=github.com/majewsky/devenv
 REPO_SHORT_URL=gh:majewsky/devenv
-GOPATH=/x
+export GOPATH=/x
 
 # clone devenv repo into the (not yet populated) repo tree
-REPO_PATH="${RTREE_ROOT}/src/${REPO_URL}"
+REPO_PATH="${GOPATH}/src/${REPO_URL}"
 if [ ! -d "${REPO_PATH}/.git" ]; then
     git clone "https://${REPO_URL}" "${REPO_PATH}"
     # this remote URL will become valid as soon as the devenv is installed
