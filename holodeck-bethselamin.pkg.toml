@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.19.4"
+version     = "1.19.12"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -124,6 +124,7 @@ content = '''
     LOGIN_REMEMBER_DAYS  = 1
     COOKIE_USERNAME      = gitea_user
     COOKIE_REMEMBER_NAME = gitea_remember
+    INTERNAL_TOKEN       = %INTERNAL_TOKEN%
 
     [service]
     DISABLE_REGISTRATION = true
@@ -203,8 +204,9 @@ content = '''
     #!/bin/sh
     set -e
     mkdir -p /var/lib/gitea
+    test -f /var/lib/gitea/internal-token || touch /var/lib/gitea/internal-token
     test -f /var/lib/gitea/secret || pwgen 20 1 > /var/lib/gitea/secret
-    sed s/%SECRET%/"$(cat /var/lib/gitea/secret)"/
+    sed s/%SECRET%/"$(cat /var/lib/gitea/secret)"/\;s/%INTERNAL_TOKEN%/"$(cat /var/lib/gitea/internal-token)"/
 '''
 
 [[directory]]
@@ -214,11 +216,11 @@ group = "git"
 mode = "0770" # group-readable for backup user
 
 [[file]]
-path    = "/etc/systemd/system/gitea.service.d/paths.conf"
+path    = "/usr/share/holo/files/50-bethselamin/usr/lib/systemd/system/gitea.service.holoscript"
+mode    = "0755"
 content = '''
-    [Service]
-    WorkingDirectory=/data/gitea
-    Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/data/gitea
+    #!/bin/sh
+    sed s+/var/lib/gitea+/data/gitea+g
 '''
 
 [[symlink]]
