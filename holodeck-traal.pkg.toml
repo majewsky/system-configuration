@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20181112.2"
+version     = "20181112.3"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -63,6 +63,15 @@ content = '''
     #!/bin/sh
     sed '/options/s/$/ iommu=soft/'
 '''
+
+# load AMDGPU driver during early boot
+[[file]]
+path    = "/usr/share/holo/files/50-traal/etc/mkinitcpio.conf.holoscript"
+mode    = "0755"
+content = """
+    #!/bin/bash
+    sed 's/^MODULES=.*$/MODULES=(amdgpu)/'
+"""
 
 # English keyboard layout
 [[file]]
