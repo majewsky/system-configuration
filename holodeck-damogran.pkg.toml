@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20180209.2"
+version     = "20181112.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -11,6 +11,8 @@ requires = [
     "hologram-damogran-dyndns",
     "hologram-damogran-audio",
     "hologram-uefi-bootloader",
+    "hologram-monitoring-client",
+    "hologram-consul",
     "linux-headers", # for wireguard-dkms
     # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)
     "dnsmasq",

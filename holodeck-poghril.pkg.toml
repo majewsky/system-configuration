@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20180828.1"
+version     = "20181112.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -11,9 +11,9 @@ requires = [
     "hologram-archlinux-mirror",
     "hologram-murmur",
     "hologram-xyrillian",
+    "hologram-monitoring-client",
+    "hologram-consul",
     "linux-headers", # for wireguard-dkms
-    "linux-for-poghril",
-    "linux-for-poghril-headers", # for wireguard-dkms
 ]
 
 ################################################################################
@@ -51,9 +51,6 @@ content = """
 [[action]]
 on     = "setup"
 script = "mkinitcpio -p linux"
-[[action]]
-on     = "setup"
-script = "mkinitcpio -p linux-for-poghril"
 
 ################################################################################
 # filesystem

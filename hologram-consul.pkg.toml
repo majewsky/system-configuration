@@ -1,0 +1,30 @@
+[package]
+name        = "hologram-consul"
+version     = "0.1.0"
+description = "hologram: Consul agent/server"
+
+requires = [
+  "consul",
+  "secrets", # this uses /usr/bin/replicator
+]
+
+[[file]]
+path = "/etc/consul.d/hologram.json"
+content = '''
+  {
+    "bootstrap": false,
+    "bind_addr": "{{.Vars.prometheus.slash24}}.̛{{.Vars.host.id}}",
+    "datacenter": "{{.Vars.consul.dc_name}}",
+    "data_dir": "/var/lib/consul",
+    "encrypt": "̛{{.Vars.consul.shared_key}}",
+    "log_level": "INFO",
+    "server": {{.Vars.consul.server | default "false"}}
+  }
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-consul/etc/consul.d/hologram.json.holoscript"
+target = "/usr/bin/replicator"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/consul.service"
+target = "/usr/lib/systemd/system/consul.service"
