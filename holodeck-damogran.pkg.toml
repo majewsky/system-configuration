@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20181112.1"
+version     = "20181112.2"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -166,6 +166,8 @@ content = """
     -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 6600 -j ACCEPT
     # allow Prometheus scraping via Wireguard
     -A TCP -i wg-monitoring -p tcp -m tcp --dport 9100 -j ACCEPT
+    # allow Consul via Wireguard
+    -A TCP -i wg-monitoring -p tcp -m tcp --dport 8300:8302 -j ACCEPT
 
     # allow intranet DNS
     -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 53 -j ACCEPT
@@ -178,6 +180,8 @@ content = """
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 5353 -j ACCEPT
     # allow public Wireguard
     -A UDP -p udp -m udp --dport {{.Vars.wg.port}} -j ACCEPT
+    # allow Consul via Wireguard
+    -A UDP -i wg-monitoring -p udp -m udp --dport 8300:8302 -j ACCEPT
 
 
 

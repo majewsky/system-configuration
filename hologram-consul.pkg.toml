@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-consul"
-version     = "0.1.0"
+version     = "0.1.6"
 description = "hologram: Consul agent/server"
 
 requires = [
@@ -8,16 +8,21 @@ requires = [
   "secrets", # this uses /usr/bin/replicator
 ]
 
+[[directory]]
+path = "/etc/consul.d"
+mode = "0750" # to agree with consul package
+
 [[file]]
 path = "/etc/consul.d/hologram.json"
 content = '''
   {
     "bootstrap": false,
-    "bind_addr": "{{.Vars.prometheus.slash24}}.̛{{.Vars.host.id}}",
+    "bind_addr": "{{.Vars.prometheus.slash24}}.{{.Vars.host.id}}",
     "datacenter": "{{.Vars.consul.dc_name}}",
     "data_dir": "/var/lib/consul",
-    "encrypt": "̛{{.Vars.consul.shared_key}}",
+    "encrypt": "{{.Vars.consul.shared_key}}",
     "log_level": "INFO",
+    "retry_join": {{toJson .Vars.consul.servers}},
     "server": {{.Vars.consul.server | default "false"}}
   }
 '''
@@ -28,3 +33,7 @@ target = "/usr/bin/replicator"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/consul.service"
 target = "/usr/lib/systemd/system/consul.service"
+
+[[file]]
+path    = "/etc/ferm.d/incoming-consul"
+content = "proto (tcp udp) dport (8300 8301 8302) interface wg-monitoring ACCEPT;"
