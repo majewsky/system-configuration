@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-server"
-version     = "0.3.1"
+version     = "0.3.2"
 description = "hologram: monitoring server using Prometheus, Grafana"
 
 requires = [
