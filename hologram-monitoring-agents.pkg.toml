@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-agents"
-version     = "0.1.0"
+version     = "0.1.1"
 description = "hologram: monitoring agents"
 
 requires = [
@@ -28,4 +28,15 @@ content = '''
   [Service]
   User=nobody
   Group=nobody
+'''
+
+[[file]]
+path    = "/etc/consul.d/prometheus-node-exporter.json"
+content = '''
+{
+  "service": {
+    "name": "prometheus-node-exporter",
+    "port": 9100
+  }
+}
 '''
