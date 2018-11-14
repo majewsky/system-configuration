@@ -14,6 +14,9 @@ scrape_configs:
     consul_sd_configs:
       - server: 127.0.0.1:8500
     relabel_configs:
+      - source_labels: [__meta_consul_service_metadata_prometheus]
+        regex: true
+        action: keep
       - source_labels: [__meta_consul_node]
         target_label: instance
       - source_labels: [__meta_consul_service]

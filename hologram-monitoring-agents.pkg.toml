@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-agents"
-version     = "0.1.1"
+version     = "0.1.2"
 description = "hologram: monitoring agents"
 
 requires = [
@@ -36,7 +36,10 @@ content = '''
 {
   "service": {
     "name": "prometheus-node-exporter",
-    "port": 9100
+    "port": 9100,
+    "meta": {
+      "prometheus": "true"
+    }
   }
 }
 '''
