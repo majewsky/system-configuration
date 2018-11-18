@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.4.0"
+version     = "1.4.91"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -27,22 +27,44 @@ requires = [
 [[file]]
 path = "/usr/lib/nightwatch"
 mode = "0755"
-contentFrom = "src/nightwatch.sh"
+content = '''
+    #!/bin/bash
+    set -xeuo pipefail
+
+    if pidof Xorg >/dev/null; then
+      env DISPLAY=:0 sm "Go to bed."
+    fi
+'''
 
 [[file]]
-path    = "/usr/lib/systemd/system/nightwatch.service"
+path    = "/home/stefan/.config/systemd/user/nightwatch.service"
 content = '''
     [Unit]
-    Description=Force user to go to bed
+    Description=Advice user to go to bed
 
     [Service]
+    Type=oneshot
     ExecStart=/usr/lib/nightwatch
-    Restart=always
+'''
+
+[[file]]
+path    = "/home/stefan/.config/systemd/user/nightwatch.timer"
+content = '''
+    [Unit]
+    Description=Advice user to go to bed
+
+    [Timer]
+    OnCalendar=23:00
+    OnCalendar=00:00
+    OnCalendar=01:00
+    OnCalendar=02:00
+    OnCalendar=03:00
+    OnCalendar=04:00
 
     [Install]
-    WantedBy=multi-user.target
+    WantedBy=default.target
 '''
 
 [[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/nightwatch.service"
-target = "/usr/lib/systemd/system/nightwatch.service"
+path   = "/home/stefan/.config/systemd/user/default.target.wants/nightwatch.timer"
+target = "/home/stefan/.config/systemd/user/nightwatch.timer"
