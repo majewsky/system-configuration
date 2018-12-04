@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20181203.1"
+version     = "20181204.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -22,8 +22,6 @@ requires = [
     "hologram-nginx",
 ]
 
-# TODO: smartd to monitor RAID
-
 ################################################################################
 # identity
 
@@ -37,6 +35,13 @@ content = """
 export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;35'
 """
+
+################################################################################
+# mask mdmonitor.service (this shows up in `systemctl --failed` otherwise)
+
+[[symlink]]
+path   = "/etc/systemd/system/mdmonitor.service"
+target = "/dev/null"
 
 ################################################################################
 # network setup: systemd-{networkd,resolved} to configure interfaces and upstream DNS
