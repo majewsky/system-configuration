@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.20.1"
+version     = "1.20.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -72,7 +72,7 @@ home = "/home/git"
 [[directory]]
 path  = "/home/git"
 mode  = "0700"
-user  = "git"
+owner = "git"
 group = "git"
 
 [[file]]
@@ -212,10 +212,10 @@ content = '''
 '''
 
 [[directory]]
-path = "/data/gitea"
-user = "git"
+path  = "/data/gitea"
+owner = "git"
 group = "git"
-mode = "0770" # group-readable for backup user
+mode  = "0770" # group-readable for backup user
 
 [[file]]
 path    = "/usr/share/holo/files/50-bethselamin/usr/lib/systemd/system/gitea.service.holoscript"

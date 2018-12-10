@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.8.1"
+version     = "1.8.2"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -136,7 +136,7 @@ content = '''
 [[directory]]
 path  = "/data/static-web"
 mode  = "0755"
-user  = "http"
+owner = "http"
 group = "http"
 
 [[file]]
