@@ -19,7 +19,7 @@ vendor() {
 
 if [ $# -eq 0 ]; then
   # default: vendor all packages
-  for TARGET_DIR in art mpv-mpris otf-raleway perl-mp3-tag prometheus prometheus-node-exporter ripit screen-message ttf-montserrat; do
+  for TARGET_DIR in art coredns mpv-mpris otf-raleway perl-mp3-tag prometheus prometheus-node-exporter ripit screen-message ttf-montserrat; do
     vendor "${TARGET_DIR}"
   done
 else
