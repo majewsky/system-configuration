@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20181112.3"
+version     = "20181215.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -61,7 +61,7 @@ path    = "/usr/share/holo/files/50-traal/boot/loader/entries/arch.conf.holoscri
 mode    = "0755"
 content = '''
     #!/bin/sh
-    sed '/options/s/$/ iommu=soft/'
+    sed '/options/s/$/ amd_iommu=pt ivrs_ioapic[32]=00:14.0/'
 '''
 
 # load AMDGPU driver during early boot
