@@ -1,0 +1,29 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 60s
+  scrape_timeout:      5s
+
+rule_files: []
+
+scrape_configs:
+  - job_name: federate
+    honor_labels: true
+    metrics_path: '/federate'
+
+    static_configs:
+      - targets: ['localhost:{{.Vars.prometheus.collector_http_port}}']
+
+    params:
+      'match[]':
+        # for the "Node Stats" dashboard
+        - node_cpu_seconds_total
+        - node_filesystem_free_bytes
+        - node_filesystem_size_bytes
+        - node_load1
+        - node_load5
+        - node_memory_MemAvailable_bytes
+        - node_memory_MemTotal_bytes
+        - node_memory_SwapFree_bytes
+        - node_memory_SwapTotal_bytes
+        - node_network_receive_bytes_total
+        - node_network_transmit_bytes_total

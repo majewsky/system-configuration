@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-server"
-version     = "0.3.2"
+version     = "1.0.0"
 description = "hologram: monitoring server using Prometheus, Grafana"
 
 requires = [
@@ -54,36 +54,99 @@ path   = "/etc/systemd/system/multi-user.target.wants/wg-quick@wg-monitoring.ser
 target = "/usr/lib/systemd/system/wg-quick@.service"
 
 ################################################################################
-# Prometheus server
+# Prometheus collector server (stores all metrics, but with very short retention)
+
+[[directory]]
+path  = "/var/lib/prometheus-collector"
+owner = "prometheus"
+group = "prometheus"
 
 [[file]]
-path        = "/usr/share/holo/files/20-monitoring-server/etc/prometheus/prometheus.yml"
-contentFrom = "src/prometheus.yaml"
+path        = "/etc/prometheus/prometheus-collector.yml"
+contentFrom = "src/prometheus-collector.yaml"
 [[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server/etc/prometheus/prometheus.yml.holoscript"
+path   = "/usr/share/holo/files/20-monitoring-server/etc/prometheus/prometheus-collector.yml.holoscript"
 target = "/usr/bin/replicator"
 
 [[file]]
-path    = "/usr/share/holo/files/20-monitoring-server/usr/lib/systemd/system/prometheus.service.holoscript"
-mode    = "0755"
+path    = "/usr/lib/systemd/system/prometheus-collector.service"
 content = '''
-  #!/bin/bash
-  PROM_LISTEN_ADDRESS="$(echo ':{{.Vars.prometheus.http_port}}' | replicator)"
+  [Unit]
+  Description=Prometheus service
+  After=network.target
 
-  sed "/ExecStart=/s,\$, --web.listen-address=${PROM_LISTEN_ADDRESS} --storage.tsdb.retention=14d,"
+  [Service]
+  User=prometheus
+  Group=prometheus
+  ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus-collector.yml  --storage.tsdb.path=/var/lib/prometheus-collector/data --web.listen-address=:{{.Vars.prometheus.collector_http_port}} --storage.tsdb.retention=2h
+  ExecReload=/bin/kill -HUP $MAINPID
+
+  [Install]
+  WantedBy=multi-user.target
 '''
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-server//usr/lib/systemd/system/prometheus-collector.service.holoscript"
+target = "/usr/bin/replicator"
 
 [[symlink]]
-path = "/etc/systemd/system/multi-user.target.wants/prometheus.service"
-target = "/usr/lib/systemd/system/prometheus.service"
+path = "/etc/systemd/system/multi-user.target.wants/prometheus-collector.service"
+target = "/usr/lib/systemd/system/prometheus-collector.service"
 
+################################################################################
+# Prometheus frontend server (long retention, but stores only very few metrics)
+
+[[directory]]
+path  = "/var/lib/prometheus-frontend"
+owner = "prometheus"
+group = "prometheus"
+
+[[file]]
+path        = "/etc/prometheus/prometheus-frontend.yml"
+contentFrom = "src/prometheus-frontend.yaml"
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-server/etc/prometheus/prometheus-frontend.yml.holoscript"
+target = "/usr/bin/replicator"
+
+[[file]]
+path    = "/usr/lib/systemd/system/prometheus-frontend.service"
+content = '''
+  [Unit]
+  Description=Prometheus service
+  After=network.target
+
+  [Service]
+  User=prometheus
+  Group=prometheus
+  ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus-frontend.yml  --storage.tsdb.path=/var/lib/prometheus-frontend/data --web.listen-address=:{{.Vars.prometheus.frontend_http_port}} --storage.tsdb.retention=60d
+  ExecReload=/bin/kill -HUP $MAINPID
+
+  [Install]
+  WantedBy=multi-user.target
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-server//usr/lib/systemd/system/prometheus-frontend.service.holoscript"
+target = "/usr/bin/replicator"
+
+[[symlink]]
+path = "/etc/systemd/system/multi-user.target.wants/prometheus-frontend.service"
+target = "/usr/lib/systemd/system/prometheus-frontend.service"
+
+################################################################################
 # allow access to Prometheus only from private network
+
 [[file]]
 path    = "/etc/ferm.d/incoming-prometheus"
-content = "proto tcp dport {{.Vars.prometheus.http_port}} interface wg-monitoring ACCEPT;"
+content = "proto tcp dport ({{.Vars.prometheus.collector_http_port}} {{.Vars.prometheus.frontend_http_port}}) interface wg-monitoring ACCEPT;"
 [[symlink]]
 path   = "/usr/share/holo/files/20-monitoring-server/etc/ferm.d/incoming-prometheus.holoscript"
 target = "/usr/bin/replicator"
+
+################################################################################
+# ensure that prometheus.service unit (provided by prometheus package) does not get started by accident
+
+[[symlink]]
+path   = "/etc/systemd/system/prometheus.service"
+target = "/dev/null"
 
 ################################################################################
 # Grafana dashboard
