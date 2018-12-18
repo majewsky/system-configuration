@@ -27,3 +27,5 @@ scrape_configs:
         - node_memory_SwapTotal_bytes
         - node_network_receive_bytes_total
         - node_network_transmit_bytes_total
+        # for the "CoreDNS" dashboard
+        - coredns_dns_request_count_total
