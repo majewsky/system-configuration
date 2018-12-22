@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dns-server"
-version     = "1.1.0"
+version     = "1.1.1"
 description = "Authoritative DNS server using CoreDNS"
 requires    = [
   "coredns",
@@ -13,6 +13,13 @@ path = "/etc/ferm.d/incoming-dns"
 content = '''
   proto (tcp udp) dport 53 ACCEPT;
   proto tcp dport 9153 interface wg-monitoring ACCEPT;
+'''
+
+[[file]]
+path    = "/etc/systemd/resolved.conf.d/disable-stub-listener.conf"
+content = '''
+  [Resolve]
+  DNSStubListener=no
 '''
 
 # enable CoreDNS (NOTE: 217.70.177.40 is the secondary nameserver provided by Gandi)
