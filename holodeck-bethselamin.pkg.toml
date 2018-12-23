@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.21.0"
+version     = "1.21.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -223,7 +223,11 @@ path    = "/usr/share/holo/files/50-bethselamin/usr/lib/systemd/system/gitea.ser
 mode    = "0755"
 content = '''
     #!/bin/sh
-    sed s+/var/lib/gitea+/data/gitea+g
+    sed '
+        s+/var/lib/gitea+/data/gitea+g;
+        /ReadWritePaths/s+$+ /data/gitea+g;
+        /StateDirectory/d;
+    '
 '''
 
 [[symlink]]
