@@ -12,9 +12,6 @@ COMMIT_ID="$4"
 echo "Branch ${BRANCH} of repo ${REPO_OWNER}/${REPO_NAME} was updated to ${COMMIT_ID}"
 
 case "${REPO_OWNER}/${REPO_NAME}/${BRANCH}" in
-    majewsky/blog-data/master)
-        sudo systemctl start blog-update
-        ;;
     vt6/vt6/master)
         sudo systemctl start vt6-update
         ;;

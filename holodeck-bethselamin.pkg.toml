@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.22.0"
+version     = "1.23.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -19,7 +19,6 @@ requires = [
     "ages-website",
     "gitea",
     "sqlite", # for gitea
-    "blog-generator",
     "hookserve",
     "vt6-website-build",
     # additional services
@@ -295,67 +294,13 @@ path   = "/data/static-web/www.ages-skripte.org"
 target = "/usr/share/ages-website"
 
 ################################################################################
-# web services: blog.bethselamin.de and vt6.io
+# web services: vt6.io
 
 [[user]]
 name   = "blog"
 group  = "nobody"
 home   = "/data/blog"
 system = true
-
-[[directory]]
-path  = "/data/blog"
-owner = "blog"
-group = "nobody"
-
-[[directory]]
-path  = "/data/blog/output"
-owner = "blog"
-group = "nobody"
-
-[[symlink]]
-path   = "/data/static-web/blog.bethselamin.de"
-target = "/data/blog/output"
-
-[[file]]
-path = "/etc/blog-generator.conf"
-content = '''
-    source-dir /data/blog/data
-    source-url https://github.com/majewsky/blog-data
-    target-dir /data/blog/output
-    target-url https://blog.bethselamin.de
-    page-name Stefan's Blog
-    page-desc Personal blog of Stefan Majewsky
-'''
-
-[[file]]
-path    = "/usr/lib/blog-update.sh"
-mode    = "0755"
-content = '''
-    #!/bin/bash
-    set -euo pipefail
-    cd /data/blog
-    if [ -d data ]; then
-        git -C data pull -q origin master
-    else
-        git clone https://github.com/majewsky/blog-data data
-    fi
-    blog-generator /etc/blog-generator.conf
-    rsync -au --delete-delay /data/blog/data/assets/ /data/blog/output/assets/
-'''
-
-[[file]]
-path = "/usr/lib/systemd/system/blog-update.service"
-content = '''
-    [Unit]
-    Description=Update blog.bethselamin.de
-
-    [Service]
-    Type=oneshot
-    ExecStart=/usr/lib/blog-update.sh
-    User=blog
-    Group=nobody
-'''
 
 [[directory]]
 path  = "/data/vt6"
@@ -420,7 +365,6 @@ content = '''
     }
 '''
 
-
 ################################################################################
 # web services: hook.bethselamin.de
 
@@ -467,3 +411,25 @@ target = "/usr/bin/replicator"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/hookserve.service"
 target = "/usr/lib/systemd/system/hookserve.service"
+
+################################################################################
+# web services: blog.bethselamin.de
+
+[[file]]
+path    = "/etc/nginx/sites-enabled/blog-bethselamin-de.conf"
+content = '''
+    server {
+        server_name blog.bethselamin.de;
+        include     /etc/nginx/server-baseline-https.inc;
+
+        add_header  Content-Security-Policy "default-src 'self'" always;
+
+        ssl_certificate     /etc/letsencrypt/live/blog.bethselamin.de/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/blog.bethselamin.de/privkey.pem;
+        ssl_trusted_certificate /etc/letsencrypt/live/blog.bethselamin.de/chain.pem;
+
+        location / {
+            return 301 https://xyrillian.de/thoughts$request_uri;
+        }
+    }
+'''
