@@ -1,26 +1,38 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "2.2.1"
+version     = "3.0.0"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
 requires    = [
     "secrets", # this uses /usr/bin/replicator
-    "gandi-dyndns>=2015.12.26",
+    "gandi-automatic-dns",
 ]
+replaces    = [ "gandi-dyndns" ]
 
 [[file]]
-path    = "/usr/share/holo/files/50-damogran/etc/gandi-dyndns/config.json"
-content = """
-    {
-      "api_key": "{{.Vars.dyndns.api_key}}",
-      "domains": {
-        "{{.Vars.dyndns.domain}}": ["damogran","static"]
-      }
-    }
-"""
+path    = "/usr/lib/update-gandi-dyndns"
+mode    = "0700" # contains secrets
+content = '''
+    #!/bin/sh
+    exec \
+      sudo -u nobody -g nobody \
+      gad -5 -l 600 -i {{.Vars.interfaces.wan}} -a "{{.Vars.dyndns.api_key}}" -d "{{.Vars.dyndns.domain}}" -r "damogran static" -v
+'''
 [[symlink]]
-path   = "/usr/share/holo/files/50-damogran-vars/etc/gandi-dyndns/config.json.holoscript"
+path   = "/usr/share/holo/files/50-damogran-vars/usr/lib/update-gandi-dyndns.holoscript"
 target = "/usr/bin/replicator"
 
+[[file]]
+path    = "/usr/lib/systemd/system/gandi-dyndns.service"
+content = """
+    [Unit]
+    Description=Check and update DNS entries
+    After=network-online.target
+    Wants=network-online.target
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/lib/update-gandi-dyndns
+"""
 [[file]]
 path    = "/usr/lib/systemd/system/gandi-dyndns.timer"
 content = """

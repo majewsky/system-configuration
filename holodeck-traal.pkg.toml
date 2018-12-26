@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20181215.1"
+version     = "20181226.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -98,7 +98,7 @@ content = """
     sed '/LAYOUT/s/de/en/;/VARIANT/s/nodeadkeys/altgr-intl/'
 """
 
-# Xorg: enable palm detection on touchpad
+# Xorg: enable palm detection on touchpad, enable tapping, disable coasting
 [[file]]
 path    = "/etc/X11/xorg.conf.d/52-palm-detection.conf"
 content = """
@@ -107,6 +107,7 @@ Section "InputClass"
     Driver "synaptics"
     MatchIsTouchpad "on"
     MatchDevicePath "/dev/input/event*"
+    Option "CoastingSpeed" "0"
     Option "PalmDetect" "on"
     Option "PalmMinWidth" "4"
     Option "PalmMinZ" "1"
