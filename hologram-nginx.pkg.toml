@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-nginx"
-version     = "1.8.2"
+version     = "1.8.3"
 description = "Modular baseline configuration for nginx with sane defaults"
 requires    = [
     "nginx",
@@ -147,7 +147,7 @@ content = """
         include     /etc/nginx/server-baseline-https.inc;
 
         # CSP includes unsafe-inline to allow <style> tags in hand-written HTML
-        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always;
+        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'; img-src 'self' data:;" always;
 
         ssl_certificate     /etc/letsencrypt/live/$host/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
