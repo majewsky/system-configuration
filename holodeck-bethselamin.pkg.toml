@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.23.0"
+version     = "1.23.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -299,7 +299,7 @@ target = "/usr/share/ages-website"
 [[user]]
 name   = "blog"
 group  = "nobody"
-home   = "/data/blog"
+home   = "/data/vt6"
 system = true
 
 [[directory]]
