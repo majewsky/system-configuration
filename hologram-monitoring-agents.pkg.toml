@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-agents"
-version     = "0.1.5"
+version     = "0.1.7"
 description = "hologram: monitoring agents"
 
 requires = [
@@ -31,12 +31,8 @@ content = '''
 '''
 
 [[file]]
-path = "/usr/share/holo/files/20-monitoring-agents/usr/lib/systemd/system/prometheus-node-exporter.service.holoscript"
-mode = "0755"
-content = '''
-  #!/bin/sh
-  sed '/ExecStart=/s/$/ --no-collector.wifi/'
-'''
+path = "/usr/share/holo/files/20-monitoring-agents/etc/conf.d/prometheus-node-exporter"
+content = 'NODE_EXPORTER_ARGS="--no-collector.wifi"'
 
 [[file]]
 path    = "/etc/consul.d/prometheus-node-exporter.json"
