@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20181204.1"
+version     = "20190126.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -301,11 +301,13 @@ content = """
     resolv-file=/run/systemd/resolve/resolv.conf
     # local DNS overrides
     address=/damogran.local/10.0.0.1
-    {{ range $host, $cfg := .Vars.hosts }}
+    {{- range $host, $cfg := .Vars.hosts }}
     address=/{{$host}}/{{$cfg.ip}}
-    {{ end }}
-    dnssec
-    trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
+    {{- end }}
+
+    # FIXME: DNSSEC and Kabel Deutschland don't mix. :(
+    # dnssec
+    # trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 
     # adblock
     addn-hosts=/var/cache/adblock/hosts.txt
