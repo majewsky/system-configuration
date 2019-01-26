@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20181226.1"
+version     = "20190126.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -72,6 +72,11 @@ content = """
     #!/bin/bash
     sed 's/^MODULES=.*$/MODULES=(amdgpu)/'
 """
+
+# make SD card slot work
+[[file]]
+path    = "/etc/modprobe.d/sdhci.conf"
+content = 'options sdhci debug_quirks2 = "0x8000"'
 
 # English keyboard layout
 [[file]]
