@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.23.1"
+version     = "1.23.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -239,7 +239,7 @@ content = '''
         server_name git.bethselamin.de;
         include     /etc/nginx/server-baseline-https.inc;
 
-        add_header  Content-Security-Policy "default-src 'self'" always;
+        add_header  Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'" always; # Gitea uses inline CSS
 
         ssl_certificate     /etc/letsencrypt/live/git.bethselamin.de/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/git.bethselamin.de/privkey.pem;
