@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20181215.3"
+version = "20190227.1"
 description = "hologram: base installation"
 
 requires = [
@@ -33,6 +33,7 @@ requires = [
     "lsof",
     "net-tools",      # netstat
     "nmap",           # ncat
+    "pinfo",
     "pwgen",
     "pv",
     "ripgrep",
