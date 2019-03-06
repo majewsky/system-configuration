@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-poghril"
-version     = "20181219.1"
+version     = "20190306.1"
 description = "holodeck: services on Poghril"
 
 requires = [
@@ -10,7 +10,6 @@ requires = [
     "hologram-ferm",
     "hologram-archlinux-mirror",
     "hologram-murmur",
-    "hologram-xyrillian",
     "hologram-monitoring-client",
     "hologram-consul",
     "hologram-dns-server",
