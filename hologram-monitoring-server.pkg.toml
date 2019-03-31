@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-server"
-version     = "1.1.0"
+version     = "1.1.1"
 description = "hologram: monitoring server using Prometheus, Grafana"
 
 requires = [
@@ -34,6 +34,7 @@ content = '''
   Address = {{.Vars.prometheus.slash24}}.{{.Vars.host.id}}/32
   PrivateKey = {{.Vars.wg.private_key}}
   ListenPort = {{.Vars.wg.port}}
+  PostUp = sysctl net.ipv4.conf.wg-monitoring.forwarding=1
 
   {{range $hostname, $cfg := .Vars.wg.peers}}
   {{- if ne $hostname $.Vars.host.name}}
