@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-server"
-version     = "1.0.2"
+version     = "1.1.0"
 description = "hologram: monitoring server using Prometheus, Grafana"
 
 requires = [
@@ -52,6 +52,13 @@ target = "/usr/bin/replicator"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/wg-quick@wg-monitoring.service"
 target = "/usr/lib/systemd/system/wg-quick@.service"
+
+# enable peers to talk to each other over the monitoring network
+[[file]]
+path    = "/etc/ferm.d/forwarding-wg-monitoring"
+content = '''
+  interface wg-monitoring outerface wg-monitoring ACCEPT;
+'''
 
 ################################################################################
 # Prometheus collector server (stores all metrics, but with very short retention)
