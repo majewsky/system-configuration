@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.24.1"
+version     = "1.24.2"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -259,7 +259,7 @@ content = '''
 [[user]]
 name  = "backup"
 group = "git"
-groups = ["prosody", "synapse", "grafana"]
+groups = ["prosody", "synapse"]
 home  = "/var/lib/backupuser"
 
 [[file]]
@@ -398,25 +398,3 @@ target = "/usr/bin/replicator"
 [[symlink]]
 path   = "/etc/systemd/system/multi-user.target.wants/hookserve.service"
 target = "/usr/lib/systemd/system/hookserve.service"
-
-################################################################################
-# web services: blog.bethselamin.de
-
-[[file]]
-path    = "/etc/nginx/sites-enabled/blog-bethselamin-de.conf"
-content = '''
-    server {
-        server_name blog.bethselamin.de;
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header  Content-Security-Policy "default-src 'self'" always;
-
-        ssl_certificate     /etc/letsencrypt/live/blog.bethselamin.de/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/blog.bethselamin.de/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/blog.bethselamin.de/chain.pem;
-
-        location / {
-            return 301 https://xyrillian.de/thoughts$request_uri;
-        }
-    }
-'''

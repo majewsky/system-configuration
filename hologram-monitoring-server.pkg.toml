@@ -1,12 +1,11 @@
 [package]
 name        = "hologram-monitoring-server"
-version     = "1.1.1"
-description = "hologram: monitoring server using Prometheus, Grafana"
+version     = "1.1.2"
+description = "hologram: monitoring server using Prometheus"
 
 requires = [
   'hologram-monitoring-agents',
   'hologram-nginx',
-  'grafana',
   'prometheus',
   'wireguard-dkms',
   'wireguard-tools',
@@ -25,7 +24,7 @@ path   = "/usr/share/holo/files/20-monitoring-server/etc/ferm.d/incoming-wiregua
 target = "/usr/bin/replicator"
 
 ################################################################################
-# private network for metric collection/Grafana access
+# private network for metric collection
 
 [[file]]
 path = "/etc/wireguard/wg-monitoring.conf"
@@ -155,45 +154,3 @@ target = "/usr/bin/replicator"
 [[symlink]]
 path   = "/etc/systemd/system/prometheus.service"
 target = "/dev/null"
-
-################################################################################
-# Grafana dashboard
-
-[[file]]
-path        = "/usr/share/holo/files/20-monitoring-server/etc/grafana.ini"
-contentFrom = "src/grafana.ini"
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server/etc/grafana.ini.holoscript"
-target = "/usr/bin/replicator"
-
-[[symlink]]
-path = "/etc/systemd/system/multi-user.target.wants/grafana.service"
-target = "/usr/lib/systemd/system/grafana.service"
-
-[[directory]]
-path  = "/data/grafana"
-mode  = "0770"
-owner = "grafana"
-group = "grafana"
-
-[[file]]
-path    = "/etc/nginx/sites-enabled/grafana.conf"
-content = '''
-    server {
-        server_name {{.Vars.grafana.domain}};
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header  Content-Security-Policy "default-src 'self' 'unsafe-eval' 'unsafe-inline'" always;
-
-        ssl_certificate     /etc/letsencrypt/live/{{.Vars.grafana.domain}}/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/{{.Vars.grafana.domain}}/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/{{.Vars.grafana.domain}}/chain.pem;
-
-        location / {
-            proxy_pass http://localhost:{{.Vars.grafana.internalPort}};
-        }
-    }
-'''
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server/etc/nginx/sites-enabled/grafana.conf.holoscript"
-target = "/usr/bin/replicator"
