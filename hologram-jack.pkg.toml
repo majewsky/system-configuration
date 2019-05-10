@@ -1,11 +1,12 @@
 [package]
 name        = "hologram-jack"
-version     = "0.1.0"
+version     = "0.1.1"
 description = "hologram: JACK audio server in addition to PulseAudio"
 
 requires = [
   "cadence",
   "jack2-dbus",
+  "lib32-jack2",
   "pulseaudio-jack",
   "realtime-privileges",
 ]
