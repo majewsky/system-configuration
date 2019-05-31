@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-borgbackup-receiver"
-version     = "0.1.0"
+version     = "1.0.0"
 description = "hologram: backup server using Borg"
 
 requires = [
@@ -44,7 +44,10 @@ group = "borgrecv"
 mode  = "0600"
 content = '''
   {{- range $hostname, $sshkey := .Vars.borgrecv.keys }}
-  command="borg serve --restrict-to-path /var/lib/borgrecv/repo/{{ $hostname }}",restrict {{ $sshkey }}
+  command="borg serve --restrict-to-path /var/lib/borgrecv/repo/{{ $hostname }} --append-only",restrict {{ $sshkey }}
+  {{- end }}
+  {{- range .Vars.borgrecv.superkeys }}
+  command="borg serve --append-only",restrict {{ . }}
   {{- end }}
 '''
 [[symlink]]
