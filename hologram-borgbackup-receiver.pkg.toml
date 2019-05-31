@@ -1,0 +1,52 @@
+[package]
+name        = "hologram-borgbackup-receiver"
+version     = "0.1.0"
+description = "hologram: backup server using Borg"
+
+requires = [
+  "borg",
+  "secrets", # this uses /usr/bin/replicator
+]
+
+[[group]]
+name   = "borgrecv"
+system = true
+
+[[user]]
+name    = "borgrecv"
+system  = true
+comment = "Borg Backup Receiver"
+group   = "borgrecv"
+home    = "/var/lib/borgrecv"
+
+[[action]]
+on = "setup"
+script = """
+  echo 'When adding a client, you must `borg init /var/lib/borgrecv/repo/$CLIENT` manually.'
+"""
+
+[[directory]]
+path  = "/var/lib/borgrecv"
+owner = "borgrecv"
+group = "borgrecv"
+mode  = "0700"
+
+[[directory]]
+path  = "/var/lib/borgrecv/.ssh"
+owner = "borgrecv"
+group = "borgrecv"
+mode  = "0700"
+
+[[file]]
+path  = "/var/lib/borgrecv/.ssh/authorized_keys"
+owner = "borgrecv"
+group = "borgrecv"
+mode  = "0600"
+content = '''
+  {{- range $hostname, $sshkey := .Vars.borgrecv.keys }}
+  command="borg serve --restrict-to-path /var/lib/borgrecv/repo/{{ $hostname }}",restrict {{ $sshkey }}
+  {{- end }}
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-borgbackup-receiver/var/lib/borgrecv/.ssh/authorized_keys.holoscript"
+target = "/usr/bin/replicator"
