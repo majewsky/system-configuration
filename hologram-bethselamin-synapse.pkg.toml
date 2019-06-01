@@ -1,22 +1,8 @@
 [package]
 name        = "hologram-bethselamin-synapse"
-version     = "1.1.0"
+version     = "1.2.0"
 description = "hologram: Matrix Synapse server on Bethselamin"
-requires    = [ "matrix-synapse" ]
-
-[[action]]
-on     = "setup"
-script = '''
-  if [ ! -f /var/lib/synapse/dhparam.pem ]; then
-    echo Generating /var/lib/synapse/dhparam.pem...
-    openssl dhparam -out /var/lib/synapse/dhparam.pem 2048
-  fi
-
-  if [ ! -f /data/synapse/signing.key ]; then
-    echo Generating /data/synapse/signing.key...
-    /usr/lib/synapse/make_signing_key > /data/synapse/signing.key
-  fi
-'''
+requires    = []
 
 [[action]]
 on     = "cleanup"
@@ -30,179 +16,6 @@ mode  = "0770"
 owner = "synapse"
 group = "synapse"
 
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/synapse.service"
-target = "/usr/lib/systemd/system/synapse.service"
-
-# open port when using hologram-ferm
-[[file]]
-path = "/etc/ferm.d/incoming-matrix-federation"
-content = "proto tcp dport 8448 ACCEPT;"
-
-################################################################################
-# synapse configuration
-
-[[file]]
-path    = "/etc/synapse/homeserver.yaml"
-content = '''
-  tls_certificate_path: "/var/lib/synapse/cert.pem"
-  tls_private_key_path: "/var/lib/synapse/key.pem"
-  tls_dh_params_path:   "/var/lib/synapse/dhparam.pem"
-  no_tls: false
-  tls_fingerprints: []
-
-  server_name: "bethselamin.de"
-  pid_file: /var/lib/synapse/homeserver.pid
-  web_client: False
-
-  soft_file_limit: 0 # equal to hard limit
-  event_cache_size: "10K"
-
-  listeners:
-    - port: 8448
-      bind_addresses: [ '::' ]
-      type: http
-      tls: true
-      x_forwarded: false
-      resources:
-        - names: [client]
-          compress: true
-        - names: [federation]
-          compress: false
-    - port: 8008
-      bind_addresses: [ '127.0.0.1' ]
-      type: http
-      tls: false
-      x_forwarded: true
-      resources:
-        - names: [client]
-          compress: true
-        - names: [federation]
-          compress: false
-
-  database:
-    name: "sqlite3"
-    args:
-      database: "/data/synapse/homeserver.db"
-
-  # logging
-  verbose: 0
-  log_file: "/var/lib/synapse/homeserver.log"
-  log_config: "/etc/synapse/log_config.yaml"
-
-  # rate limiting
-  rc_messages_per_second: 0.2
-  rc_message_burst_count: 10.0
-  federation_rc_window_size: 1000
-  federation_rc_sleep_limit: 10
-  federation_rc_sleep_delay: 500
-  federation_rc_reject_limit: 50
-  federation_rc_concurrent: 3
-
-  # upload path
-  media_store_path: "/data/synapse/media_store"
-  uploads_path: "/data/synapse/uploads"
-  max_upload_size: "10M"
-  max_image_pixels: "32M"
-
-  dynamic_thumbnails: false
-  thumbnail_sizes:
-  - width: 32
-    height: 32
-    method: crop
-  - width: 96
-    height: 96
-    method: crop
-  - width: 320
-    height: 240
-    method: scale
-  - width: 640
-    height: 480
-    method: scale
-  - width: 800
-    height: 600
-    method: scale
-
-  url_preview_enabled: False
-  url_preview_ip_range_blacklist: []
-  url_preview_ip_range_whitelist: []
-  url_preview_url_blacklist: []
-  max_spider_size: "10M"
-
-  # TURN
-  turn_uris: []
-  turn_shared_secret: "UNUSED"
-  turn_user_lifetime: "1h"
-
-  # registration
-  enable_registration: False
-  registration_shared_secret: "UNUSED"
-  bcrypt_rounds: 12
-
-  # guest access
-  allow_guest_access: False
-  trusted_third_party_id_servers:
-      - matrix.org
-      - vector.im
-
-  # metrics
-  enable_metrics: False
-  report_stats: True
-
-  # API
-  room_invite_state_types:
-      - "m.room.join_rules"
-      - "m.room.canonical_alias"
-      - "m.room.avatar"
-      - "m.room.name"
-  app_service_config_files: []
-  macaroon_secret_key: "%MACAROON_SECRET_KEY%"
-  expire_access_token: False
-
-  # signing
-  signing_key_path: "/data/synapse/signing.key"
-  old_signing_keys: {}
-  key_refresh_interval: "1d"
-  perspectives:
-    servers:
-      "matrix.org":
-        verify_keys:
-          "ed25519:auto":
-            key: "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw"
-
-  password_config:
-     enabled: true
-'''
-
-[[file]]
-path    =  "/usr/share/holo/files/50-bethselamin-vars/etc/synapse/homeserver.yaml.holoscript"
-mode    = "0755"
-content = '''
-  #!/bin/sh
-  set -euo pipefail
-  if [ ! -f /var/lib/synapse/macaroon-secret ]; then
-    echo Generating /var/lib/synapse/macaroon-secret... >&2
-    pwgen -s 50 1 > /var/lib/synapse/macaroon-secret
-  fi
-  sed 's/%MACAROON_SECRET_KEY%/'"$(cat /var/lib/synapse/macaroon-secret)"'/'
-'''
-
-[[file]]
-path    = "/usr/lib/synapse/make_signing_key"
-mode    = "0755"
-content = '''
-  #!/usr/bin/env python2
-  import sys
-  from synapse.util.stringutils import random_string
-  from signedjson.key import (generate_signing_key, write_signing_keys)
-
-  key_id = "a_" + random_string(4)
-  write_signing_keys(sys.stdout, (generate_signing_key(key_id),),)
-'''
-
-################################################################################
-# nginx reverse-proxy
-
 [[file]]
 path    = "/etc/nginx/sites-enabled/synapse.conf"
 content = '''
@@ -210,28 +23,18 @@ content = '''
         server_name bethselamin.de;
         include     /etc/nginx/server-baseline-https.inc;
 
-        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
-
         ssl_certificate     /etc/letsencrypt/live/bethselamin.de/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/bethselamin.de/privkey.pem;
         ssl_trusted_certificate /etc/letsencrypt/live/bethselamin.de/chain.pem;
 
-        location /_matrix {
-            proxy_pass http://127.0.0.1:8008;
+        location /.well-known/matrix/server {
+            add_header Content-Type application/json;
+            return 200 '{"m.server":"bet.of.xyrillian.de:443"}';
+        }
+        location /.well-known/matrix/client {
+            add_header Content-Type application/json;
+            add_header Access-Control-Allow-Origin *;
+            return 200 '{"m.homeserver":{"base_url":"https://bet.of.xyrillian.de"},"m.identity_server":{"base_url":"https://vector.im"}}';
         }
     }
-'''
-
-# The nginx config ensures that letsencrypt-allofthem picks up on the domain name,
-# so we don't need a separate collector for that. But I move the certificates
-# from /etc/letsencrypt into /var/lib/synapse so that if Synapse is
-# compromised, attackers can only get the TLS key for that service, not for
-# other services running on the same host.
-[[file]]
-path    = "/etc/letsencrypt-allofthem/then/synapse.sh"
-mode    = "0755"
-content = '''
-  #!/bin/sh
-  cp /etc/letsencrypt/live/bethselamin.de/fullchain.pem /var/lib/synapse/cert.pem
-  cp /etc/letsencrypt/live/bethselamin.de/privkey.pem   /var/lib/synapse/key.pem
 '''
