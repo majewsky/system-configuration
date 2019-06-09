@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.25.0"
+version     = "1.26.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -8,15 +8,12 @@ requires = [
     "hologram-base-hetzner",
     "hologram-automation",
     "hologram-ferm",
-    "hologram-murmur",
     "hologram-monitoring-server",
     "hologram-consul",
     "linux-headers", # for wireguard-dkms
     "grub",
     # web services
     "hologram-nginx",
-    "gitea",
-    "sqlite", # for gitea
     "hookserve",
     "vt6-website-build",
 ]
@@ -54,216 +51,6 @@ content = """
 [[symlink]]
 path   = "/usr/share/holo/files/50-bethselamin-vars/etc/systemd/network/50-hetzner.network.holoscript"
 target = "/usr/bin/replicator"
-
-################################################################################
-# web services: gitea
-
-[[user]]
-name = "git"
-# user git already comes from the git package, but with home = "/"
-home = "/home/git"
-
-[[directory]]
-path  = "/home/git"
-mode  = "0700"
-owner = "git"
-group = "git"
-
-[[file]]
-path    = "/usr/share/holo/files/50-bethselamin/etc/gitea/app.ini"
-content = '''
-    APP_NAME = Bethselamin
-    RUN_USER = git
-    RUN_MODE = prod
-
-    [markdown]
-    FILE_EXTENSIONS = .md,.markdown,.mdown,.mkd
-
-    [repository]
-    ROOT        = /data/gitea/repo
-    SCRIPT_TYPE = bash
-    MIRROR_QUEUE_LENGTH = 1000
-    PULL_REQUEST_QUEUE_LENGTH = 1000
-
-    [repository.editor]
-    LINE_WRAP_EXTENSIONS = .txt,.md,.markdown,.mdown,.mkd,
-    PREVIEWABLE_FILE_MODES = markdown
-
-    [repository.upload]
-    ENABLED = false
-
-    [server]
-    PROTOCOL   = http
-    DOMAIN     = git.bethselamin.de
-    ROOT_URL   = https://git.bethselamin.de/
-    HTTP_ADDR  =
-    HTTP_PORT  = 3000
-    SSH_DOMAIN = git.bethselamin.de
-    SSH_PORT   = 22
-    SSH_LISTEN_PORT  = 22
-    APP_DATA_PATH    = /data/gitea
-
-    [ssh.minimum_key_sizes]
-    ; reject insecure keys
-    DSA     = -1
-    ECDSA   = -1
-    ED25519 = 256
-    RSA     = 4096
-
-    [database]
-    DB_TYPE = sqlite3
-    PATH    = /data/gitea/sqlite.db
-
-    [security]
-    INSTALL_LOCK         = true
-    SECRET_KEY           = %SECRET%
-    LOGIN_REMEMBER_DAYS  = 1
-    COOKIE_USERNAME      = gitea_user
-    COOKIE_REMEMBER_NAME = gitea_remember
-    INTERNAL_TOKEN       = %INTERNAL_TOKEN%
-
-    [service]
-    DISABLE_REGISTRATION = true
-    REQUIRE_SIGNIN_VIEW  = true
-    ENABLE_NOTIFY_MAIL   = false
-
-    [mailer]
-    ENABLED = false
-
-    [cache]
-    ADAPTER = memory
-
-    [session]
-    PROVIDER = memory
-
-    [picture]
-    AVATAR_UPLOAD_PATH = /data/gitea/avatars
-    DISABLE_GRAVATAR = true
-
-    [attachment]
-    ENABLE = true
-    PATH = /data/gitea/attachments
-    ALLOWED_TYPES = image/jpeg|image/png
-
-    [log]
-    ; this should not be required with MODE=console, but is needed apparently because Gogs is stupid enough to choose /usr/share/gogs/log without hand-holding
-    ROOT_PATH = /var/log/gitea
-    MODE = console
-    LEVEL = Info
-
-    [cron]
-    ENABLED = true
-    RUN_AT_START = false
-
-    [cron.update_mirrors]
-    SCHEDULE = @every 1h
-
-    [cron.repo_health_check]
-    SCHEDULE = @every 24h
-    TIMEOUT = 60s
-
-    [cron.check_repo_stats]
-    RUN_AT_START = true
-    SCHEDULE = @every 24h
-
-    [git]
-    MAX_GIT_DIFF_LINES = 10000
-    MAX_GIT_DIFF_LINE_CHARACTERS = 500
-    MAX_GIT_DIFF_FILES = 100
-
-    [git.timeout]
-    MIGRATE = 600
-    MIRROR  = 300
-    CLONE   = 300
-    PULL    = 300
-
-    [i18n]
-    LANGS = en-US,de-DE
-    NAMES = English,Deutsch
-
-    [i18n.datelang]
-    en-US = en
-    de-DE = de
-
-    [other]
-    SHOW_FOOTER_BRANDING = false
-    SHOW_FOOTER_VERSION  = false
-
-    [api]
-    MAX_RESPONSE_ITEMS = 50
-'''
-
-[[file]]
-path    = "/usr/share/holo/files/50-bethselamin/etc/gitea/app.ini.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    set -e
-    mkdir -p /var/lib/gitea
-    test -f /var/lib/gitea/internal-token || touch /var/lib/gitea/internal-token
-    test -f /var/lib/gitea/secret || pwgen 20 1 > /var/lib/gitea/secret
-    sed s/%SECRET%/"$(cat /var/lib/gitea/secret)"/\;s/%INTERNAL_TOKEN%/"$(cat /var/lib/gitea/internal-token)"/
-'''
-
-[[directory]]
-path  = "/data/gitea"
-owner = "git"
-group = "git"
-mode  = "0770" # group-readable for backup user
-
-[[file]]
-path    = "/usr/share/holo/files/50-bethselamin/usr/lib/systemd/system/gitea.service.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    sed '
-        s+/var/lib/gitea+/data/gitea+g;
-        /ReadWritePaths/s+$+ /data/gitea+g;
-        /StateDirectory/d;
-    '
-'''
-
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/gitea.service"
-target = "/usr/lib/systemd/system/gitea.service"
-
-[[file]]
-path    = "/etc/nginx/sites-enabled/gitea.conf"
-content = '''
-    server {
-        server_name git.bethselamin.de;
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header  Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'" always; # Gitea uses inline CSS
-
-        ssl_certificate     /etc/letsencrypt/live/git.bethselamin.de/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/git.bethselamin.de/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/git.bethselamin.de/chain.pem;
-
-        client_max_body_size 10m;
-
-        location / {
-            proxy_pass http://localhost:3000;
-        }
-    }
-'''
-
-################################################################################
-# backup for /data
-
-# TODO: move /var/lib/prosody to /data to be included in backup
-
-[[user]]
-name  = "backup"
-group = "git"
-groups = ["prosody", "synapse"]
-home  = "/var/lib/backupuser"
-
-[[file]]
-path    = "/usr/share/holo/ssh-keys/backup/damogran.pub"
-content = """
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIG9MGVFKSc73k4RF3eyYPojbRIdGcPQLgN1t0NcWW4iXpzyBSevE/C4YUpjgxghZmO1VtQa0VQPFy3TDCUUMp8MKVI/WmmFQprVtwAMVGUDpNt7TEcBZXzTCA+GiSMhcA4y3xme5BJy0r9oKtmQAhVIQKO0jYye4cdPVsYmRVMZba4JWlNVJZRIMVjwg98NdvLbqjVgph+es5EYh8uluvCzDvoC1RuTNljAVyUjmdOHe3nWBE3N4EMCnp/XnYigtbcwSpSq2oJ2Yu1B9E5sk3rjgDv5inmF3eykLLDkE85fusvRAcHkirbKQuUg2x0vm8FHy3U1TnX3wizdfIBE8bkpJAMcEBoY8cIEL45od+7lS3R4S3KOwWwzE5reYv4WjPcGbNuYls9sHS72wDDNr3N6SgTTDJJRWRfo3QiVZV8DYaHVOJJYAGL6OUfRAAT3+1QGY5x8zQeVayjeqAQ89ukyRtkgYECyHZYVDkmqw+t/OwElyHNuWm6tn1s/TGVdd9XBrrHwwxPY+DuquND7zaqkDSc491DsCE/7LT81DOfzcpraZAE9RBB2P05FpbvOLHXxhiCigTBKmo5GZ1WUEesYj9X/RTA6rPB5NlOw8BxU8EIfQI1/KfumNSIR02GhueG7t0647GekUARlwpk/YMNftRpqjlPRCRoTNxvDRh/Q== bethselaminbackup@damogran
-"""
 
 ################################################################################
 # web services: vt6.io
