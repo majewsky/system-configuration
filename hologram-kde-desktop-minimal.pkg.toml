@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-kde-desktop-minimal"
-version     = "1.1.2"
+version     = "1.1.3"
 description = "hologram: GUI installation with KDE Plasma desktop (variant for space-constrained systems)"
 
 requires = [
@@ -8,7 +8,7 @@ requires = [
     # display manager
     "sddm",
     # desktop
-    "group:plasma", "except:bluedevil", "except:plasma-nm", "except:ksshaskpass", "except:powerdevil",
+    "group:plasma", "except:bluedevil", "except:plasma-nm", "except:ksshaskpass", "except:powerdevil", "except:plasma-vault",
     "except:breeze-gtk", # hilariously broken with GTK 3.20 ATM
     "gst-plugins-good",  # optional: for WebM support in qt5-webkit
     # KDE 5 applications
