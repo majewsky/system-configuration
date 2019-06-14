@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.26.0"
+version     = "1.27.0"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -12,10 +12,6 @@ requires = [
     "hologram-consul",
     "linux-headers", # for wireguard-dkms
     "grub",
-    # web services
-    "hologram-nginx",
-    "hookserve",
-    "vt6-website-build",
 ]
 
 ################################################################################
@@ -51,122 +47,3 @@ content = """
 [[symlink]]
 path   = "/usr/share/holo/files/50-bethselamin-vars/etc/systemd/network/50-hetzner.network.holoscript"
 target = "/usr/bin/replicator"
-
-################################################################################
-# web services: vt6.io
-
-[[user]]
-name   = "blog"
-group  = "nobody"
-home   = "/data/vt6"
-system = true
-
-[[directory]]
-path  = "/data/vt6"
-owner = "blog"
-group = "nobody"
-
-[[directory]]
-path  = "/data/vt6/output"
-owner = "blog"
-group = "nobody"
-
-[[symlink]]
-path   = "/data/static-web/vt6.io"
-target = "/data/vt6/output"
-
-[[file]]
-path    = "/usr/lib/vt6-update.sh"
-mode    = "0755"
-content = '''
-    #!/bin/bash
-    set -euo pipefail
-    cd /data/vt6
-    if [ -d data ]; then
-        git -C data pull -q origin master
-    else
-        git clone https://github.com/vt6/vt6 data
-    fi
-    git -C /data/vt6/data clean -dxf .
-    rm -rf -- /data/vt6/output.tmp/
-    vt6-website-build /data/vt6/data /data/vt6/output.tmp
-    rsync -au --delete-delay /data/vt6/output.tmp/ /data/vt6/output/
-'''
-
-[[file]]
-path = "/usr/lib/systemd/system/vt6-update.service"
-content = '''
-    [Unit]
-    Description=Update vt6.io
-
-    [Service]
-    Type=oneshot
-    # note: need to drop privileges with sudo(1) because with-xmpp-bridge(1) requires root privileges to load credentials
-    ExecStart=/usr/bin/with-xmpp-bridge sudo -u blog -g nobody /usr/lib/vt6-update.sh
-'''
-
-[[file]]
-path    = "/etc/nginx/sites-enabled/www-vt6-io.conf"
-content = '''
-    server {
-        server_name www.vt6.io;
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header  Content-Security-Policy "default-src 'self'" always;
-
-        ssl_certificate     /etc/letsencrypt/live/www.vt6.io/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/www.vt6.io/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/www.vt6.io/chain.pem;
-
-        location / {
-            return 301 https://vt6.io$request_uri;
-        }
-    }
-'''
-
-################################################################################
-# web services: hook.bethselamin.de
-
-[[file]]
-path    = "/etc/nginx/sites-enabled/hook.conf"
-content = '''
-    server {
-        server_name hook.bethselamin.de;
-        include     /etc/nginx/server-baseline-https.inc;
-
-        add_header  Content-Security-Policy "default-src 'self' 'unsafe-inline'" always; # unsafe-inline for <style> tag to work
-
-        ssl_certificate     /etc/letsencrypt/live/hook.bethselamin.de/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/hook.bethselamin.de/privkey.pem;
-        ssl_trusted_certificate /etc/letsencrypt/live/hook.bethselamin.de/chain.pem;
-
-        location / {
-            proxy_pass http://localhost:8114;
-        }
-    }
-'''
-
-[[file]]
-path = "/usr/lib/bethselamin/hookserve.sh"
-mode = "0755"
-contentFrom = "src/bethselamin-hookserve.sh"
-
-[[file]]
-path    = "/usr/lib/systemd/system/hookserve.service"
-content = '''
-    [Unit]
-    Description=React to Github events pushed to hook.bethselamin.de
-
-    [Service]
-    ExecStart=/usr/bin/hookserve --port=8114 --secret={{.Vars.hookserve.secret}} /usr/lib/bethselamin/hookserve.sh
-
-    [Install]
-    WantedBy=multi-user.target
-'''
-[[symlink]]
-path   = "/usr/share/holo/files/50-bethselamin-vars/usr/lib/systemd/system/hookserve.service.holoscript"
-target = "/usr/bin/replicator"
-
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/hookserve.service"
-target = "/usr/lib/systemd/system/hookserve.service"
