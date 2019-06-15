@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-bethselamin"
-version     = "1.27.0"
+version     = "1.27.1"
 description = "holodeck: services on Bethselamin"
 
 requires = [
@@ -8,7 +8,7 @@ requires = [
     "hologram-base-hetzner",
     "hologram-automation",
     "hologram-ferm",
-    "hologram-monitoring-server",
+    "hologram-monitoring-client",
     "hologram-consul",
     "linux-headers", # for wireguard-dkms
     "grub",
