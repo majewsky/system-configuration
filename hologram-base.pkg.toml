@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20190227.1"
+version = "20190615.1"
 description = "hologram: base installation"
 
 requires = [
@@ -89,7 +89,7 @@ target = "/usr/share/zoneinfo/Europe/Berlin"
 [[file]]
 path    = "/etc/vconsole.conf"
 content = """
-    KEYMAP=de-latin1-nodeadkeys
+    KEYMAP=us
 """
 
 # filesystem

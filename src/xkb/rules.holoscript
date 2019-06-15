@@ -1,3 +1,0 @@
-#!/bin/sed -f
-/^!\s*option\s*=\s*symbols\s*$/a\
-  stefan:map = +stefan(map)

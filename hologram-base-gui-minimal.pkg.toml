@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.1.7"
+version     = "1.2.0"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -36,43 +36,7 @@ requires = [
     "ttf-liberation",
 ]
 
-# install a custom X11 keymap addon (see comments in src/xkb/symbols.txt)
-
-[[file]]
-path = "/usr/share/X11/xkb/symbols/stefan"
-contentFrom = "src/xkb/symbols.txt"
-
-[[file]]
-path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/base.holoscript"
-mode = "0755"
-contentFrom = "src/xkb/rules.holoscript"
-
-[[file]]
-path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/base.lst.holoscript"
-mode = "0755"
-contentFrom = "src/xkb/rules.lst.holoscript"
-
-[[file]]
-path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/base.xml.holoscript"
-mode = "0755"
-contentFrom = "src/xkb/rules.xml.holoscript"
-
-[[file]]
-path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.holoscript"
-mode = "0755"
-contentFrom = "src/xkb/rules.holoscript"
-
-[[file]]
-path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.lst.holoscript"
-mode = "0755"
-contentFrom = "src/xkb/rules.lst.holoscript"
-
-[[file]]
-path = "/usr/share/holo/files/00-base/usr/share/X11/xkb/rules/evdev.xml.holoscript"
-mode = "0755"
-contentFrom = "src/xkb/rules.xml.holoscript"
-
-# instruct XKB to use this custom keymap
+# set keymap for XKB
 
 [[file]]
 path = "/etc/X11/xorg.conf.d/keyboard.conf"
@@ -80,18 +44,18 @@ content = '''
     Section "InputClass"
         Identifier "system-keyboard"
         MatchIsKeyboard "on"
-        Option "XkbLayout" "de"
-        Option "XkbVariant" "nodeadkeys"
-        Option "XkbOptions" "caps:escape,stefan:map"
+        Option "XkbLayout" "en"
+        Option "XkbVariant" "altgr-intl"
+        Option "XkbOptions" "caps:escape"
     EndSection
 '''
 
 [[file]]
 path = "/etc/profile.d/xkb.sh"
 content = '''
-    export XKB_DEFAULT_LAYOUT=de
-    export XKB_DEFAULT_VARIANT=nodeadkeys
-    export XKB_DEFAULT_OPTIONS=caps:escape,stefan:map
+    export XKB_DEFAULT_LAYOUT=en
+    export XKB_DEFAULT_VARIANT=altgr-intl
+    export XKB_DEFAULT_OPTIONS=caps:escape
 '''
 
 [[file]]

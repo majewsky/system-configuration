@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20190208.1"
+version     = "20190615.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -77,31 +77,6 @@ content = """
 [[file]]
 path    = "/etc/modprobe.d/sdhci.conf"
 content = 'options sdhci debug_quirks2="0x8000"'
-
-# English keyboard layout
-[[file]]
-path    = "/usr/share/holo/files/50-traal/etc/vconsole.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    sed 's/KEYMAP=.*/KEYMAP=us/'
-'''
-
-[[file]]
-path    = "/usr/share/holo/files/50-traal/etc/X11/xorg.conf.d/keyboard.conf.holoscript"
-mode    = "0755"
-content = """
-    #!/bin/sh
-    sed '/XkbLayout/s/de/en/;/XkbVariant/s/nodeadkeys/altgr-intl/'
-"""
-
-[[file]]
-path    = "/usr/share/holo/files/50-traal/etc/profile.d/xkb.sh.holoscript"
-mode    = "0755"
-content = """
-    #!/bin/sh
-    sed '/LAYOUT/s/de/en/;/VARIANT/s/nodeadkeys/altgr-intl/'
-"""
 
 # Xorg: enable palm detection on touchpad, enable tapping, disable coasting
 [[file]]
