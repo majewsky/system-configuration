@@ -1,11 +1,10 @@
 [package]
 name        = "hologram-monitoring-server"
-version     = "1.1.3"
-description = "hologram: monitoring server using Prometheus"
+version     = "1.2.0"
+description = "hologram: VPN server for monitoring"
 
 requires = [
   'hologram-monitoring-agents',
-  'prometheus',
   'wireguard-dkms',
   'wireguard-tools',
 ]
@@ -58,98 +57,3 @@ path    = "/etc/ferm.d/forwarding-wg-monitoring"
 content = '''
   interface wg-monitoring outerface wg-monitoring ACCEPT;
 '''
-
-################################################################################
-# Prometheus collector server (stores all metrics, but with very short retention)
-
-[[directory]]
-path  = "/var/lib/prometheus-collector"
-owner = "prometheus"
-group = "prometheus"
-
-[[file]]
-path        = "/etc/prometheus/prometheus-collector.yml"
-contentFrom = "src/prometheus-collector.yaml"
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server/etc/prometheus/prometheus-collector.yml.holoscript"
-target = "/usr/bin/replicator"
-
-[[file]]
-path    = "/usr/lib/systemd/system/prometheus-collector.service"
-content = '''
-  [Unit]
-  Description=Prometheus service
-  After=network.target
-
-  [Service]
-  User=prometheus
-  Group=prometheus
-  ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus-collector.yml  --storage.tsdb.path=/var/lib/prometheus-collector/data --web.listen-address=:{{.Vars.prometheus.collector_http_port}} --storage.tsdb.retention=2h
-  ExecReload=/bin/kill -HUP $MAINPID
-
-  [Install]
-  WantedBy=multi-user.target
-'''
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server//usr/lib/systemd/system/prometheus-collector.service.holoscript"
-target = "/usr/bin/replicator"
-
-[[symlink]]
-path = "/etc/systemd/system/multi-user.target.wants/prometheus-collector.service"
-target = "/usr/lib/systemd/system/prometheus-collector.service"
-
-################################################################################
-# Prometheus frontend server (long retention, but stores only very few metrics)
-
-[[directory]]
-path  = "/var/lib/prometheus-frontend"
-owner = "prometheus"
-group = "prometheus"
-
-[[file]]
-path        = "/etc/prometheus/prometheus-frontend.yml"
-contentFrom = "src/prometheus-frontend.yaml"
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server/etc/prometheus/prometheus-frontend.yml.holoscript"
-target = "/usr/bin/replicator"
-
-[[file]]
-path    = "/usr/lib/systemd/system/prometheus-frontend.service"
-content = '''
-  [Unit]
-  Description=Prometheus service
-  After=network.target
-
-  [Service]
-  User=prometheus
-  Group=prometheus
-  ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus-frontend.yml  --storage.tsdb.path=/var/lib/prometheus-frontend/data --web.listen-address=:{{.Vars.prometheus.frontend_http_port}} --storage.tsdb.retention=60d
-  ExecReload=/bin/kill -HUP $MAINPID
-
-  [Install]
-  WantedBy=multi-user.target
-'''
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server//usr/lib/systemd/system/prometheus-frontend.service.holoscript"
-target = "/usr/bin/replicator"
-
-[[symlink]]
-path = "/etc/systemd/system/multi-user.target.wants/prometheus-frontend.service"
-target = "/usr/lib/systemd/system/prometheus-frontend.service"
-
-################################################################################
-# allow access to Prometheus only from private network
-
-[[file]]
-path    = "/etc/ferm.d/incoming-prometheus"
-content = "proto tcp dport ({{.Vars.prometheus.collector_http_port}} {{.Vars.prometheus.frontend_http_port}}) interface wg-monitoring ACCEPT;"
-[[symlink]]
-path   = "/usr/share/holo/files/20-monitoring-server/etc/ferm.d/incoming-prometheus.holoscript"
-target = "/usr/bin/replicator"
-
-################################################################################
-# ensure that prometheus.service unit (provided by prometheus package) does not get started by accident
-
-[[symlink]]
-path   = "/etc/systemd/system/prometheus.service"
-target = "/dev/null"
