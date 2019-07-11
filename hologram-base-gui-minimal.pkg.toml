@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.2.0"
+version     = "1.2.1"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -29,10 +29,10 @@ requires = [
     "adobe-source-code-pro-fonts",
     "adobe-source-sans-pro-fonts",
     "adobe-source-serif-pro-fonts",
+    "gnu-free-fonts",
     "ttf-bitstream-vera",
     "ttf-dejavu",
     "ttf-droid",
-    "ttf-freefont",
     "ttf-liberation",
 ]
 
