@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.2.1"
+version     = "0.2.2"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -9,6 +9,11 @@ requires = [
   "dmenu", # sway.cfg uses dmenu_run
   "sddm",
   "xorg-server-xwayland",
+  # Wayland tools
+  "grab",
+  "ponymix",
+  "slurp",
+  "waybar",
   # selected KDE applications
   "filelight",
   "kcharselect",
@@ -18,6 +23,7 @@ requires = [
   "kruler",
   # platform integration for non-KDE desktop
   "qt5ct",
+  "qt5-wayland",
 ]
 
 [[file]]
