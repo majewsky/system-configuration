@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-damogran-dyndns"
-version     = "3.0.0"
+version     = "3.0.1"
 description = "hologram: DynDNS setup for Damogran (using Gandi API)"
 requires    = [
     "secrets", # this uses /usr/bin/replicator
@@ -15,7 +15,7 @@ content = '''
     #!/bin/sh
     exec \
       sudo -u nobody -g nobody \
-      gad -5 -l 600 -i {{.Vars.interfaces.wan}} -a "{{.Vars.dyndns.api_key}}" -d "{{.Vars.dyndns.domain}}" -r "damogran static" -v
+      gad -5 -l 600 -i {{.Vars.interfaces.wan}} -a "{{.Vars.dyndns.api_key}}" -d "{{.Vars.dyndns.domain}}" -r "damogran" -v
 '''
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/usr/lib/update-gandi-dyndns.holoscript"
