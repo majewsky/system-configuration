@@ -1,15 +1,13 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20190609.1"
+version     = "20190925.1"
 description = "holodeck: services on Damogran"
 
 requires = [
     "secrets", # this uses /usr/bin/replicator
     "hologram-base-accessible",
     "hologram-automation",
-    "hologram-multimedia-base",
     "hologram-damogran-dyndns",
-    "hologram-damogran-audio",
     "hologram-uefi-bootloader",
     "hologram-monitoring-client",
     "hologram-consul",
@@ -19,8 +17,6 @@ requires = [
     "dnsmasq",
     "hostapd",
     "iptables",
-    # public services
-    "hologram-nginx",
 ]
 
 ################################################################################
@@ -159,17 +155,10 @@ content = """
     -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
     -A INPUT -j REJECT --reject-with icmp-proto-unreachable
 
-    # allow public SSH
-    -A TCP -p tcp -m tcp --dport 22 -j ACCEPT
-    # allow public HTTP(S)
-    -A TCP -p tcp -m tcp --dport 80 -j ACCEPT
-    -A TCP -p tcp -m tcp --dport 443 -j ACCEPT
-    # allow intranet PulseAudio
-    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 4713 -j ACCEPT
-    -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 4713 -j ACCEPT
-    # allow intranet MPD
-    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 6600 -j ACCEPT
-    -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 6600 -j ACCEPT
+    # allow SSH via intranet and Wireguard
+    -A TCP -i wg-monitoring -p tcp -m tcp --dport 22 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 22 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 22 -j ACCEPT
     # allow Prometheus scraping via Wireguard
     -A TCP -i wg-monitoring -p tcp -m tcp --dport 9100 -j ACCEPT
     # allow Consul via Wireguard
@@ -181,9 +170,6 @@ content = """
     # allow intranet DHCP
     -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
-    # allow intranet MDNS (for PulseAudio)
-    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 5353 -j ACCEPT
-    -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 5353 -j ACCEPT
     # allow public Wireguard
     -A UDP -p udp -m udp --dport {{.Vars.wg.port}} -j ACCEPT
     # allow Consul via Wireguard
@@ -404,14 +390,3 @@ content = """
 [[symlink]]
 path   = "/etc/systemd/system/timers.target.wants/adblock-sync.timer"
 target = "/usr/lib/systemd/system/adblock-sync.timer"
-
-################################################################################
-# public web server: letsencrypt integration
-
-[[file]]
-path    = "/etc/systemd/system/letsencrypt-allofthem.timer.d/after-dyndns.conf"
-content = """
-    [Unit]
-    After=gandi-dyndns.service
-    Wants=gandi-dyndns.service
-"""
