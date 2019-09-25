@@ -19,7 +19,7 @@ vendor() {
 
 if [ $# -eq 0 ]; then
   # default: vendor all packages
-  for TARGET_DIR in art gandi-automatic-dns indicator-kdeconnect mpv-mpris otf-raleway perl-mp3-tag ripit screen-message ttf-montserrat; do
+  for TARGET_DIR in art indicator-kdeconnect mpv-mpris otf-raleway perl-mp3-tag ripit screen-message ttf-montserrat; do
     vendor "${TARGET_DIR}"
   done
 else
