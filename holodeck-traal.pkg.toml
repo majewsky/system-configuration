@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20191024.1"
+version     = "20191103.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -53,25 +53,6 @@ path    = "/etc/profile.d/prettyprompt.sh"
 content = """
 export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;34'
-"""
-
-# AMD APU requires several kernel parameters to work correctly
-# cf. https://bugs.freedesktop.org/show_bug.cgi?id=111122
-[[file]]
-path    = "/usr/share/holo/files/50-traal/boot/loader/entries/arch.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    sed '/options/s/$/ iommu=pt ivrs_ioapic[32]=00:14.0/'
-'''
-
-# load AMDGPU driver during early boot
-[[file]]
-path    = "/usr/share/holo/files/50-traal/etc/mkinitcpio.conf.holoscript"
-mode    = "0755"
-content = """
-    #!/bin/bash
-    sed 's/^MODULES=.*$/MODULES=(amdgpu sdhci sdhci_pci)/'
 """
 
 # make SD card slot work
