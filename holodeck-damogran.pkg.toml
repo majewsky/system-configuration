@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20190925.1"
+version     = "20191106.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -212,7 +212,7 @@ path   = "/etc/systemd/system/multi-user.target.wants/hostapd.service"
 target = "/usr/lib/systemd/system/hostapd.service"
 
 [[file]]
-path    = "/etc/hostapd/hostapd.conf"
+path    = "/usr/share/holo/files/50-damogran/etc/hostapd/hostapd.conf"
 content = """
     # specify the wireless interface to operate on
     interface={{.Vars.interfaces.wlan}}
