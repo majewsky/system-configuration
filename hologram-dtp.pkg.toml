@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dtp"
-version     = "1.0.2"
+version     = "1.0.3"
 description = "hologram: desktop publishing applications"
 
 requires = [
@@ -8,5 +8,4 @@ requires = [
     "texlive-latexextra",
     "texlive-pictures",
     "texlive-science",
-    "scribus",
 ]

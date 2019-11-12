@@ -1,21 +1,17 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.4.0"
+version     = "1.4.1"
 description = "hologram: compilers and development tools"
 
 requires = [
     "hologram-dev-tools-minimal",
-    "apitrace",
     "arch-install-scripts",
     "cargo",
     "cmake",
     "docker", # NOTE: not enabled (as in "systemctl enable") by default to avoid confusion with networking and stuff
-    "doxygen",
-    "gdb",
     "rust",
     "sassc",
     "sloccount",
-    "valgrind",
     "vt6-website-build",
 ]
 
