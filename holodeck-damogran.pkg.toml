@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20191116.1"
+version     = "20191118.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -37,7 +37,15 @@ export PRETTYPROMPT_HOSTCOLOR='0;35'
 """
 
 ################################################################################
-# allow linux-lts as an alternative kernel choice
+# allow linux-lts as an alternative kernel choice (and use by default)
+
+[[file]]
+path    = "/usr/share/holo/files/50-damogran/boot/loader/loader.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    sed 's/^default arch$/default arch-lts/'
+'''
 
 [[file]]
 path = "/boot/loader/entries/arch-lts.conf"
