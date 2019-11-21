@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20191103.1"
+version     = "20191121.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -10,7 +10,6 @@ requires = [
     "hologram-games",
     "hologram-dtp",
     "hologram-uefi-bootloader-with-luks",
-    "hologram-consul",
     "linux-headers", # for wireguard-dkms
     # basic hardware support
     "hologram-amd-ucode",

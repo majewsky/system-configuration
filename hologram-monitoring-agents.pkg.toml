@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-monitoring-agents"
-version     = "0.2.2"
+version     = "0.2.3"
 description = "hologram: monitoring agents"
 
 requires = [
@@ -35,19 +35,6 @@ content = '''
 [[file]]
 path = "/usr/share/holo/files/20-monitoring-agents/etc/conf.d/prometheus-node-exporter"
 content = 'NODE_EXPORTER_ARGS="--no-collector.wifi"'
-
-[[file]]
-path    = "/etc/consul.d/prometheus-node-exporter.json"
-content = '''
-{
-  "service": {
-    "name": "prometheus-node-exporter",
-    "port": 9100,
-    "tags": [ "prometheus" ],
-    "meta": {}
-  }
-}
-'''
 
 ################################################################################
 # prometheus-minimum-viable-sd announce

@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20191109.1"
+version     = "20191121.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -11,7 +11,6 @@ requires = [
     "hologram-uefi-bootloader-with-luks",
     "hologram-dtp",
     "hologram-monitoring-client",
-    "hologram-consul",
     "linux-headers", # for wireguard-dkms in hologram-monitoring-client
     # support for Intel CPU/GPU
     "hologram-intel-ucode",

@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-krikkit"
-version     = "20181112.1"
+version     = "20191121.1"
 description = "holodeck: services on Krikkit"
 requires    = [
     "hologram-kde-desktop",
@@ -10,7 +10,6 @@ requires    = [
     "hologram-dtp",
     "hologram-uefi-bootloader-with-luks",
     "hologram-monitoring-client",
-    "hologram-consul",
     # hardware support
     "intel-ucode",
     "wpa_supplicant",

@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20191118.1"
+version     = "20191121.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -11,7 +11,6 @@ requires = [
     "hologram-damogran-dyndns",
     "hologram-uefi-bootloader",
     "hologram-monitoring-client",
-    "hologram-consul",
     "hologram-borgbackup-receiver",
     # for wireguard-dkms
     "linux-headers",
@@ -187,8 +186,6 @@ content = """
     -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 22 -j ACCEPT
     # allow Prometheus scraping via Wireguard
     -A TCP -i wg-monitoring -p tcp -m tcp --dport 9100 -j ACCEPT
-    # allow Consul via Wireguard
-    -A TCP -i wg-monitoring -p tcp -m tcp --dport 8300:8302 -j ACCEPT
 
     # allow intranet DNS
     -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 53 -j ACCEPT
@@ -198,8 +195,6 @@ content = """
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
     # allow public Wireguard
     -A UDP -p udp -m udp --dport {{.Vars.wg.port}} -j ACCEPT
-    # allow Consul via Wireguard
-    -A UDP -i wg-monitoring -p udp -m udp --dport 8300:8302 -j ACCEPT
 
 
 
