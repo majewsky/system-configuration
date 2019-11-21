@@ -1,0 +1,13 @@
+pkgbase = prometheus-minimum-viable-sd
+	pkgdesc = Minimum Viable service discovery for Prometheus
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/majewsky/prometheus-minimum-viable-sd
+	arch = x86_64
+	license = GPL3
+	makedepends = go
+	source = https://github.com/majewsky/prometheus-minimum-viable-sd/archive/v1.0.0.tar.gz
+	sha256sums = 20907fad8f5844ea129fa1b6b4c5cac7406d84e2ffae20d7340295305265ba40
+
+pkgname = prometheus-minimum-viable-sd
+

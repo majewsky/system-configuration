@@ -1,0 +1,22 @@
+pkgname=prometheus-minimum-viable-sd
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='Minimum Viable service discovery for Prometheus'
+arch=('x86_64')
+url='https://github.com/majewsky/prometheus-minimum-viable-sd'
+license=('GPL3')
+depends=()
+makedepends=('go')
+source=("${url}/archive/v${pkgver}.tar.gz")
+sha256sums=('20907fad8f5844ea129fa1b6b4c5cac7406d84e2ffae20d7340295305265ba40')
+
+build() {
+  ls "${srcdir}"
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make install DESTDIR="${pkgdir}"
+}

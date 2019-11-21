@@ -1,10 +1,12 @@
 [package]
 name        = "hologram-monitoring-agents"
-version     = "0.1.7"
+version     = "0.2.2"
 description = "hologram: monitoring agents"
 
 requires = [
+  "prometheus-minimum-viable-sd",
   "prometheus-node-exporter",
+  "secrets", # this uses /usr/bin/replicator
 ]
 
 # allow Prometheus access to exporters via private network
@@ -46,3 +48,65 @@ content = '''
   }
 }
 '''
+
+################################################################################
+# prometheus-minimum-viable-sd announce
+
+[[file]]
+path    = "/etc/prometheus/services.json"
+content = '''
+  [
+    {
+      "targets": [ "{{.Vars.prometheus.slash24}}.{{.Vars.host.id}}:9100" ],
+      "labels": {
+        "instance": "{{.Vars.host.name}}",
+        "job": "prometheus-node-exporter"
+      }
+    }
+  ]
+'''
+
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-agents/etc/prometheus/services.json.holoscript"
+target = "/usr/bin/replicator"
+
+[[file]]
+path    = "/usr/lib/systemd/system/prometheus-minimum-viable-sd.service"
+content = '''
+[Unit]
+Description=Minimum Viable service discovery for Prometheus
+
+[Service]
+DynamicUser=yes
+ExecStart=/usr/bin/prometheus-minimum-viable-sd announce /etc/prometheus/services.json {{.Vars.prometheus.sd_address}}
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+Restart=always
+RestartSec=10s
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+SystemCallErrorNumber=EPERM
+SystemCallFilter=@system-service
+
+[Install]
+WantedBy=multi-user.target
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-agents/usr/lib/systemd/system/prometheus-minimum-viable-sd.service.holoscript"
+target = "/usr/bin/replicator"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/prometheus-minimum-viable-sd.service"
+target = "/usr/lib/systemd/system/prometheus-minimum-viable-sd.service"
