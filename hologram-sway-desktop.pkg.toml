@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.3.1"
+version     = "0.3.2"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -12,8 +12,8 @@ requires = [
   "xorg-server-xwayland",
   # Wayland tools
   "grim",
+  "i3status-rust",
   "slurp",
-  "waybar",
   "wl-clipboard",
   # selected KDE applications
   "filelight",
