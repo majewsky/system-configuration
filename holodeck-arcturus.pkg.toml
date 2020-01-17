@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20191121.1"
+version     = "20200117.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -27,6 +27,10 @@ requires = [
     # network setup
     "broadcom-wl", # closed source driver for my Wifi module
     "wpa_supplicant",
+    # scanner setup
+    "sane",
+    "hplip",
+    "gscan2pdf",
     # additional apps
     "kdeconnect",
     "mpd",
@@ -97,3 +101,12 @@ content = """
 [[symlink]]
 path   = "/usr/share/holo/files/50-arcturus-vars/etc/wpa_supplicant/wpa_supplicant-wlp3s0.conf.holoscript"
 target = "/usr/bin/replicator"
+
+# scanner setup: device permissions
+
+[[file]]
+path    = "/etc/udev/rules.d/49-custom-sane.rules"
+content = '''
+    # HP PhotoSmart C3180
+    ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="5611", MODE="0664", GROUP="scanner", ENV{libsane_matched}="yes"
+'''
