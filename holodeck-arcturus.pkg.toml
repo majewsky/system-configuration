@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20200117.1"
+version     = "20200121.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -16,6 +16,7 @@ requires = [
     "hologram-intel-ucode",
     # support for AMD GPU
     "xf86-video-amdgpu",
+    "libva-vdpau-driver",
     "vulkan-radeon",
     "lib32-vulkan-radeon",
     "vulkan-icd-loader",
