@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20191122.1"
+version     = "20200505.1"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -8,6 +8,8 @@ requires = [
     "secrets", # this uses /usr/bin/replicator
     "hologram-base-accessible",
     "hologram-automation",
+    "hologram-multimedia-base",
+    "hologram-damogran-audio",
     "hologram-uefi-bootloader",
     "hologram-monitoring-client",
     "hologram-borgbackup-receiver",
@@ -185,6 +187,9 @@ content = """
     -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 22 -j ACCEPT
     # allow Prometheus scraping via Wireguard
     -A TCP -i wg-monitoring -p tcp -m tcp --dport 9100 -j ACCEPT
+    # allow intranet PulseAudio
+    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 4713 -j ACCEPT
+    -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 4713 -j ACCEPT
 
     # allow intranet DNS
     -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 53 -j ACCEPT
@@ -194,8 +199,9 @@ content = """
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
     # allow public Wireguard
     -A UDP -p udp -m udp --dport {{.Vars.wg.port}} -j ACCEPT
-
-
+    # allow intranet MDNS (for PulseAudio)
+    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 5353 -j ACCEPT
+    -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 5353 -j ACCEPT
 
     # accept traffic on established connections
     -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
