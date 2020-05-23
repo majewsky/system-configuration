@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.4.1"
+version     = "1.4.2"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -12,7 +12,6 @@ requires = [
     "rust",
     "sassc",
     "sloccount",
-    "vt6-website-build",
 ]
 
 [[user]]
