@@ -1,10 +1,11 @@
 [package]
 name        = "holodeck-traal"
-version     = "20200121.1"
+version     = "20200525.2"
 description = "holodeck: services on Traal"
 
 requires = [
     "hologram-kde-desktop",
+    "hologram-sway-desktop",
     "hologram-monitoring-client",
     "hologram-dev-tools",
     "hologram-games",
@@ -36,6 +37,8 @@ requires = [
     "libreoffice-still",
     "mpd",
     "powerdevil",    # skipped in hologram-kde-desktop
+    "thunderbird",
+    "thunderbird-extension-enigmail",
     # offline docs (for travel)
     "rfc",
     "rust-docs",

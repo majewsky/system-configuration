@@ -1,11 +1,12 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20200121.1"
+version     = "20200525.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
     "secrets", # this uses /usr/bin/replicator
     "hologram-kde-desktop",
+    "hologram-sway-desktop",
     "hologram-dev-tools",
     "hologram-games",
     "hologram-uefi-bootloader-with-luks",
