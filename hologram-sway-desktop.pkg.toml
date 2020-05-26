@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.4.0"
+version     = "0.5.0"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -39,6 +39,18 @@ content = """
     [Theme]
     Current=breeze
 """
+
+################################################################################
+# set several environment variables only when running under Sway
+
+[[file]]
+path = "/etc/profile.d/sway-env.sh"
+content = '''
+    if [[ "${DESKTOP_SESSION}" == *sway* ]]; then
+        export QT_QPA_PLATFORMTHEME=qt5ct
+        export MOZ_ENABLE_WAYLAND=true
+    fi
+'''
 
 ################################################################################
 # declare a target for services that only need to be started under Sway, not
