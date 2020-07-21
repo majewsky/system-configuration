@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-games"
-version     = "1.1.4"
+version     = "1.2.0"
 description = "hologram: games selection"
 
 requires = [
@@ -24,3 +24,26 @@ path = "/etc/udev/rules.d/81-steam-controller.rules"
 content = """
     KERNEL=="uinput", MODE="0660", GROUP="users", OPTIONS+="static_node=uinput"
 """
+
+# setup the wg-gaming interface with WireGuard
+
+[[file]]
+path = "/etc/wireguard/wg-gaming.conf"
+content = '''
+  [Interface]
+  Address = {{.Vars.gamenet.slash16}}.1.{{.Vars.host.id}}/32
+  PrivateKey = {{.Vars.gamenet.private_key}}
+
+  [Peer]
+  PublicKey = {{.Vars.gamenet.server.public_key}}
+  Endpoint = {{.Vars.gamenet.server.endpoint}}
+  AllowedIPs = {{.Vars.gamenet.slash16}}.0.0/16
+  PersistentKeepAlive = 30
+'''
+[[symlink]]
+path   = "/usr/share/holo/files/20-monitoring-server/etc/wireguard/wg-gaming.conf.holoscript"
+target = "/usr/bin/replicator"
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/wg-quick@wg-gaming.service"
+target = "/usr/lib/systemd/system/wg-quick@.service"
