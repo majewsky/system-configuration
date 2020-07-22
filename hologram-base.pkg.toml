@@ -1,26 +1,13 @@
 [package]
 name    = "hologram-base"
-version = "20190722.1"
+version = "20190722.3"
 description = "hologram: base installation"
 
 requires = [
+    "base",
     "hologram-openssh",
-    # group:base, but remove the stuff that I don't usually need on remote systems
-    "group:base",
-    "except:amd-ucode",
-    "except:inetutils",
-    "except:jfsutils",
-    "except:licenses",
-    "except:lvm2",
-    "except:mdadm",
-    "except:nano",
-    "except:netctl",
-    "except:pciutils",
-    "except:pcmciautils",
-    "except:reiserfsprogs",
-    "except:sysfsutils",
-    "except:usbutils",
-    "except:xfsprogs",
+    "linux",
+    "linux-firmware",
     # configuration management
     "replicator",
     # assorted CLI tools

@@ -1,11 +1,16 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.3.3"
+version     = "1.4.0"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
     "hologram-base",
-    "group:base", "except:netctl",
+    # everything that was formerly in the "base" group and is not covered by the "base" package
+    "inetutils",
+    "man-db",
+    "man-pages",
+    "nano",
+    "vi",
     # assorted CLI tools
     "acpi",
     "dosfstools",     # mkfs.vfat
