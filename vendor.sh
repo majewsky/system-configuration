@@ -19,7 +19,7 @@ vendor() {
 
 if [ $# -eq 0 ]; then
   # default: vendor all packages
-  for TARGET_DIR in art cddb_get i3status-rust mpv-mpris otf-raleway perl-mp3-tag ripit screen-message ttf-montserrat; do
+  for TARGET_DIR in art cddb_get i3status-rust mpv-mpris otf-raleway perl-mp3-tag ripit screen-message ttf-iosevka ttf-montserrat; do
     vendor "${TARGET_DIR}"
   done
 else

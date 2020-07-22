@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-work-vm"
-version     = "1.0.7"
+version     = "1.1.0"
 description = "holodeck: base configuration for work VMs"
 
 requires = [
@@ -10,7 +10,7 @@ requires = [
   "hologram-kde-desktop-minimal",
   "hologram-multimedia-base",
   # assorted tools
-  "clusterssh",
+  "dbeaver",
   "docker",
   "ipython",
   "mitmproxy",
@@ -21,6 +21,9 @@ requires = [
   "postgresql",
   "python-pip",
   "python-virtualenv",
+  "redis",
+  "rfc",
+  "ruby",
   "sshuttle",
   "yarn",
 ]
