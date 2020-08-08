@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.5.1"
+version     = "0.5.2"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -31,7 +31,6 @@ requires = [
   "fcitx",
   "fcitx-configtool",
   "fcitx-mozc",
-  "fcitx-ui-light",
 ]
 
 [[file]]
