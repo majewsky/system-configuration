@@ -31,7 +31,7 @@ source=("https://raw.githubusercontent.com/google/fonts/master/ofl/$_ffname/OFL.
     "https://raw.githubusercontent.com/impallari/Raleway/master/fonts/v3.000%20Fontlab/OTF/Raleway-SemiBold-Original.otf"
     "https://raw.githubusercontent.com/impallari/Raleway/master/fonts/v3.000%20Fontlab/OTF/Raleway-Thin-Italic-Original.otf"
     "https://raw.githubusercontent.com/impallari/Raleway/master/fonts/v3.000%20Fontlab/OTF/Raleway-Thin-Original.otf")
-sha256sums=('e588abf45ca2b19c340c4b27349c9b6b6e5e198316fd965128ed9f4422942cbe'
+sha256sums=('7e946cf1171784d1015279e7dc35f827957a6b5d1f1f659ae0c98e5f5e37ed9b'
             'e9bc1e494db53bf75cd1b473dbbfb56d97c5ac8a46250e13660c3445b80d794f'
             'ecc6a566e02eede718c381346335fd7ea641041d8dc5efe2429704de43cf3c5b'
             'bcd81fbd6fca5a94d7974328298b3b8ba00b257c6d4ef7f36aba7f4a7acef7a1'
