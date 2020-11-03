@@ -1,0 +1,30 @@
+[package]
+name = "hologram-bluetooth-audio"
+version = "1.0.0"
+description = "hologram: Bluetooth support in audio stack"
+requires = [
+  "bluez-utils",
+  "pulseaudio-bluetooth",
+]
+
+################################################################################
+# start bluetooth.service
+
+[[symlink]]
+path   = "/etc/systemd/system/bluetooth.target.wants/bluetooth.service"
+target = "/usr/lib/systemd/system/bluetooth.service"
+
+[[symlink]]
+path   = "/etc/systemd/system/dbus-org.bluez.service"
+target = "/usr/lib/systemd/system/bluetooth.service"
+
+################################################################################
+# configure bluetooth.service
+
+[[file]]
+path    = "/usr/share/holo/files/20-bluetooth-audio/etc/bluetooth/main.conf.holoscript"
+mode    = "0755"
+content = '''
+  #!/bin/sh
+  sed 's/^\s*#\s*AutoEnable\s*=\s*false\s*$/AutoEnable=true/'
+'''
