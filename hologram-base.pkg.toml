@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20190722.3"
+version = "20201113.1"
 description = "hologram: base installation"
 
 requires = [
@@ -23,12 +23,14 @@ requires = [
     "pinfo",
     "pwgen",
     "pv",
+    "python-tabulate",
     "ripgrep",
     "rsync",
     "screen",
     "strace",
     "sudo",
     "tcpdump",
+    "tk",             # gitk
     "traceroute",
     "tree",
     "units",
