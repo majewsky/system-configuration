@@ -1,24 +1,22 @@
 pkgname=gofu
-_commit="ef84ca3e82f422118c69a0c562433c185e1dcb9b"
 epoch=1
-pkgver="20181222.2.g${_commit:0:10}"
+pkgver=2020.2
 pkgrel=1
 pkgdesc='Collection of Go utilities'
 arch=('x86_64')
-_goget_url='github.com/majewsky/gofu'
-url="https://${_goget_url}"
+url="https://github.com/majewsky/gofu"
 license=('GPL3')
 depends=()
 makedepends=('go')
-source=("gofu::git+https://${_goget_url}#commit=${_commit}")
-sha256sums=('SKIP')
+source=("${url}/archive/v${pkgver}.tar.gz")
+sha256sums=('b192e454c104fac47921149c5d55dd583b907ed5ca9ff685b01be410f29a9504')
 
 build() {
-  cd "${srcdir}/gofu"
+  cd "${srcdir}/gofu-${pkgver}"
   make
 }
 
 package() {
-  cd "${srcdir}/gofu"
+  cd "${srcdir}/gofu-${pkgver}"
   make install DESTDIR="${pkgdir}"
 }
