@@ -1,10 +1,9 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20200505.1"
+version     = "20210111.1"
 description = "holodeck: services on Damogran"
 
 requires = [
-    "linux-lts",
     "secrets", # this uses /usr/bin/replicator
     "hologram-base-accessible",
     "hologram-automation",
@@ -13,9 +12,6 @@ requires = [
     "hologram-uefi-bootloader",
     "hologram-monitoring-client",
     "hologram-borgbackup-receiver",
-    # for wireguard-dkms
-    "linux-headers",
-    "linux-lts-headers",
     # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)
     "dnsmasq",
     "hostapd",
@@ -35,29 +31,6 @@ content = """
 export PRETTYPROMPT_COMMONUSER=stefan
 export PRETTYPROMPT_HOSTCOLOR='0;35'
 """
-
-################################################################################
-# allow linux-lts as an alternative kernel choice (and use by default)
-
-[[file]]
-path    = "/usr/share/holo/files/50-damogran/boot/loader/loader.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    sed 's/^default arch$/default arch-lts/'
-'''
-
-[[file]]
-path = "/boot/loader/entries/arch-lts.conf"
-contentFrom = "/dev/null"
-
-[[file]]
-path    = "/usr/share/holo/files/50-damogran/boot/loader/entries/arch-lts.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sh
-    sed -e 's/vmlinuz-linux\|initramfs-linux/&-lts/' < /boot/loader/entries/arch.conf
-'''
 
 ################################################################################
 # mask mdmonitor.service (this shows up in `systemctl --failed` otherwise)
