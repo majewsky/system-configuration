@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20201113.1"
+version = "20210121.1"
 description = "hologram: base installation"
 
 requires = [
@@ -233,3 +233,13 @@ group = 100  # users
 path = "/usr/bin/bootstrap-devenv"
 mode = "0755"
 contentFrom = "src/bootstrap-devenv.sh"
+
+# disable faillock
+[[file]]
+path    = "/usr/share/holo/files/00-base/etc/security/faillock.conf.holoscript"
+mode = "0755"
+content = '''
+    #!/bin/sh
+    cat
+    echo 'deny = 0'
+'''
