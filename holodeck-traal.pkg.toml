@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20200525.2"
+version     = "20210202.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -33,7 +33,6 @@ requires = [
     "libva-mesa-driver",
     "lib32-libva-mesa-driver",
     # applications
-    "kdeconnect",
     "libreoffice-still",
     "mpd",
     "powerdevil",    # skipped in hologram-kde-desktop

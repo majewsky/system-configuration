@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20201103.1"
+version     = "20210202.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -35,7 +35,6 @@ requires = [
     "hplip",
     "gscan2pdf",
     # additional apps
-    "kdeconnect",
     "mpd",
 ]
 
