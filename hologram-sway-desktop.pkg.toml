@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.5.8"
+version     = "0.5.9"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -11,6 +11,7 @@ requires = [
   "xorg-server-xwayland",
   "xdg-desktop-portal-wlr",
   # Wayland tools
+  "gammastep",
   "grim",
   "i3status-rust",
   "mako",
@@ -73,7 +74,7 @@ path    = "/home/stefan/.config/systemd/user/sway-session.target"
 content = '''
     [Unit]
     Description=Services that are only run within Sway
-    Wants=mako.service xdg-desktop-portal-wlr.service
+    Wants=gammastep.service mako.service xdg-desktop-portal-wlr.service
 '''
 
 [[file]]
@@ -84,5 +85,16 @@ content = '''
 
     [Service]
     ExecStart=/usr/bin/mako --font 'Hack 12' --width 400
+    Restart=always
+'''
+
+[[file]]
+path    = "/home/stefan/.config/systemd/user/gammastep.service"
+content = '''
+    [Unit]
+    Description=Gammastep redshifting daemon
+
+    [Service]
+    ExecStart=/usr/bin/gammastep -b 1:0.5 -l 51:13 -m wayland
     Restart=always
 '''
