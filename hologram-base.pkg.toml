@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20210222.1"
+version = "20210228.1"
 description = "hologram: base installation"
 
 requires = [
@@ -174,7 +174,6 @@ contentFrom = "src/unpack-secrets.sh"
 # sudo
 [[file]]
 path    = "/usr/share/holo/files/00-base/etc/sudoers"
-mode    = "0440"
 content = """
     root    ALL=(ALL) ALL
     %sudo   ALL=(ALL) ALL
