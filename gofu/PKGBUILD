@@ -1,6 +1,6 @@
 pkgname=gofu
 epoch=2
-pkgver=2021.1
+pkgver=2021.2
 pkgrel=1
 pkgdesc='Collection of Go utilities'
 arch=('x86_64')
@@ -9,7 +9,7 @@ license=('GPL3')
 depends=()
 makedepends=('go')
 source=("${url}/archive/v${pkgver}.tar.gz")
-sha256sums=('a2ef6294659da656bdc825c6043cce957fef7954b78fc04684c771771a76c027')
+sha256sums=('0b06b9d746013f3c7267b41ab0d5eed1f174deca46c4b417ed0ff9413b832018')
 
 build() {
   cd "${srcdir}/gofu-${pkgver}"
