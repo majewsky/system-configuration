@@ -1,14 +1,14 @@
 pkgbase = gofu
 	pkgdesc = Collection of Go utilities
-	pkgver = 2020.2
+	pkgver = 2021.1
 	pkgrel = 1
-	epoch = 1
+	epoch = 2
 	url = https://github.com/majewsky/gofu
 	arch = x86_64
 	license = GPL3
 	makedepends = go
-	source = https://github.com/majewsky/gofu/archive/v2020.2.tar.gz
-	sha256sums = b192e454c104fac47921149c5d55dd583b907ed5ca9ff685b01be410f29a9504
+	source = https://github.com/majewsky/gofu/archive/v2021.1.tar.gz
+	sha256sums = a2ef6294659da656bdc825c6043cce957fef7954b78fc04684c771771a76c027
 
 pkgname = gofu
 
