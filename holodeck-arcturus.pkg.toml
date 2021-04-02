@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20210202.1"
+version     = "20210402.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -111,14 +111,4 @@ path    = "/etc/udev/rules.d/49-custom-sane.rules"
 content = '''
     # HP PhotoSmart C3180
     ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="5611", MODE="0664", GROUP="scanner", ENV{libsane_matched}="yes"
-'''
-
-# audio setup: do not switch to HDMI audio when a screen is powered on
-
-[[file]]
-path    = "/usr/share/holo/files/50-arcturus/etc/pulse/default.pa.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/sed -f
-    s/load-module module-switch-on-port-available/#&/
 '''

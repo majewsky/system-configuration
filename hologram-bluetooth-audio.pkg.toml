@@ -1,10 +1,9 @@
 [package]
 name = "hologram-bluetooth-audio"
-version = "1.0.0"
+version = "1.1.0"
 description = "hologram: Bluetooth support in audio stack"
 requires = [
   "bluez-utils",
-  "pulseaudio-bluetooth",
 ]
 
 ################################################################################
