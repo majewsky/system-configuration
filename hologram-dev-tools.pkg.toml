@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.4.2"
+version     = "1.4.3"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -9,6 +9,8 @@ requires = [
     "cargo",
     "cmake",
     "docker", # NOTE: not enabled (as in "systemctl enable") by default to avoid confusion with networking and stuff
+    "mecab",
+    "mecab-ipadic",
     "rust",
     "sassc",
     "sloccount",
