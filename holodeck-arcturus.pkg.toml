@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20210402.1"
+version     = "20210517.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -32,7 +32,6 @@ requires = [
     "wpa_supplicant",
     # scanner setup
     "sane",
-    "hplip",
     "gscan2pdf",
     # additional apps
     "mpd",
