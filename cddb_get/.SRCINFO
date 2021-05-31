@@ -1,7 +1,7 @@
 pkgbase = cddb_get
 	pkgdesc = Fetches CDDB info for an audio cd.
 	pkgver = 2.28
-	pkgrel = 7
+	pkgrel = 8
 	url = https://web.archive.org/web/20190628161057/http://armin.emx.at/cddb/
 	arch = any
 	license = GPL
