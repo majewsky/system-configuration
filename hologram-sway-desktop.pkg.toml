@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.5.9"
+version     = "0.6.0"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -18,6 +18,8 @@ requires = [
   "slurp",
   "wl-clipboard",
   "wofi",
+  # terminal
+  "alacritty",
   # selected KDE applications
   "filelight",
   "kcharselect",
