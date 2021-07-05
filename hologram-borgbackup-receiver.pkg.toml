@@ -22,7 +22,7 @@ home    = "/var/lib/borgrecv"
 [[action]]
 on = "setup"
 script = """
-  echo 'When adding a client, you must `borg init /var/lib/borgrecv/repo/$CLIENT` manually.'
+  echo 'When adding a client, you must `borg init --encryption=repokey-blake2 /var/lib/borgrecv/repo/$CLIENT` manually.'
 """
 
 [[directory]]
