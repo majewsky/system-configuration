@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.3.3"
+version     = "1.3.4"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -32,8 +32,10 @@ requires = [
     "ttf-bitstream-vera",
     "ttf-dejavu",
     "ttf-droid",
+    "ttf-hack",
     "ttf-iosevka",
     "ttf-liberation",
+    "ttf-linux-libertine",
 ]
 
 # set keymap for XKB
