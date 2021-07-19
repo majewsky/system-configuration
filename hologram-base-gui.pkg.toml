@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.4.93"
+version     = "1.4.94"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -16,6 +16,7 @@ requires = [
     "vlc",
     # font packages
     "cantarell-fonts",
+    "otf-ipafont",
     "otf-raleway",
     "otf-titillium",
     "libertinus-font",
