@@ -1,0 +1,13 @@
+pkgbase = gron
+	pkgdesc = Makes JSON greppable
+	pkgver = 0.6.1
+	pkgrel = 1
+	url = https://github.com/tomnomnom/gron
+	arch = x86_64
+	license = MIT
+	makedepends = go
+	source = https://github.com/tomnomnom/gron/archive/v0.6.1.tar.gz
+	sha256sums = eef150a425aa4eaa8b2e36a75ee400d4247525403f79e24ed32ccb346dc653ff
+
+pkgname = gron
+
