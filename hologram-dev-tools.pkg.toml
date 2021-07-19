@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.4.4"
+version     = "1.4.6"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -12,9 +12,11 @@ requires = [
     "docker", # NOTE: not enabled (as in "systemctl enable") by default to avoid confusion with networking and stuff
     "mecab",
     "mecab-ipadic",
+    "rfc",
     "rust",
+    "rust-docs",
     "sassc",
-    "sloccount",
+    "words",
 ]
 
 [[user]]
