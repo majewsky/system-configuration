@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "0.6.0"
+version     = "0.7.0"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -36,6 +36,10 @@ requires = [
   "fcitx-mozc",
   "fcitx-ui-light",
 ]
+
+[[symlink]]
+path   = "/etc/systemd/system/display-manager.service"
+target = "/usr/lib/systemd/system/sddm.service"
 
 [[file]]
 path    = "/etc/sddm.conf.d/30-sway-desktop.conf"
