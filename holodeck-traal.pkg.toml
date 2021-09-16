@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20210719.2"
+version     = "20210916.2"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -34,7 +34,6 @@ requires = [
     # applications
     "libreoffice-still",
     "mpd",
-    "powerdevil",    # skipped in hologram-kde-desktop
     "thunderbird",
     "thunderbird-extension-enigmail",
 ]
