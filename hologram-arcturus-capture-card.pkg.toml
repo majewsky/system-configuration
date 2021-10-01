@@ -1,0 +1,81 @@
+[package]
+name        = "hologram-arcturus-capture-card"
+version     = "1.0.0"
+description = "hologram: tooling for HDMI capture card on Arcturus"
+
+requires = [
+  "jack-autoplug",
+  "mpv",
+  "pipewire-jack",
+]
+
+# I have a keybinding in Sway that runs this script to either start or stop all the respective services.
+[[file]]
+path = "/usr/bin/capture-card-toggle"
+mode = "0755"
+content = '''
+  #!/bin/sh
+  set -euo pipefail
+  if systemctl --user is-active --quiet mpv-capture-card.target; then
+    systemctl --user stop mpv-capture-card.target
+  else
+    systemctl --user start mpv-capture-card.target
+  fi
+'''
+
+[[file]]
+path = "/usr/lib/systemd/user/mpv-capture-card.target"
+content = '''
+  [Unit]
+  Description = Deliver video/audio from capture card via mpv and PipeWire
+  Wants = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+  PropagatesStopTo = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+'''
+
+[[file]]
+path = "/usr/lib/systemd/user/mpv-capture-card.service"
+content = '''
+  [Unit]
+  Description = Show video input from capture card in mpv
+
+  [Service]
+  ExecStartPre=capture-card-set-profile input:analog-stereo
+  ExecStart=mpv av://v4l2:/dev/video0 --demuxer-lavf-format=video4linux2 --demuxer-lavf-o-set=input_format=mjpeg --profile=low-latency
+  ExecStopPost=capture-card-set-profile off
+  Restart=always
+  RestartSec=1s
+'''
+
+[[file]]
+path    = "/usr/lib/systemd/user/jack-autoplug-to-mixing-console.service"
+content = '''
+  [Unit]
+  Description = Connect capture card to mixing console with jack-autoplug
+
+  [Service]
+  ExecStart=pw-jack jack-autoplug -f "Kaptivo Whiteboard  Analog Stereo" -F capture_FL -F capture_FR -t "AG06/AG03 Analog Stereo" -T playback_FL -T playback_FR
+  Restart=always
+  RestartSec=1s
+'''
+
+[[file]]
+path    = "/usr/lib/systemd/user/jack-autoplug-to-headphones.service"
+content = '''
+  [Unit]
+  Description = Connect capture card to headphones with jack-autoplug
+
+  [Service]
+  ExecStart=pw-jack jack-autoplug -f "Kaptivo Whiteboard  Analog Stereo" -F capture_FL -F capture_FR -t "Jabra Evolve 75" -T playback_FL -T playback_FR
+  Restart=always
+  RestartSec=1s
+'''
+
+[[file]]
+path = "/usr/bin/capture-card-set-profile"
+mode = "0755"
+content = '''
+  #!/bin/sh
+  set -euo pipefail
+  CARD_NAME="$(pactl list cards | awk '$1=="Name:"{print$2}' | grep Kaptivo | head -n1)"
+  pactl set-card-profile "$CARD_NAME" "$1"
+'''
