@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.4.2"
+version     = "1.4.3"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -17,7 +17,6 @@ requires = [
     "dosfstools",     # mkfs.vfat
     "hdparm",
     "inotify-tools",
-    "irssi",
     "iw",
     "mdadm",
     "optipng",
