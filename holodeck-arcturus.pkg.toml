@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20211002.1"
+version     = "20211103.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -64,17 +64,6 @@ content = """
     DNS=10.0.0.1
 """
 
-[[file]]
-path    = "/etc/systemd/network/wlan.network"
-content = """
-    [Match]
-    Name=wlp3s0
-
-    [Network]
-    Address=10.0.1.2/24
-    DNS=10.0.1.1
-"""
-
 # network setup: systemd-resolved
 
 [[symlink]]
@@ -84,24 +73,6 @@ target = "/usr/lib/systemd/system/systemd-resolved.service"
 [[symlink]]
 path   = "/usr/share/holo/files/50-arcturus/etc/resolv.conf"
 target = "/run/systemd/resolve/resolv.conf"
-
-# network setup: wpa_supplicant
-
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlp3s0.service"
-target = "/usr/lib/systemd/system/wpa_supplicant@.service"
-
-[[file]]
-path    = "/etc/wpa_supplicant/wpa_supplicant-wlp3s0.conf"
-content = """
-    network={
-        ssid="{{.Vars.wifi.ssid}}"
-        psk="{{.Vars.wifi.psk}}"
-    }
-"""
-[[symlink]]
-path   = "/usr/share/holo/files/50-arcturus-vars/etc/wpa_supplicant/wpa_supplicant-wlp3s0.conf.holoscript"
-target = "/usr/bin/replicator"
 
 # scanner setup: device permissions
 
