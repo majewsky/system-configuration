@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-arcturus-capture-card"
-version     = "1.0.1"
+version     = "1.0.2"
 description = "hologram: tooling for HDMI capture card on Arcturus"
 
 requires = [
@@ -11,7 +11,21 @@ requires = [
 
 # I have a keybinding in Sway that runs this script to either start or stop all the respective services.
 [[file]]
-path = "/usr/bin/capture-card-toggle"
+path = "/usr/bin/capture-card-audio-only-toggle"
+mode = "0755"
+content = '''
+  #!/bin/sh
+  set -euo pipefail
+  if systemctl --user is-active --quiet audio-only-capture-card.target; then
+    systemctl --user stop audio-only-capture-card.target
+  else
+    systemctl --user start audio-only-capture-card.target
+  fi
+'''
+
+# I have a keybinding in Sway that runs this script to either start or stop all the respective services.
+[[file]]
+path = "/usr/bin/capture-card-mpv-toggle"
 mode = "0755"
 content = '''
   #!/bin/sh
