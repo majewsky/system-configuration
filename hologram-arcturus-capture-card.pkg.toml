@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-arcturus-capture-card"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: tooling for HDMI capture card on Arcturus"
 
 requires = [
@@ -24,12 +24,38 @@ content = '''
 '''
 
 [[file]]
+path = "/usr/lib/systemd/user/audio-only-capture-card.target"
+content = '''
+  [Unit]
+  Description = Deliver audio from capture card via PipeWire
+  Wants = audio-only-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+  PropagatesStopTo = audio-only-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+  Conflicts = mpv-capture-card.target
+'''
+
+[[file]]
 path = "/usr/lib/systemd/user/mpv-capture-card.target"
 content = '''
   [Unit]
   Description = Deliver video/audio from capture card via mpv and PipeWire
   Wants = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
   PropagatesStopTo = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+  Conflicts = audio-only-capture-card.target
+'''
+
+[[file]]
+path = "/usr/lib/systemd/user/audio-only-capture-card.service"
+content = '''
+  [Unit]
+  Description = Enable audio input from capture card while running
+  Conflicts = mpv-capture-card.service
+
+  [Service]
+  ExecStartPre=capture-card-set-profile input:analog-stereo
+  ExecStart=tail -f /dev/null
+  ExecStopPost=capture-card-set-profile off
+  Restart=always
+  RestartSec=1s
 '''
 
 [[file]]
@@ -37,6 +63,7 @@ path = "/usr/lib/systemd/user/mpv-capture-card.service"
 content = '''
   [Unit]
   Description = Show video input from capture card in mpv
+  Conflicts = audio-only-capture-card.service
 
   [Service]
   ExecStartPre=capture-card-set-profile input:analog-stereo
