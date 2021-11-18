@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.4.6"
+version     = "1.4.7"
 description = "hologram: compilers and development tools"
 
 requires = [
@@ -14,7 +14,6 @@ requires = [
     "mecab-ipadic",
     "rfc",
     "rust",
-    "rust-docs",
     "sassc",
     "words",
 ]
