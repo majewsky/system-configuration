@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-traal"
-version     = "20210916.2"
+version     = "20211015.1"
 description = "holodeck: services on Traal"
 
 requires = [
@@ -120,6 +120,7 @@ target = "/usr/lib/systemd/system/wpa_supplicant@.service"
 path = "/etc/systemd/logind.conf.d/no-magic-suspend.conf"
 content = """
 [Login]
+HandlePowerKey=lock
 HandleLidSwitch=ignore
 """
 
