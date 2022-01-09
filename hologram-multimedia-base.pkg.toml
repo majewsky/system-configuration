@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.6"
+version     = "1.0.7"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -30,4 +30,6 @@ content = '''
     no-audio-display
     # always start fullscreen by default
     fs
+    # enumerate unfinished videos by examining the watch-later files
+    write-filename-in-watch-later-config
 '''
