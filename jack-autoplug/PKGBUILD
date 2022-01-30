@@ -1,11 +1,11 @@
 pkgname=jack-autoplug
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Ensures that certain JACK ports are always connected to each other'
 arch=('x86_64')
 url="https://github.com/majewsky/jack-autoplug"
 license=('AGPL3')
-depends=('jack2')
+depends=('jack')
 makedepends=('rust')
 source=("${url}/archive/v${pkgver}.tar.gz")
 sha256sums=('8ed8bb5b374db3fb7b52b59cf4fc186253455f1c2bd7ce5e220fca142e7a6617')
