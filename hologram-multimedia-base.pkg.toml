@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.7"
+version     = "1.0.8"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -8,6 +8,7 @@ requires = [
     "pipewire-alsa",
     "pipewire-jack",
     "pipewire-pulse",
+    "lib32-pipewire-jack",
     # clients
     "mpc",
     "mpv",
