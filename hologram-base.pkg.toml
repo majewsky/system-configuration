@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20220204.1"
+version = "20220204.2"
 description = "hologram: base installation"
 
 requires = [
@@ -90,14 +90,16 @@ content = """
 
 # filesystem
 [[file]]
-path    = "/usr/share/holo/files/00-base/etc/fstab.holoscript"
-mode    = "0755"
+path    = "/usr/share/holo/files/00-base/etc/fstab"
+mode    = "0644"
 content = """
-    #!/bin/sh
-    cat
-    # the following file should be generated at install time with genfstab
-    cat /etc/fstab.local || exit 1
+    {{- range .Vars.fstab }}
+    {{.source}}	{{.target}}	{{.fstype}}	{{.options}}	0 {{if eq .target "/"}}1{{else if contains "_netdev" .options}}0{{else}}2{{end}}
+    {{- end }}
 """
+[[symlink]]
+path   = "/usr/share/holo/files/00-base/etc/fstab.holoscript"
+target = "/usr/bin/replicator"
 
 [[file]]
 path    = "/usr/share/holo/files/00-base/etc/crypttab"
