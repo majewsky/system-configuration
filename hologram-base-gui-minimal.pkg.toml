@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.3.5"
+version     = "1.3.6"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -44,8 +44,7 @@ content = '''
     Section "InputClass"
         Identifier "system-keyboard"
         MatchIsKeyboard "on"
-        Option "XkbLayout" "en"
-        Option "XkbVariant" "altgr-intl"
+        Option "XkbLayout" "eu"
         Option "XkbOptions" "caps:escape"
     EndSection
 '''
@@ -54,8 +53,8 @@ content = '''
 [[file]]
 path = "/etc/profile.d/xkb.sh"
 content = '''
-    export XKB_DEFAULT_LAYOUT=us
-    export XKB_DEFAULT_VARIANT=altgr-intl
+    export XKB_DEFAULT_LAYOUT=eu
+    export XKB_DEFAULT_VARIANT=''
     export XKB_DEFAULT_OPTIONS=caps:escape
 '''
 
