@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20220204.2"
+version = "20220513.1"
 description = "hologram: base installation"
 
 requires = [
@@ -11,6 +11,7 @@ requires = [
     # configuration management
     "replicator",
     # assorted CLI tools
+    "age",
     "dnsutils",
     "git",
     "gron",
