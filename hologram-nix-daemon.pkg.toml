@@ -1,0 +1,31 @@
+[package]
+name = "hologram-nix-daemon"
+version = "1.0.0"
+description = "hologram: Nix on Arch Linux"
+requires = [
+    "nix",
+]
+
+[[action]]
+on = "setup"
+script = '''
+    echo '>> If not done yet, run `nix-channel --add https://nixos.org/channels/nixos-${VERSION} nixos` as user `stefan`.'
+'''
+
+[[file]]
+path = "/usr/share/holo/files/20-nix-daemon/etc/nix/nix.conf.holoscript"
+mode = "0755"
+content = '''
+    #!/bin/sh
+    cat
+    echo 'max-jobs = auto' # use as many builders as there are CPUs (default: 1)
+    echo 'experimental-features = nix-command flakes'
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/nix-daemon.service"
+target = "/usr/lib/systemd/system/nix-daemon.service"
+
+[[user]]
+name = "stefan"
+groups = [ "nix-users" ]
