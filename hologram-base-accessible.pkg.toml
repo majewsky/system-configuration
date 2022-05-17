@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.4.3"
+version     = "1.4.4"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -37,6 +37,7 @@ path    = "/usr/share/holo/ssh-keys/stefan/internal.pub"
 content = '''
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQClzW34zaEtGvGpIf4jRRQVnwNLv+nKBhqvW04ggh4fF9ILXvHBnjW3klfwlP9JmSCHK9IJSAsGS9jMZ7ckbgFMir4AJXvZYMlLY7PyuECF7OqOjSCmQGKdhmfnVz7HUrOBNrWM+Kz/KV76jtmxZlRI7gsX0RlZ+EXyjoUm4pA1l3085Pvsl7QXWJQQrbBl83IF/G7QYYGXtmaFXuqDbitj0d5yT01wgawWivlmitEWBUILTjS5pk4OyUlzzebjmd77jZQOenIqEg6ZNtoAludMl2jvxtH9TrCrv+XQh65GoV0dT0gROvG4H4aH7Yh7bxRkBci5G9QvcoRaURNUyjGVQqr8Bm9pfcJEzJa6qN+5RU2IA9WeE1MSaH6imvmU0XMEfJiK0qF//OhXAAoKeVCFu3rJAUIXfViW+EaxTnZlx+NXDmF57Z2ZgA7zxFdmuPhW/ogciDX+g0yMBbKmCURUh4tzhNlCbFksI4io48jXpTDfxVaCJfuzpHCFdxnt+DxQlKE4s4N3Mo+tXna++KP1MWYOjiCm/RTneDzXje1I0+ODNVMNuCaYAMKwqpc3W0d27DuplT4+vILUXCwfdEr3WZabYQH6+n13OKbVTvtuMwBjyZf4g9/wI8UNKRxGJZM87f4hGFbp+2eewIThPDN0CI3rwPUcKh73l8lMNJvXKw== stefan@arcturus
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5SglxtK6N9Gfqcly/k5ozXSw4YIcmaWdsXnO40cEZWttTU0uuGxjhJQ2uppW7isHdgv9klQnJ8CE/tJ59i+JC8Hw3lZKYjO4MGEYBAWiEdh6fkszAmE7uDbFz4BpXuLd5f51fB4KlBUxvfq5ty5LSy6lCBUdn9UTO7NUTC/Bi7te3oxPCppHUOz5F/SmKyqrI/lCjhDXBIPUu1JSC38483FWWeZO/YPnoxtEbh9xPcKNeklUIkb03+zFRBsEmpLzSMBaIKDu884HZPK7jVLdthztKKFVLn/n1a6qk64mVm/QG1C+pJV93k+PdhWEXq3oHltYDDgCkaT8Ll//2XacAIP2CE7NTqjrCuNrq6u0yE7xjKj9PhpL1/jl5/4M173bxMv/x8ktK1iIKH0L+VfSj8JzhxIZVF7c9FQm9v4vLk0kcDyQKgnImfkotJjnS1y1HdseIFVogJb1lIz2NDdzB0/nRNZMky4yMTKZyx8vhA+6W9elFu2ofB8g7ONvDaKiMR7dBWE6ScB0tCvmJdygzlHqUzTiMKUUwZ+4EbNkYPchmFOs9COMkUzZ+BvmH/WM2LpGS7fJNXc7ygScrvZaNOxHm3ZEQHWCn3cOE9wBzOKwATimOVRc4f870ZHDyHkMCQVQwfQfKjrlwFIg+rFKWQ7qB1EzM3JxtovBYTIHHcw== stefan@krikkit
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPWdZozI9nwvho6gTTIJdeRwqRrqLgSyVhVlK1kAbHjU stefan@tabibito
 '''
 
 # systemd: don't block for 90s when a service does not shut down in a timely fashion
