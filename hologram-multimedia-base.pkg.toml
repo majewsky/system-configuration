@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.8"
+version     = "1.0.9"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -17,6 +17,7 @@ requires = [
     # tools
     "mp3splt", # contains oggsplt
     "opus-tools",
+    "playerctl", # CLI for MPRIS
     "ripit",
     "vorbis-tools",
     "vorbisgain",
