@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20220703.2"
+version     = "20220703.3"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -203,17 +203,16 @@ content = """
     # speed up DHCP by allowing dnsmasq to reject unknown leases
     dhcp-authoritative
 
-    # obtain upstream DNS from systemd-resolved
-    resolv-file=/run/systemd/resolve/resolv.conf
+    # upstream DNS
+    server={{.Vars.dns.upstream}}
     # local DNS overrides
     address=/damogran.local/10.0.0.1
     {{- range $host, $cfg := .Vars.hosts }}
     address=/{{$host}}/{{$cfg.ip}}
     {{- end }}
 
-    # FIXME: DNSSEC and Kabel Deutschland don't mix. :(
-    # dnssec
-    # trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
+    dnssec
+    trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 
     # adblock
     addn-hosts=/var/cache/adblock/hosts.txt
