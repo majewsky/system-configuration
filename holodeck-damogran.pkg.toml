@@ -1,12 +1,11 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20210402.1"
+version     = "20220703.1"
 description = "holodeck: services on Damogran"
 
 requires = [
     "secrets", # this uses /usr/bin/replicator
     "hologram-base-accessible",
-    "hologram-automation",
     "hologram-uefi-bootloader",
     "hologram-monitoring-client",
     "hologram-borgbackup-receiver",
