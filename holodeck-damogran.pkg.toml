@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-damogran"
-version     = "20220703.1"
+version     = "20220703.2"
 description = "holodeck: services on Damogran"
 
 requires = [
@@ -11,7 +11,6 @@ requires = [
     "hologram-borgbackup-receiver",
     # network setup (local DHCP, local DNS, wireless AP, NAT from internal networks to external internet)
     "dnsmasq",
-    "hostapd",
     "iptables",
 ]
 
@@ -63,21 +62,6 @@ path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/lan.network
 target = "/usr/bin/replicator"
 
 [[file]]
-path    = "/etc/systemd/network/wlan.network"
-content = """
-    [Match]
-    Name={{.Vars.interfaces.wlan}}
-
-    [Network]
-    Description=Internal Wireless LAN
-    Address=10.0.1.1/24
-    IPForward=ipv4
-"""
-[[symlink]]
-path   = "/usr/share/holo/files/50-damogran-vars/etc/systemd/network/wlan.network.holoscript"
-target = "/usr/bin/replicator"
-
-[[file]]
 path    = "/etc/systemd/network/wan.network"
 content = """
     [Match]
@@ -108,7 +92,6 @@ content = """
     net.ipv4.conf.all.forwarding = 1
     net.ipv4.conf.default.forwarding = 1
     net.ipv4.conf.{{.Vars.interfaces.lan}}.forwarding = 1
-    net.ipv4.conf.{{.Vars.interfaces.wlan}}.forwarding = 1
     net.ipv4.conf.{{.Vars.interfaces.wan}}.forwarding = 1
 
     # disable IPv6 for internet-facing interfaces
@@ -153,16 +136,13 @@ content = """
 
     # allow SSH via intranet and Wireguard
     -A TCP -i wg-monitoring -p tcp -m tcp --dport 22 -j ACCEPT
-    -A TCP -i {{.Vars.interfaces.wlan}} -p tcp -m tcp --dport 22 -j ACCEPT
     -A TCP -i {{.Vars.interfaces.lan}} -p tcp -m tcp --dport 22 -j ACCEPT
     # allow Prometheus scraping via Wireguard
     -A TCP -i wg-monitoring -p tcp -m tcp --dport 9100 -j ACCEPT
 
     # allow intranet DNS
-    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --dport 53 -j ACCEPT
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --dport 53 -j ACCEPT
     # allow intranet DHCP
-    -A UDP -i {{.Vars.interfaces.wlan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
     -A UDP -i {{.Vars.interfaces.lan}} -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
     # allow public Wireguard
     -A UDP -p udp -m udp --dport {{.Vars.wg.port}} -j ACCEPT
@@ -170,7 +150,6 @@ content = """
     # accept traffic on established connections
     -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     # accept forwarding connections from intranet to public
-    -A FORWARD -i {{.Vars.interfaces.wlan}} -j ACCEPT
     -A FORWARD -i {{.Vars.interfaces.lan}} -j ACCEPT
     # reject unwanted connections
     -A FORWARD -j REJECT --reject-with icmp-host-unreachable
@@ -186,60 +165,11 @@ content = """
 
     # establish forwarding connections from intranet (IP range) to public ({{.Vars.interfaces.wan}})
     -A POSTROUTING -s 10.0.0.0/24 -o {{.Vars.interfaces.wan}} -j MASQUERADE
-    -A POSTROUTING -s 10.0.1.0/24 -o {{.Vars.interfaces.wan}} -j MASQUERADE
 
     COMMIT
 """
 [[symlink]]
 path   = "/usr/share/holo/files/50-damogran-vars/etc/iptables/iptables.rules.holoscript"
-target = "/usr/bin/replicator"
-
-################################################################################
-# network setup: hostapd to provide the WiFi access point
-
-[[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/hostapd.service"
-target = "/usr/lib/systemd/system/hostapd.service"
-
-[[file]]
-path    = "/usr/share/holo/files/50-damogran/etc/hostapd/hostapd.conf"
-content = """
-    # specify the wireless interface to operate on
-    interface={{.Vars.interfaces.wlan}}
-    driver=nl80211
-    # enable 802.11g base functionality (n comes on top of g)
-    hw_mode=g
-    channel=8
-    # enable 802.11n
-    ieee80211n=1
-    wmm_enabled=1
-    # HT capabilities as detected by `iw list` and translated by the reference hostapd.conf
-    ht_capab=[HT40][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
-    # enable 802.11d (advertisement of allowed channels and transmit power levels in
-    # this regulatory domain)
-    ieee80211d=1
-    country_code=DE
-
-    # broadcast the network ID
-    ssid2="{{.Vars.wifi.ssid}}"
-    ignore_broadcast_ssid=0
-    # enable WPA2 encryption
-    auth_algs=3
-    wpa=2
-    wpa_passphrase={{.Vars.wifi.psk}}
-    wpa_key_mgmt=WPA-PSK
-    wpa_pairwise=CCMP
-    rsn_pairwise=CCMP
-
-    # limit number of "stations" (connected clients) for good measure
-    max_num_sta=20
-
-    # log to stdout (all modules, above level 2 = informational messages)
-    logger_stdout=-1
-    logger_stdout_level=2
-"""
-[[symlink]]
-path   = "/usr/share/holo/files/50-damogran-vars/etc/hostapd/hostapd.conf.holoscript"
 target = "/usr/bin/replicator"
 
 ################################################################################
@@ -266,7 +196,6 @@ content = """
 
     # allocate IPv4 ranges for DHCP
     dhcp-range=10.0.0.100,10.0.0.199,12h
-    dhcp-range=10.0.1.100,10.0.1.199,12h
     # assign static IPs to well-known hosts
     {{ range $host, $cfg := .Vars.hosts }}{{ if $cfg.mac }}
     dhcp-host={{$cfg.mac}},{{$cfg.ip}}
