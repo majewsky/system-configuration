@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20211103.1"
+version     = "20220801.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -14,8 +14,8 @@ requires = [
     "hologram-monitoring-client",
     "hologram-arcturus-capture-card",
     "linux-headers", # for wireguard-dkms in hologram-monitoring-client
-    # support for Intel CPU/GPU
-    "hologram-intel-ucode",
+    # support for AMD CPU
+    "hologram-amd-ucode",
     # support for AMD GPU
     "xf86-video-amdgpu",
     "libva-vdpau-driver",
