@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-arcturus-capture-card"
-version     = "1.0.2"
+version     = "1.0.3"
 description = "hologram: tooling for HDMI capture card on Arcturus"
 
 requires = [
@@ -42,8 +42,8 @@ path = "/usr/lib/systemd/user/audio-only-capture-card.target"
 content = '''
   [Unit]
   Description = Deliver audio from capture card via PipeWire
-  Wants = audio-only-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
-  PropagatesStopTo = audio-only-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+  Wants = audio-only-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service jack-autoplug-to-earphones.service
+  PropagatesStopTo = audio-only-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service jack-autoplug-to-earphones.service
   Conflicts = mpv-capture-card.target
 '''
 
@@ -52,8 +52,8 @@ path = "/usr/lib/systemd/user/mpv-capture-card.target"
 content = '''
   [Unit]
   Description = Deliver video/audio from capture card via mpv and PipeWire
-  Wants = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
-  PropagatesStopTo = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service
+  Wants = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service jack-autoplug-to-earphones.service
+  PropagatesStopTo = mpv-capture-card.service jack-autoplug-to-mixing-console.service jack-autoplug-to-headphones.service jack-autoplug-to-earphones.service
   Conflicts = audio-only-capture-card.target
 '''
 
@@ -107,6 +107,18 @@ content = '''
 
   [Service]
   ExecStart=pw-jack jack-autoplug -f "Kaptivo Whiteboard  Analog Stereo" -F capture_FL -F capture_FR -t "Jabra Evolve 75" -T playback_FL -T playback_FR
+  Restart=always
+  RestartSec=1s
+'''
+
+[[file]]
+path    = "/usr/lib/systemd/user/jack-autoplug-to-earphones.service"
+content = '''
+  [Unit]
+  Description = Connect capture card to earphones with jack-autoplug
+
+  [Service]
+  ExecStart=pw-jack jack-autoplug -f "Kaptivo Whiteboard  Analog Stereo" -F capture_FL -F capture_FR -t "ATH-CKS50TW" -T playback_FL -T playback_FR
   Restart=always
   RestartSec=1s
 '''
