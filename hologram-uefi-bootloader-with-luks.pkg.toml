@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-uefi-bootloader-with-luks"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: addon to hologram-uefi-bootloader for LUKS-encrypted root partition"
 
 requires = [
@@ -21,7 +21,7 @@ path    = "/usr/share/holo/files/20-encrypted-root/etc/mkinitcpio.conf.holoscrip
 mode    = "0755"
 content = '''
     #!/bin/sh
-    sed '/^HOOKS=/s/filesystems keyboard/keymap keyboard encrypt filesystems/'
+    sed '/^HOOKS=/s/filesystems/encrypt filesystems/'
 '''
 
 [[action]]
