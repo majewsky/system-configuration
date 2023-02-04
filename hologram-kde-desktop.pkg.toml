@@ -1,0 +1,35 @@
+[package]
+name        = "hologram-kde-desktop"
+version     = "1.2.0"
+description = "hologram: GUI installation with KDE Plasma desktop"
+
+requires = [
+    "hologram-base-gui",
+    # desktop
+    "group:plasma",
+    "except:plasma-nm",
+    "except:ksshaskpass",
+    "except:powerdevil",
+    "except:plasma-vault",
+    "except:plasma-workspace-wallpapers", # space saving
+    "except:breeze-gtk",                  # hilariously broken with GTK 3.20 ATM
+    "plasma-wayland-session",
+    # KDE 5 applications
+    "ark",
+    "dolphin",
+    "filelight",
+    "gwenview",
+    "kcharselect",
+    "kcolorchooser",
+    "kdialog",
+    "kid3",
+    "kolourpaint",
+    "konsole",
+    "kruler",
+    "kwalletmanager",
+    "spectacle",
+    "yakuake",
+    # helpers
+    "gst-plugins-good",  # optional: for WebM support in qt5-webkit
+    "qt5-imageformats",
+]

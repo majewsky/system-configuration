@@ -1,11 +1,12 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20220801.1"
+version     = "20230204.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
     "secrets", # this uses /usr/bin/replicator
     "hologram-sway-desktop",
+    "hologram-kde-desktop", # used temporarily to work around <https://github.com/obsproject/obs-studio/issues/8170>
     "hologram-bluetooth-audio",
     "hologram-dev-tools",
     "hologram-games",
