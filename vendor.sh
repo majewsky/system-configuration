@@ -19,7 +19,8 @@ vendor() {
 
 if [ $# -eq 0 ]; then
   # default: vendor all packages
-  for TARGET_DIR in art cddb_get otf-raleway perl-mp3-tag ripit screen-message ttf-iosevka ttf-montserrat wev; do
+  for TARGET_DIR in $(grep -L novendor */PKGBUILD | xargs -n1 dirname); do
+    printf '\x1B[1;36m>> \x1B[0;36mVendoring %s...\x1B[0m\n' "${TARGET_DIR}"
     vendor "${TARGET_DIR}"
   done
 else

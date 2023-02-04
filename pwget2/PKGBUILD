@@ -1,3 +1,5 @@
+# novendor
+
 pkgname='pwget2'
 _pkgorigname='pwget'
 pkgver=2.0

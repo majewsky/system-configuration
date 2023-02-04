@@ -1,3 +1,5 @@
+# novendor
+
 pkgname='pwget'
 pkgver=1.2
 pkgrel=1

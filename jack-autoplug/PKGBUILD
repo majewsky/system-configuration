@@ -1,3 +1,5 @@
+# novendor
+
 pkgname=jack-autoplug
 pkgver=1.0.0
 pkgrel=2
