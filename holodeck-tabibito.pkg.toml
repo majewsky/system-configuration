@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-tabibito"
-version     = "20230402.1"
+version     = "20230402.2"
 description = "holodeck: services on Tabibito"
 
 requires = [
@@ -71,10 +71,10 @@ target = "/run/systemd/resolve/resolv.conf"
 
 # network setup: wpa_supplicant
 [[file]]
-path = "/etc/wpa_supplicant/wpa_supplicant-wlp4s0.conf"
+path = "/etc/wpa_supplicant/wpa_supplicant-wlp170s0.conf"
 contentFrom = "/dev/null"
 [[file]]
-path    = "/usr/share/holo/files/50-tabibito/etc/wpa_supplicant/wpa_supplicant-wlp4s0.conf.holoscript"
+path    = "/usr/share/holo/files/50-tabibito/etc/wpa_supplicant/wpa_supplicant-wlp170s0.conf.holoscript"
 mode    = "0755"
 content = '''
     #!/bin/sh
@@ -83,7 +83,7 @@ content = '''
 '''
 
 [[symlink]]
-path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlp4s0.service"
+path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlp170s0.service"
 target = "/usr/lib/systemd/system/wpa_supplicant@.service"
 
 # no magic suspend
