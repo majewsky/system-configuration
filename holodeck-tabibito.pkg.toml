@@ -1,0 +1,106 @@
+[package]
+name        = "holodeck-tabibito"
+version     = "20230402.1"
+description = "holodeck: services on Tabibito"
+
+requires = [
+    "hologram-sway-desktop",
+    "hologram-monitoring-client",
+    "hologram-dev-tools",
+    "hologram-games",
+    "hologram-dtp",
+    "hologram-uefi-bootloader-with-luks",
+    # basic hardware support
+    "hologram-intel-ucode",
+    "wpa_supplicant",
+    "xf86-input-synaptics",
+    # support for Intel GPU
+    "xf86-video-intel",
+    "libva-vdpau-driver",
+    "vulkan-intel",
+    "lib32-vulkan-intel",
+    "vulkan-icd-loader",
+    "lib32-vulkan-icd-loader",
+    "mesa-libgl",
+    "lib32-mesa-libgl",
+    "mesa-vdpau",
+    "lib32-mesa-vdpau",
+    "libva-mesa-driver",
+    "lib32-libva-mesa-driver",
+    # applications
+    "libreoffice-still",
+    "mpd",
+    # TODO: tlp or powertop
+]
+
+# identity
+[[file]]
+path    = "/etc/hostname"
+content = "tabibito"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = """
+export PRETTYPROMPT_COMMONUSER=stefan
+export PRETTYPROMPT_HOSTCOLOR='0;34'
+"""
+
+# network setup: systemd-networkd
+[[file]]
+path    = "/etc/systemd/network/dhcp.network"
+content = """
+    [Match]
+    Name=wl* en*
+
+    [Network]
+    Description=Use DHCP on physical interfaces
+    DHCP=yes
+
+    [DHCP]
+    UseDomains=true
+"""
+
+# network setup: systemd-resolved
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
+target = "/usr/lib/systemd/system/systemd-resolved.service"
+
+[[symlink]]
+path   = "/usr/share/holo/files/50-tabibito/etc/resolv.conf"
+target = "/run/systemd/resolve/resolv.conf"
+
+# network setup: wpa_supplicant
+[[file]]
+path = "/etc/wpa_supplicant/wpa_supplicant-wlp4s0.conf"
+contentFrom = "/dev/null"
+[[file]]
+path    = "/usr/share/holo/files/50-tabibito/etc/wpa_supplicant/wpa_supplicant-wlp4s0.conf.holoscript"
+mode    = "0755"
+content = '''
+    #!/bin/sh
+    cat /home/stefan/.wpa_supplicant.conf
+    cat /etc/wpa_supplicant/wpa_supplicant.conf
+'''
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlp4s0.service"
+target = "/usr/lib/systemd/system/wpa_supplicant@.service"
+
+# no magic suspend
+[[file]]
+path = "/etc/systemd/logind.conf.d/no-magic-suspend.conf"
+content = """
+[Login]
+HandlePowerKey=lock
+HandleLidSwitch=ignore
+"""
+
+[[symlink]]
+path   = "/etc/systemd/system/NetworkManager.service"
+target = "/dev/null"
+[[symlink]]
+path   = "/etc/systemd/system/systemd-rfkill.service"
+target = "/dev/null"
+[[symlink]]
+path   = "/etc/systemd/system/systemd-rfkill.socket"
+target = "/dev/null"
