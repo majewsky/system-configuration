@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.5.1"
+version     = "1.5.2"
 description = "hologram: base GUI installation"
 
 requires = [
@@ -15,8 +15,8 @@ requires = [
     "cantarell-fonts",
     "otf-ipafont",
     "otf-raleway",
-    "otf-titillium",
     "libertinus-font",
+    "titillium-fonts",
     "ttf-montserrat",
     "ttf-ubuntu-font-family",
 ]
