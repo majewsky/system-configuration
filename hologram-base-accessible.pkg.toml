@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.4.4"
+version     = "1.4.5"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -20,7 +20,6 @@ requires = [
     "iw",
     "mdadm",
     "optipng",
-    "pacgraph",
     "p7zip",
     "pwget",
     "pwget2",
