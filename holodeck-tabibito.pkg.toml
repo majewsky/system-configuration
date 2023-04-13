@@ -1,10 +1,11 @@
 [package]
 name        = "holodeck-tabibito"
-version     = "20230402.2"
+version     = "20230413.1"
 description = "holodeck: services on Tabibito"
 
 requires = [
     "hologram-sway-desktop",
+    "hologram-bluetooth-audio",
     "hologram-monitoring-client",
     "hologram-dev-tools",
     "hologram-games",

@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.9"
+version     = "1.0.10"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -21,7 +21,7 @@ requires = [
     "ripit",
     "vorbis-tools",
     "vorbisgain",
-    "youtube-dl",
+    "yt-dlp",
     "rtmpdump", # optional for youtube-dl
 ]
 
