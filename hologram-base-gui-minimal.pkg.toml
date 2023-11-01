@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-gui-minimal"
-version     = "1.3.7"
+version     = "1.3.8"
 description = "hologram: base GUI installation (variant for space-constrained systems)"
 
 requires = [
@@ -24,6 +24,7 @@ requires = [
     "xsel",
     # helper packages
     "aspell-de",  # to silence complaints in gitk about missing spell check dict
+    "tesseract-data-deu", # mupdf depends on tesseract, which needs a choice of one of its data packages
     # font packages
     "adobe-source-code-pro-fonts",
     "adobe-source-sans-pro-fonts",
