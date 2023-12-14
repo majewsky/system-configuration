@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-tabibito"
-version     = "20230413.1"
+version     = "20231214.1"
 description = "holodeck: services on Tabibito"
 
 requires = [
@@ -59,6 +59,10 @@ content = """
 
     [DHCP]
     UseDomains=true
+
+    # the company network's DHCP advertises NTP servers that are bogus and do not work
+    [DHCPv4]
+    UseNTP=false
 """
 
 # network setup: systemd-resolved
