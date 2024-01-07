@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-sway-desktop"
-version     = "1.0.8"
+version     = "1.0.9"
 description = "hologram: Wayland desktop using Sway compositor and selected KDE apps"
 
 requires = [
@@ -96,7 +96,7 @@ content = '''
     Description=Mako notification daemon
 
     [Service]
-    ExecStart=/usr/bin/mako --font 'Hack 12' --width 400
+    ExecStart=/usr/bin/mako --font 'Hack 12' --width 400 --default-timeout 10000
     Restart=always
 '''
 
