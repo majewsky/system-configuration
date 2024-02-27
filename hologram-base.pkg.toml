@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20220513.1"
+version = "20240227.1"
 description = "hologram: base installation"
 
 requires = [
@@ -16,6 +16,7 @@ requires = [
     "git",
     "gron",
     "gofu",
+    "go-yq",
     "gptfdisk",
     "htop",
     "jq",
@@ -43,7 +44,6 @@ requires = [
     "usbutils",
     "vim",
     "wget",
-    "yq",
     "zsh",
 ]
 
