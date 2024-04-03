@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20240403.1"
+version     = "20240403.4"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -90,4 +90,18 @@ content = '''
 path = "/etc/profile.d/steam-hidpi.sh"
 content = '''
     export STEAM_FORCE_DESKTOPUI_SCALING=1.5
+'''
+
+# audio setup: never use HSP/HFP profile on Bluetooth headsets
+# (i.e. prefer audio input from the mixing console instead)
+#
+# Inspired by: <https://wiki.archlinux.org/title/bluetooth_headset#Disable_PipeWire_HSP/HFP_profile>
+# The full config file as shown there does not work, it just breaks connecting the headset entirely.
+# But this single setting does what I need.
+[[file]]
+path = "/etc/wireplumber/wireplumber.conf.d/50-bluez.conf"
+content = '''
+    monitor.bluez.properties = {
+        bluez5.hfphsp-backend = "none"
+    }
 '''
