@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-games"
-version     = "1.2.0"
+version     = "1.2.1"
 description = "hologram: games selection"
 
 requires = [
@@ -24,6 +24,14 @@ path = "/etc/udev/rules.d/81-steam-controller.rules"
 content = """
     KERNEL=="uinput", MODE="0660", GROUP="users", OPTIONS+="static_node=uinput"
 """
+
+# HiDPI support in Steam
+
+[[file]]
+path = "/etc/profile.d/steam-hidpi.sh"
+content = '''
+    export STEAM_FORCE_DESKTOPUI_SCALING=1.5
+'''
 
 # setup the wg-gaming interface with WireGuard
 

@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20240403.4"
+version     = "20240429.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -82,14 +82,6 @@ path    = "/etc/udev/rules.d/49-custom-sane.rules"
 content = '''
     # HP PhotoSmart C3180
     ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="5611", MODE="0664", GROUP="scanner", ENV{libsane_matched}="yes"
-'''
-
-# HiDPI support in Steam
-
-[[file]]
-path = "/etc/profile.d/steam-hidpi.sh"
-content = '''
-    export STEAM_FORCE_DESKTOPUI_SCALING=1.5
 '''
 
 # audio setup: never use HSP/HFP profile on Bluetooth headsets
