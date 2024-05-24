@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20240429.1"
+version     = "20240524.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -29,7 +29,6 @@ requires = [
     "mesa-vdpau",
     "lib32-mesa-vdpau",
     # network setup
-    "broadcom-wl", # closed source driver for my Wifi module
     "wpa_supplicant",
     # scanner setup
     "sane",
