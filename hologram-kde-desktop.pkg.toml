@@ -1,13 +1,14 @@
 [package]
 name        = "hologram-kde-desktop"
-version     = "1.2.3"
+version     = "1.2.4"
 description = "hologram: GUI installation with KDE Plasma desktop"
 
 requires = [
     "hologram-base-gui",
     # desktop
     "group:plasma",
-    "except:plasma-nm",
+    "except:plasma-nm",      # pulls in effing NetworkManager
+    "except:plasma-welcome", # pulls in plasma-nm
     "except:ksshaskpass",
     "except:powerdevil",
     "except:plasma-vault",
