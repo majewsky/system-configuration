@@ -1,0 +1,24 @@
+pkgname=zimpl
+pkgver=3.6.0
+pkgrel=1
+_commit=10a085f7bf52abc54c9788ea9231647ff1d80bb8
+arch=(x86_64)
+url='https://zimpl.zib.de/'
+license=(LGPL-3.0-or-later)
+depends=(gmp)
+makedepends=(cmake git)
+source=(git+https://github.com/scipopt/zimpl#commit=${_commit})
+sha256sums=('d3193337f88fcddb4e5bb34353517aca101be89d39a6e44c17c76af9f121605c')
+
+build() {
+  cmake -B build -S $pkgname \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DAUTOBUILD=ON \
+    -DSYM=bliss
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
