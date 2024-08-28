@@ -1,11 +1,10 @@
 [package]
 name        = "hologram-dev-tools"
-version     = "1.4.9"
+version     = "1.4.10"
 description = "hologram: compilers and development tools"
 
 requires = [
     "hologram-dev-tools-minimal",
-    "hologram-nix-daemon",
     "arch-install-scripts",
     "cargo",
     "cargo-watch",
