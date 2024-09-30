@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.11"
+version     = "1.0.12"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -19,7 +19,6 @@ requires = [
     "opus-tools",
     "pamixer",   # used by my Sway keybindings for XF86Audio{Mute,{Lower,Raise}Volume}
     "playerctl", # CLI for MPRIS
-    "ripit",
     "vorbis-tools",
     "vorbisgain",
     "yt-dlp",
