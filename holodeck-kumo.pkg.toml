@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-kumo"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "holodeck: Kumo is my workstation VM in SAP Cloud Infrastructure"
 
 requires = [
@@ -65,6 +65,17 @@ path = "/usr/share/holo/ssh-keys/stefan/work.pub"
 content = '''
   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPjg4a8jDN94gz8HcNftV+QZDQKAfvrKtOskDqtsaBoY stefan@work
 '''
+
+################################################################################
+# virtualized hardware support
+
+[[symlink]]
+path = "/etc/systemd/system/multi-user.target.wants/vmtoolsd.service"
+target = "/usr/lib/systemd/system/vmtoolsd.service"
+
+[[symlink]]
+path = "/etc/systemd/system/multi-user.target.wants/vmware-vmblock-fuse.service"
+target = "/usr/lib/systemd/system/vmware-vmblock-fuse.service"
 
 ################################################################################
 # filesystem setup
