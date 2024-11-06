@@ -1,0 +1,127 @@
+[package]
+name        = "holodeck-kumo"
+version     = "1.0.0"
+description = "holodeck: Kumo is my workstation VM in SAP Cloud Infrastructure"
+
+requires = [
+  "hologram-base-accessible",
+  "hologram-dev-tools-minimal",
+  "hologram-nix-daemon",
+  # hardware support
+  "hologram-uefi-bootloader",
+  "open-vm-tools",
+  # assorted tools
+  "docker",
+  "ipython",
+  "pgcli",
+  "postgresql",
+  "python-pip",
+  "python-virtualenv",
+  "rfc",
+  "sshuttle",
+  "trivy",
+  "vault",
+]
+
+################################################################################
+# base identity
+
+[[file]]
+path    = "/etc/hostname"
+content = "kumo"
+
+[[file]]
+path    = "/etc/profile.d/prettyprompt.sh"
+content = '''
+  export PRETTYPROMPT_COMMONUSER=stefan
+  export PRETTYPROMPT_HOSTCOLOR='0;33'
+'''
+
+# git identity
+[[file]]
+path    = "/usr/share/holo/files/20-sap-office/etc/gitconfig"
+content = '''
+  [user]
+  name = Stefan Majewsky
+  email = stefan.majewsky@sap.com
+'''
+
+# do not attempt to sign packages (work machines do not get my personal private keys)
+[[file]]
+path    = "/usr/share/holo/files/20-sap-office/etc/makepkg.conf.holoscript"
+mode    = "0755"
+content = '''
+  #!/bin/sh
+  sed '
+    # disable package signing
+    /^BUILDENV=/s/sign/!sign/
+    # remove package signing key
+    s/^GPGKEY=.*/GPGKEY=""/
+  '
+'''
+
+[[file]]
+path = "/usr/share/holo/ssh-keys/stefan/work.pub"
+content = '''
+  ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPjg4a8jDN94gz8HcNftV+QZDQKAfvrKtOskDqtsaBoY stefan@work
+'''
+
+################################################################################
+# filesystem setup
+
+# This VM does not install our usual `secrets` package, so we plug into
+# replicator "manually" here. (TODO: replace disk paths with UUIDs)
+[[file]]
+path = "/etc/replicator.d/holodeck-kumo.toml"
+content = '''
+  [[fstab]]
+  source = "/dev/sda2"
+  target = "/"
+  fstype = "ext4"
+  options = "rw,relatime"
+
+  [[fstab]]
+  source = "/dev/sda1"
+  target = "/boot"
+  fstype = "vfat"
+  options = "rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro"
+'''
+
+################################################################################
+# network setup
+
+# this config taken from what the default Ubuntu image sets up
+[[file]]
+path    = "/etc/systemd/network/ethernet.network"
+content = '''
+  [Match]
+  Name=en*
+
+  [Network]
+  DHCP=ipv4
+  LinkLocalAddressing=ipv6
+
+  [DHCP]
+  RouteMetric=100
+  UseMTU=true
+'''
+
+# systemd-resolved
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
+target = "/usr/lib/systemd/system/systemd-resolved.service"
+
+[[symlink]]
+path   = "/usr/share/holo/files/50-kumo/etc/resolv.conf"
+target = "/run/systemd/resolve/resolv.conf"
+
+################################################################################
+# misc. services
+
+[[user]]
+name   = "stefan"
+groups = ["docker"]
+
+[[symlink]]
+path   = "/etc/systemd/system/multi-user.target.wants/docker.service"
+target = "/usr/lib/systemd/system/docker.service"
