@@ -1,6 +1,6 @@
 [package]
 name = "hologram-nix-daemon"
-version = "1.0.0"
+version = "1.0.1"
 description = "hologram: Nix on Arch Linux"
 requires = [
     "nix",
@@ -9,7 +9,7 @@ requires = [
 [[action]]
 on = "setup"
 script = '''
-    echo '>> If not done yet, run `nix-channel --add https://nixos.org/channels/nixos-${VERSION} nixos` as user `stefan`.'
+    echo '>> If not done yet, run `nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs` as user `stefan`.'
 '''
 
 [[file]]
