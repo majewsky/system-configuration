@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20240227.1"
+version = "20241106.2"
 description = "hologram: base installation"
 
 requires = [
@@ -22,6 +22,7 @@ requires = [
     "jq",
     "lsof",
     "moreutils",      # chronic, sponge, ts, etc.
+    "ncdu",
     "net-tools",      # netstat
     "nmap",           # ncat
     "pciutils",
@@ -41,6 +42,7 @@ requires = [
     "traceroute",
     "tree",
     "units",
+    "up",
     "usbutils",
     "vim",
     "wget",

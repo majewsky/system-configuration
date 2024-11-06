@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools-minimal"
-version     = "1.2.1"
+version     = "1.2.2"
 description = "hologram: compilers and development tools (variant for space-constrained systems)"
 
 requires = [
@@ -12,4 +12,6 @@ requires = [
     "holo-build",
     "pacman-contrib", # updpkgsums
     "perl-term-readkey", # required for "interactive.singlekey" config of Git
+    "shellcheck",
+    "shfmt",
 ]
