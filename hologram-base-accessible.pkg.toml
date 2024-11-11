@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-base-accessible"
-version     = "1.4.5"
+version     = "1.5.0"
 description = "hologram: extension of hologram-base for physically accessible systems"
 
 requires = [
@@ -45,6 +45,7 @@ path    = "/etc/systemd/system.conf.d/hologram-base.conf"
 content = """
     [Manager]
     DefaultTimeoutStopSec=15s
+    CtrlAltDelBurstAction=poweroff-force
 """
 
 # systemd-journald
@@ -68,4 +69,16 @@ content = '''
     [user]
     name = Stefan Majewsky
     email = majewsky@gmx.net
+'''
+
+# ssh-agent
+[[symlink]]
+path   = "/home/stefan/.config/systemd/user/default.target.wants/ssh-agent.service"
+target = "/usr/lib/systemd/user/ssh-agent.service"
+[[file]]
+path    = "/etc/profile.d/attach-ssh-agent.sh"
+content = '''
+    if [[ "$(id -un)" = stefan ]]; then
+        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+    fi
 '''
