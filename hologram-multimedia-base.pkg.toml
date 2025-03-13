@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.13"
+version     = "1.0.14"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -28,8 +28,8 @@ path = "/etc/mpv/mpv.conf"
 content = '''
     # never display album covers
     no-audio-display
-    # always start fullscreen by default
-    fs
     # enumerate unfinished videos by examining the watch-later files
     write-filename-in-watch-later-config
+    # "Bluetooth is the most widely deployed garbage technology" - Xyrill, all the time
+    audio-stream-silence=yes
 '''
