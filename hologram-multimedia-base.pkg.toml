@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.14"
+version     = "1.0.15"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -32,4 +32,6 @@ content = '''
     write-filename-in-watch-later-config
     # "Bluetooth is the most widely deployed garbage technology" - Xyrill, all the time
     audio-stream-silence=yes
+    # default font size is rather too small for 4K display
+    osd-font-size=48
 '''
