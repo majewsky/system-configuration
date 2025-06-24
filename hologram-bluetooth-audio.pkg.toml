@@ -1,6 +1,6 @@
 [package]
 name = "hologram-bluetooth-audio"
-version = "1.1.1"
+version = "1.1.2"
 description = "hologram: Bluetooth support in audio stack"
 requires = [
   "bluez",
@@ -27,4 +27,13 @@ mode    = "0755"
 content = '''
   #!/bin/sh
   sed 's/^\s*#\s*AutoEnable\s*=\s*false\s*$/AutoEnable=true/'
+'''
+
+################################################################################
+# configure pipewire (if enabled): never switch headphones into garbage mode automatically
+
+[[file]]
+path = "/etc/pipewire/pipewire.conf.d/no-headset-mode.conf"
+content = '''
+  module-allow-priority = false
 '''
