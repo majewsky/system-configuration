@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20241106.2"
+version = "20250708.1"
 description = "hologram: base installation"
 
 requires = [
@@ -36,7 +36,6 @@ requires = [
     "screen",
     "socat",
     "strace",
-    "sudo",
     "tcpdump",
     "tk",             # gitk
     "traceroute",
@@ -50,16 +49,11 @@ requires = [
 ]
 
 # entities
-[[group]]
-name    = "sudo"
-system  = true
-
 [[user]]
 name    = "stefan"
 comment = "Stefan Majewsky"
 uid     = 1001
 group   = "users"
-groups  = ["sudo"]
 shell   = "/bin/zsh"
 
 # locale
@@ -191,16 +185,6 @@ contentFrom = "/dev/null" # needs to be filled by root on setup
 path        = "/usr/bin/unpack-secrets"
 mode        = "0755"
 contentFrom = "src/unpack-secrets.sh"
-
-# sudo
-[[file]]
-path    = "/usr/share/holo/files/00-base/etc/sudoers"
-content = """
-    root    ALL=(ALL) ALL
-    %sudo   ALL=(ALL) ALL
-
-    Defaults env_keep+="http_proxy https_proxy ftp_proxy all_proxy socks_proxy no_proxy"
-"""
 
 # systemd-networkd
 [[symlink]]
