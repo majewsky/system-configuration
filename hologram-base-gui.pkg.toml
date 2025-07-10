@@ -1,16 +1,22 @@
 [package]
 name        = "hologram-base-gui"
-version     = "1.6.0"
+version     = "1.7.0"
 description = "hologram: base GUI installation"
 
 requires = [
     "hologram-base-gui-minimal",
     "hologram-multimedia-base",
+    # GUI tools
+    "ddcutil",
+    "libva-utils", # vainfo
     # assorted GUI apps
     "audacity",
+    "discord",
     "gnucash",
+    "telegram-desktop",
     "tk", # for gitk and git-gui
     "vlc",
+    "vlc-plugins-all",
     # font packages
     "cantarell-fonts",
     "otf-ipafont",

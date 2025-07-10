@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-games"
-version     = "1.2.1"
+version     = "1.2.2"
 description = "hologram: games selection"
 
 requires = [
@@ -14,6 +14,7 @@ requires = [
     "openttd",
     "openttd-opengfx",
     "openttd-opensfx",
+    "puzzles",
 ]
 
 # enable gamepad emulation for Steam controller; source:
