@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20250708.1"
+version = "20250822.1"
 description = "hologram: base installation"
 
 requires = [
@@ -8,6 +8,8 @@ requires = [
     "hologram-openssh",
     "linux",
     "linux-firmware",
+    # fulfilled by either hologram-no-sudo or hologram-yes-sudo
+    "a-decision-regarding-sudo",
     # configuration management
     "replicator",
     # assorted CLI tools

@@ -1,7 +1,7 @@
 [package]
 name    = "hologram-no-sudo"
-version = "1.0.0"
+version = "1.0.1"
 description = "hologram: block installation of sudo (despite it being a dependency in base-devel)"
 
-provides = [ "sudo" ]
+provides = [ "a-decision-regarding-sudo", "sudo" ]
 conflicts = [ "sudo" ]

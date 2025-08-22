@@ -1,0 +1,15 @@
+[package]
+name    = "hologram-yes-sudo"
+version = "1.0.0"
+description = "hologram: install sudo as normal (opposite of hologram-no-sudo)"
+
+provides = [ "a-decision-regarding-sudo" ]
+
+[[file]]
+path    = "/usr/share/holo/files/00-base/etc/sudoers"
+content = """
+    root    ALL=(ALL) ALL
+    stefan  ALL=(ALL) ALL
+
+    Defaults env_keep+="http_proxy https_proxy ftp_proxy all_proxy socks_proxy no_proxy"
+"""

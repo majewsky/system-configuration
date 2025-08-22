@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-tabibito"
-version     = "20240702.1"
+version     = "20250822.1"
 description = "holodeck: services on Tabibito"
 
 requires = [
@@ -11,6 +11,7 @@ requires = [
     "hologram-games",
     "hologram-dtp",
     "hologram-uefi-bootloader-with-luks",
+    "hologram-no-sudo",
     # basic hardware support
     "hologram-intel-ucode",
     "wpa_supplicant",
