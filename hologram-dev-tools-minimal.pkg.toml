@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-dev-tools-minimal"
-version     = "1.2.2"
+version     = "1.2.3"
 description = "hologram: compilers and development tools (variant for space-constrained systems)"
 
 requires = [
@@ -15,3 +15,12 @@ requires = [
     "shellcheck",
     "shfmt",
 ]
+
+# I don't usually have npm installed, but if I do, I want it hardened
+[[file]]
+path = "/etc/npmrc"
+content = """
+    # do not allow packages to run scripts at install time
+    # (protects against privilege escalations from supply-chain attacks)
+    ignore-scripts=true
+"""
