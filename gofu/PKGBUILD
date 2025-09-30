@@ -2,16 +2,16 @@
 
 pkgname=gofu
 epoch=2
-pkgver=2021.2
+pkgver=2025.1
 pkgrel=1
 pkgdesc='Collection of Go utilities'
 arch=('x86_64')
 url="https://github.com/majewsky/gofu"
-license=('GPL3')
+license=('GPL-3.0-only')
 depends=()
 makedepends=('go')
 source=("${url}/archive/v${pkgver}.tar.gz")
-sha256sums=('0b06b9d746013f3c7267b41ab0d5eed1f174deca46c4b417ed0ff9413b832018')
+sha256sums=('24f6a53a507a8d6f805ed1ba4edb7551a725d075395e0520c89fd82977dc4a71')
 
 build() {
   cd "${srcdir}/gofu-${pkgver}"
