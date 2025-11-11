@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20250822.1"
+version = "20251111.2"
 description = "hologram: base installation"
 
 requires = [
@@ -12,6 +12,7 @@ requires = [
     "a-decision-regarding-sudo",
     # configuration management
     "replicator",
+    "secrets", # this uses /usr/bin/replicator
     # assorted CLI tools
     "age",
     "dnsutils",
@@ -45,6 +46,7 @@ requires = [
     "units",
     "up",
     "usbutils",
+    "util-linux",
     "vim",
     "wget",
     "zsh",
@@ -105,11 +107,27 @@ path    = "/usr/share/holo/files/00-base/etc/crypttab"
 mode    = "0600"
 content = """
     {{- range .Vars.crypttab }}
+    {{- if ne .name "root" }}
     {{.name}}	UUID={{.uuid}}	{{.keyfile}}	{{.options}}
+    {{- end }}
     {{- end }}
 """
 [[symlink]]
 path   = "/usr/share/holo/files/00-base/etc/crypttab.holoscript"
+target = "/usr/bin/replicator"
+
+[[file]]
+path    = "/etc/crypttab.initramfs"
+mode    = "0600"
+content = """
+    {{- range .Vars.crypttab }}
+    {{- if eq .name "root" }}
+    {{.name}}	UUID={{.uuid}}	{{.keyfile}}	{{.options}}
+    {{- end }}
+    {{- end }}
+"""
+[[symlink]]
+path   = "/usr/share/holo/files/00-base/etc/crypttab.initramfs.holoscript"
 target = "/usr/bin/replicator"
 
 # pacman

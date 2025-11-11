@@ -1,12 +1,12 @@
 [package]
 name        = "hologram-uefi-bootloader"
-version     = "1.2.0"
+version     = "1.3.0"
 description = "hologram: UEFI bootloader using systemd-boot"
 
 requires    = [
-    "systemd",       # for bootctl
-    "util-linux",    # for blkid
-    "device-mapper", # for dmsetup
+    "systemd", # for bootctl
+    "device-mapper",
+    "secrets", # this uses /usr/bin/replicator
 ]
 
 [[action]]
@@ -28,33 +28,12 @@ content = """
     title     Arch Linux
     linux     /vmlinuz-linux
     initrd    /initramfs-linux.img
-    options   root=PARTUUID=${PARTUUID} rw
+    options   root=UUID={{.root_disk_uuid}} rw
 """
 
 # This interpolation happens very late because other holograms might want to
-# use the "${PARTUUID}" placeholder when rewriting the bootloader entry.
+# replace the variable usage in `root=...` when rewriting the bootloader entry.
 # See e.g. hologram-uefi-bootloader-with-luks.
-[[file]]
-path    = "/usr/share/holo/files/99-root-partuuid/boot/loader/entries/arch.conf.holoscript"
-mode    = "0755"
-content = '''
-    #!/bin/bash
-
-    ROOTDEVICE="$(mount | grep 'on / ' | cut -d' ' -f1)"
-    if [[ "$ROOTDEVICE" == /dev/mapper/* ]]; then
-        # root FS is encrypted -- find underlying block device
-        ROOTDEVICE="/dev/$(dmsetup deps -o blkdevname "$ROOTDEVICE" | cut -d'(' -f2 | cut -d')' -f1)"
-    fi
-    if [ "$ROOTDEVICE" == "" ]; then
-        echo "ERROR: cannot find root filesystem" >&2
-        exit 1
-    fi
-
-    PARTUUID="$(blkid -s PARTUUID -o value "$ROOTDEVICE")"
-    if [ "$PARTUUID" == "" ]; then
-        echo "ERROR: cannot find partition UUID" >&2
-        exit 1
-    fi
-
-    sed 's/\${PARTUUID}/'"$PARTUUID"'/g'
-'''
+[[symlink]]
+path   = "/usr/share/holo/files/99-variables/boot/loader/entries/arch.conf.holoscript"
+target = "/usr/bin/replicator"

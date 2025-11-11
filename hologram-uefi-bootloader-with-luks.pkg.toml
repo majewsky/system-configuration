@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-uefi-bootloader-with-luks"
-version     = "1.0.1"
+version     = "1.1.2"
 description = "hologram: addon to hologram-uefi-bootloader for LUKS-encrypted root partition"
 
 requires = [
@@ -13,7 +13,7 @@ path    = "/usr/share/holo/files/20-encrypted-root/boot/loader/entries/arch.conf
 mode    = "0755"
 content = '''
     #!/bin/sh
-    sed '/options/s+root=PARTUUID=\${PARTUUID}+cryptdevice=PARTUUID=${PARTUUID}:root:allow-discards root=/dev/mapper/root+'
+    sed '/options/s+root=UUID={{.root_disk_uuid}}+rd.luks.options=discard,password-echo=no root=/dev/mapper/root+'
 '''
 
 [[file]]
@@ -21,7 +21,7 @@ path    = "/usr/share/holo/files/20-encrypted-root/etc/mkinitcpio.conf.holoscrip
 mode    = "0755"
 content = '''
     #!/bin/sh
-    sed '/^HOOKS=/s/filesystems/encrypt filesystems/'
+    sed '/^HOOKS=/s/filesystems/sd-encrypt filesystems/'
 '''
 
 [[action]]
