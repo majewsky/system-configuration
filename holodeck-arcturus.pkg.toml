@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20250822.1"
+version     = "20251208.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -25,10 +25,8 @@ requires = [
     "lib32-vulkan-radeon",
     "vulkan-icd-loader",
     "lib32-vulkan-icd-loader",
-    "mesa-libgl",
-    "lib32-mesa-libgl",
-    "mesa-vdpau",
-    "lib32-mesa-vdpau",
+    "mesa",
+    "lib32-mesa",
     # network setup
     "wpa_supplicant",
     # scanner setup
