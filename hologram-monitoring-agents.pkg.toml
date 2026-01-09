@@ -1,12 +1,11 @@
 [package]
 name        = "hologram-monitoring-agents"
-version     = "0.2.3"
+version     = "0.2.4"
 description = "hologram: monitoring agents"
 
 requires = [
   "prometheus-minimum-viable-sd",
   "prometheus-node-exporter",
-  "secrets", # this uses /usr/bin/replicator
 ]
 
 # allow Prometheus access to exporters via private network

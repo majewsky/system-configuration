@@ -1,11 +1,10 @@
 [package]
 name        = "hologram-monitoring-client"
-version     = "0.1.4"
+version     = "0.1.5"
 description = "hologram: connection to monitoring network"
 
 conflicts = [ 'hologram-monitoring-server' ]
 requires = [
-  'secrets', # this uses /usr/bin/replicator
   'hologram-monitoring-agents',
   'wireguard-tools',
 ]

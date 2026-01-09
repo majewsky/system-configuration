@@ -1,6 +1,6 @@
 [package]
 name    = "hologram-base"
-version = "20251111.2"
+version = "20260109.1"
 description = "hologram: base installation"
 
 requires = [
@@ -12,7 +12,7 @@ requires = [
     "a-decision-regarding-sudo",
     # configuration management
     "replicator",
-    "secrets", # this uses /usr/bin/replicator
+    "secrets-for-replicator",
     # assorted CLI tools
     "age",
     "dnsutils",

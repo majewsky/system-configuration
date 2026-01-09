@@ -81,8 +81,8 @@ target = "/usr/lib/systemd/system/vmware-vmblock-fuse.service"
 ################################################################################
 # filesystem setup
 
-# This VM does not install our usual `secrets` package, so we plug into
-# replicator "manually" here. (TODO: replace disk paths with UUIDs)
+# This VM does not install our usual `secrets-for-replicator` package,
+# so we plug into replicator "manually" here. (TODO: replace disk paths with UUIDs)
 [[file]]
 path = "/etc/replicator.d/holodeck-kumo.toml"
 content = '''

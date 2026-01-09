@@ -1,11 +1,10 @@
 [package]
 name        = "hologram-borgbackup-receiver"
-version     = "1.0.0"
+version     = "1.0.1"
 description = "hologram: backup server using Borg"
 
 requires = [
   "borg",
-  "secrets", # this uses /usr/bin/replicator
 ]
 
 [[group]]
