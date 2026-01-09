@@ -1,17 +1,17 @@
 pkgname='art'
-pkgver=2.0.1
+pkgver=2.1.0
 pkgrel=1
 pkgdesc='Builds Arch Linux package repositories'
 arch=('i686' 'x86_64')
 url='https://github.com/majewsky/art'
-license=('GPL3')
+license=('GPL-3.0-only')
 depends=('pacman') # for makepkg, repo-add, repo-remove (also satisfies dependencies on xz and gpg)
 optdepends=(
     'holo-build: to build packages from *.pkg.toml files'
 )
 makedepends=('go')
 source=("${url}/archive/v${pkgver}.tar.gz")
-sha256sums=('bebc0386117dae0dbbcc4fb15b1973d7e33df1bb931cabdf4832818faeda855f')
+sha256sums=('6a635abb4c28bfa16c6e81c61b025f04aecb2b5d81646e40057662b6fe200d4c')
 
 options=('!strip') # binaries are already stripped inside the Makefile
 

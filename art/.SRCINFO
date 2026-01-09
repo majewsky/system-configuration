@@ -1,17 +1,16 @@
 pkgbase = art
 	pkgdesc = Builds Arch Linux package repositories
-	pkgver = 2.0.1
+	pkgver = 2.1.0
 	pkgrel = 1
 	url = https://github.com/majewsky/art
 	arch = i686
 	arch = x86_64
-	license = GPL3
+	license = GPL-3.0-only
 	makedepends = go
 	depends = pacman
 	optdepends = holo-build: to build packages from *.pkg.toml files
 	options = !strip
-	source = https://github.com/majewsky/art/archive/v2.0.1.tar.gz
-	sha256sums = bebc0386117dae0dbbcc4fb15b1973d7e33df1bb931cabdf4832818faeda855f
+	source = https://github.com/majewsky/art/archive/v2.1.0.tar.gz
+	sha256sums = 6a635abb4c28bfa16c6e81c61b025f04aecb2b5d81646e40057662b6fe200d4c
 
 pkgname = art
-
