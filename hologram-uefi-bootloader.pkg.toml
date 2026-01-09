@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-uefi-bootloader"
-version     = "1.3.0"
+version     = "1.3.1"
 description = "hologram: UEFI bootloader using systemd-boot"
 
 requires    = [
@@ -28,7 +28,7 @@ content = """
     title     Arch Linux
     linux     /vmlinuz-linux
     initrd    /initramfs-linux.img
-    options   root=UUID={{.root_disk_uuid}} rw
+    options   root=UUID={{.Vars.root_disk_uuid}} rw
 """
 
 # This interpolation happens very late because other holograms might want to
