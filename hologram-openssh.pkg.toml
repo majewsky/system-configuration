@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-openssh"
-version     = "1.6.0"
+version     = "1.7.0"
 description = "hologram: hardened OpenSSH server"
 requires    = [ "openssh" ]
 
@@ -30,7 +30,7 @@ content = """
     cat <<-'EOF'
 
     # custom settings
-    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+    KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512,sntrup761x25519-sha512@openssh.com
 
     Protocol 2
     HostKey /etc/ssh/ssh_host_ed22519_key
@@ -42,7 +42,7 @@ content = """
 
     Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
     EOF
 """
 
