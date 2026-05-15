@@ -1,6 +1,6 @@
 [package]
 name        = "hologram-multimedia-base"
-version     = "1.0.15"
+version     = "1.0.18"
 description = "hologram: basic multimedia software collection (no GUI required)"
 
 requires = [
@@ -11,6 +11,7 @@ requires = [
     "lib32-pipewire-jack",
     # clients
     "mpc",
+    "mpd",
     "mpv",
     "mpv-mpris",
     "ncmpcpp",
@@ -35,3 +36,7 @@ content = '''
     # default font size is rather too small for 4K display
     osd-font-size=48
 '''
+
+[[symlink]]
+path   = "/home/stefan/.config/systemd/user/default.target.wants/mpd.service"
+target = "/usr/lib/systemd/user/mpd.service"
