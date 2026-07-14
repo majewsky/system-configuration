@@ -1,6 +1,6 @@
 [package]
 name        = "holodeck-arcturus"
-version     = "20260109.1"
+version     = "20260714.1"
 description = "holodeck: services on Arcturus"
 
 requires = [
@@ -64,8 +64,8 @@ content = """
 
     [Network]
     Address=10.0.0.2/24
-    Gateway=10.0.0.1
-    DNS=10.0.0.1
+    Gateway=10.0.0.4
+    DNS=10.0.0.4
 """
 
 # network setup: systemd-resolved
