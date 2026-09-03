@@ -1,13 +1,13 @@
 pkgbase = gofu
 	pkgdesc = Collection of Go utilities
-	pkgver = 2026.2
+	pkgver = 2026.3
 	pkgrel = 1
 	epoch = 2
 	url = https://git.xyrillian.de/gofu
 	arch = x86_64
 	license = GPL-3.0-only
 	makedepends = go
-	source = https://git.xyrillian.de/gofu/snapshot/gofu-2026.2.tar.gz
-	sha256sums = bcb9b91ba4da7fd44cb742478600235e443241e098a8440a4ffec062cd1cead8
+	source = https://git.xyrillian.de/gofu/snapshot/gofu-2026.3.tar.gz
+	sha256sums = fbe752a536bd6a6fe5a5c3f08485f2bf9e53f49f9db3dace72e5c85e2b8e1445
 
 pkgname = gofu
